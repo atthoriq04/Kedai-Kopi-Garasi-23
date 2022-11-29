@@ -4,17 +4,28 @@
  */
 package Main;
 
+import Connection.koneksi;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 /**
  *
  * @author Atthoriq
  */
+
 public class Main extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
-     */
+     */ 
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+    public Statement stt;
     public Main() {
         initComponents();
+        Connection CC = new koneksi().connectLogin();
     }
 
     /**
@@ -32,11 +43,11 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1199, Short.MAX_VALUE)
+            .addGap(0, 1180, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 650, Short.MAX_VALUE)
         );
 
         pack();
