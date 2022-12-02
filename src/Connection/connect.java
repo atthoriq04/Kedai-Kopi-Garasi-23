@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Connection;
-
+import Main.Logins;
 /**
  *
  * @author Atthoriq
@@ -13,8 +13,14 @@ public class connect extends javax.swing.JFrame {
     /**
      * Creates new form connect
      */
+    config con = new config();
+            String a,b,c,d;
     public connect() {
         initComponents();
+       IP.setText(con.GetProp(lbl_ip.toString()));
+       DB.setText(con.GetProp(lbl_db.toString()));
+       US.setText(con.GetProp(lbl_user.toString()));
+       PW.setText(con.GetProp(lbl_pass.toString()));
     }
 
     /**
@@ -36,7 +42,7 @@ public class connect extends javax.swing.JFrame {
         Save = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         IP = new javax.swing.JTextField();
-        lbl_db1 = new javax.swing.JLabel();
+        lbl_ip = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,7 +70,7 @@ public class connect extends javax.swing.JFrame {
             }
         });
 
-        lbl_db1.setText("IP Adress :");
+        lbl_ip.setText("IP Adress :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -85,7 +91,7 @@ public class connect extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbl_db)
                             .addComponent(lbl_user)
-                            .addComponent(lbl_db1))
+                            .addComponent(lbl_ip))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(IP)
@@ -98,7 +104,7 @@ public class connect extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbl_db1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_ip, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(IP, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -134,8 +140,15 @@ public class connect extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
-        // TODO add your handling code here:
-       
+        con.SaveProp(lbl_ip.getText(),IP.getText());
+        con.SaveProp(lbl_db.getText(),DB.getText());
+        con.SaveProp(lbl_user.getText(),US.getText());
+        con.SaveProp(lbl_pass.getText(),PW.getText());
+        System.out.print(IP.getText()+" "+ DB.getText() + " " + US.getText() +" " + PW.getText() +" ");
+        
+        this.dispose();
+        Logins obj = new Logins();
+        obj.setVisible(true);
     }//GEN-LAST:event_SaveActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -187,7 +200,7 @@ public class connect extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JLabel lbl_db;
-    public javax.swing.JLabel lbl_db1;
+    public javax.swing.JLabel lbl_ip;
     public javax.swing.JLabel lbl_pass;
     public javax.swing.JLabel lbl_user;
     // End of variables declaration//GEN-END:variables

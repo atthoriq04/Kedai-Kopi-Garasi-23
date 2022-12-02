@@ -18,10 +18,12 @@ public class koneksi {
     connect kon = new connect();
     
     public Connection connectLogin(){
-      String ip = con.GetProp(kon.IP.getText());
-      String db = con.GetProp(kon.DB.getText());
-      String user = con.GetProp(kon.US.getText());
-      String pass = con.GetProp(kon.PW.getText());
+    
+      String ip = con.GetProp(kon.lbl_ip.getText());
+      String db = con.GetProp(kon.lbl_db.getText());
+      String user = con.GetProp(kon.lbl_user.getText());
+      String pass = con.GetProp(kon.lbl_pass.getText());
+       System.out.print(ip+" "+ db + " " + user+" " + pass +" ");
     try{
     CC = DriverManager.getConnection("jdbc:mysql://"+ip+"/"+db+"", ""+user+"", ""+pass+"");
     }

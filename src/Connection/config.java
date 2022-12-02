@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import javax.swing.JLabel;
 
 /**
  *
@@ -38,5 +39,9 @@ public class config {
         
         }
         return value;
+    }
+
+    boolean GetProp(JLabel lbl_pass) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
