@@ -23,7 +23,6 @@ public class koneksi {
       String db = con.GetProp(kon.lbl_db.getText());
       String user = con.GetProp(kon.lbl_user.getText());
       String pass = con.GetProp(kon.lbl_pass.getText());
-       System.out.print(ip+" "+ db + " " + user+" " + pass +" ");
     try{
     CC = DriverManager.getConnection("jdbc:mysql://"+ip+"/"+db+"", ""+user+"", ""+pass+"");
     }
