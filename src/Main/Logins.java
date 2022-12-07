@@ -59,7 +59,7 @@ public class Logins extends javax.swing.JFrame {
         us1 = new javax.swing.JTextField();
         password1 = new javax.swing.JLabel();
         newPw = new javax.swing.JPasswordField();
-        jButton2 = new javax.swing.JButton();
+        reset = new javax.swing.JButton();
         password2 = new javax.swing.JLabel();
         newPw1 = new javax.swing.JPasswordField();
         LoginPanel = new javax.swing.JPanel();
@@ -253,15 +253,15 @@ public class Logins extends javax.swing.JFrame {
         ResetPassword.add(newPw);
         newPw.setBounds(30, 230, 299, 28);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton2.setText("Reset  Password");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        reset.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        reset.setText("Reset  Password");
+        reset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                resetActionPerformed(evt);
             }
         });
-        ResetPassword.add(jButton2);
-        jButton2.setBounds(30, 380, 299, 32);
+        ResetPassword.add(reset);
+        reset.setBounds(30, 380, 299, 32);
 
         password2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         password2.setText("Ulangi Password");
@@ -389,7 +389,7 @@ public class Logins extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
-        usf.resetPassword(answer1.getText(), answer2.getText(), answer3.getText(), sqUsername.getText());
+        usf.CheckAnswer(answer1.getText(), answer2.getText(), answer3.getText(), sqUsername.getText(),us1,jPanel2,ResetPassword);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void us1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_us1ActionPerformed
@@ -400,9 +400,9 @@ public class Logins extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_newPwActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
+        usf.ResetPassword(newPw.getText(),newPw1.getText(), us1.getText(),jPanel2,LoginPanel);
+    }//GEN-LAST:event_resetActionPerformed
 
     private void newPw1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPw1ActionPerformed
         // TODO add your handling code here:
@@ -452,7 +452,6 @@ public class Logins extends javax.swing.JFrame {
     private javax.swing.JTextField answer2;
     private javax.swing.JTextField answer3;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -473,6 +472,7 @@ public class Logins extends javax.swing.JFrame {
     private javax.swing.JLabel question1;
     private javax.swing.JLabel question2;
     private javax.swing.JLabel question3;
+    private javax.swing.JButton reset;
     private javax.swing.JButton showSq;
     private javax.swing.JPanel sqPanel;
     private javax.swing.JTextField sqUsername;

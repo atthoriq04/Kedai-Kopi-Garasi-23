@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -30,7 +31,7 @@ public class UserFunc  {
             validUs.setVisible(false);
             validPass.setVisible(false);
             Statement stat = CC.createStatement();
-            String sql = "SELECT * FROM user WHERE Username = '"+Username+"'";
+            String sql = "SELECT * FROM user WHERE Username = '"+Username+"' AND userActive = 1";
             ResultSet rs = stat.executeQuery(sql);
             if(rs.next()){
                 String user = rs.getString("username");
@@ -82,17 +83,18 @@ public class UserFunc  {
        }   
    }
    
-   public void resetPassword(String a1, String a2, String a3, String username){
+   public void CheckAnswer(String a1, String a2, String a3, String username, JTextField us1, JPanel from, JPanel to){
        try {
             ArrayList<Integer> sqId = new ArrayList<>();
             ArrayList<Integer> userId = new ArrayList<>();
+            ArrayList<String> userName = new ArrayList<>();
             Statement stat = CC.createStatement();
-            System.out.println(username);
             String sql = "SELECT * FROM usersq INNER JOIN user ON usersq.UserId = user.id INNER JOIN securityquestion ON usersq.sqId = securityquestion.sqId WHERE user.username = '"+username+"' ";
             ResultSet rs = stat.executeQuery(sql);
             while(rs.next()){
                 userId.add(rs.getInt("userId"));
                 sqId.add(rs.getInt("sqid"));
+                userName.add(rs.getString("username"));
             }
             int score = 0;
             String check1 = "SELECT * FROM usersq INNER JOIN securityquestion ON usersq.sqId = securityquestion.sqId WHERE usersq.UserId  = "+ userId.get(0) +" AND usersq.sqId = "+ sqId.get(0) +" AND Answer = SHA2('"+ a1 +"',224)";
@@ -113,7 +115,9 @@ public class UserFunc  {
             if(score < 3){
                 JOptionPane.showMessageDialog(null, "Anda Tidak Memenuhi Syarat Untuk mereset Password");
             }else{
-                JOptionPane.showMessageDialog(null, "Anda Memenuhi Syarat Untuk mereset Password");
+                us1.setText(userName.get(0));
+                us1.setEditable(false);
+                gui.switchPanel(from, to);
             }
        }catch (Exception e){
             JOptionPane.showMessageDialog(null, e);
@@ -121,8 +125,19 @@ public class UserFunc  {
        }
    }
    
-   public void checkSQ(){
-   
+   public void ResetPassword(String Password, String PasswordRepeat, String Username, JPanel from, JPanel to){
+       try{
+            Statement stat = CC.createStatement();
+            if(Password.equals(PasswordRepeat)){
+                stat.execute("UPDATE user SET password = SHA2('"+ Password +"',224) WHERE username ='"+ Username + "' ");
+                JOptionPane.showMessageDialog(null,"Password Berhasil Diubah, Silahkan Login Kembali");
+                gui.switchPanel(from, to);
+            }else{
+                JOptionPane.showMessageDialog(null,"Tidak Cocok");
+            }
+       }catch(Exception e){
+           e.printStackTrace();
+       }
    }
    
 
