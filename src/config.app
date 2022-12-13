@@ -1,5 +1,5 @@
-#Fri Dec 02 15:32:39 ICT 2022
+#Tue Dec 13 13:40:29 ICT 2022
 Username\ \:=root
-Password\ \:=root
 Database\ \:=coffeedatabase
+Password\ \:=
 IP\ Adress\ \:=localhost

@@ -11,10 +11,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -23,6 +28,7 @@ import javax.swing.JTextField;
 
 public class UserFunc  {
     Connection CC = new koneksi().connectLogin() ;
+    public DefaultTableModel tmdl;
     PreparedStatement pst;
     public Statement stt;
     GUIFunc gui = new GUIFunc();
@@ -139,8 +145,59 @@ public class UserFunc  {
            e.printStackTrace();
        }
    }
+   public void showUser(Connection CC,JTable table){
+        Object[] title={
+            "Id","Nama User","Username","Role"
+        };
+        String sql = "SELECT * FROM user WHERE userActive = 1";
+        gui.showTabel(CC, title, sql, table);
+            
+   }
+   public void addUser(Connection cc, String nama, Boolean admin,JTable table){
+       try{
+            String trimmed = nama.replaceAll("\\s+","");
+            Statement stat = CC.createStatement();
+            String sql = "SELECT * FROM user WHERE Username = '"+trimmed+"'";
+            ResultSet rs = stat.executeQuery(sql);
+            if(rs.next()){
+                JOptionPane.showMessageDialog(null,"Janggan");
+            }else{
+                int role = 2;
+                if(admin == true){
+                    role = 1;
+                }
+                stat.execute("INSERT INTO user(`Nama`, `username`, `password`, `role`, `userActive`) VALUES ('"+ nama +"','"+ trimmed +"',SHA2('"+ trimmed +"',224),'"+ role +"','1')");
+                JOptionPane.showMessageDialog(null,"Data User Berhasil Ditambahkan");                
+            }
+            showUser(cc,table);
+       }catch(Exception e){
+           e.printStackTrace();
+       }
+   }
    
-
+   public String dataClicked(JTable table,JTextField form,JCheckBox radio,JButton button){
+        int i = table.getSelectedRow();
+       TableModel model = table.getModel();
+       String nama = model.getValueAt(i, 1).toString();
+       String role = model.getValueAt(i, 3).toString();
+       form.setText(nama);
+       button.setText("Edit");
+       return model.getValueAt(i, 0).toString();
+       
+   }
+   
+   public void EditUsers(){}
+   
+   public void DeleteUser(String id, Connection CC, JTable table){
+       try{
+            Statement stat = CC.createStatement();
+            stat.execute("UPDATE user SET userActive = 2 WHERE id = "+id);
+             JOptionPane.showMessageDialog(null,"Data User Berhasil Di Hapus");   
+             showUser(CC,table);
+       }catch(Exception e){
+           e.printStackTrace();
+       }
+   }
 }
     
     
