@@ -146,9 +146,11 @@ public class UserFunc  {
        }
    }
    public void showUser(Connection CC,JTable table){
-        Object[] title={
+       
+       Object[] title={
             "Id","Nama User","Username","Role"
         };
+        
         String sql = "SELECT * FROM user WHERE userActive = 1";
         gui.showTabel(CC, title, sql, table);
             
@@ -160,7 +162,7 @@ public class UserFunc  {
             String sql = "SELECT * FROM user WHERE Username = '"+trimmed+"'";
             ResultSet rs = stat.executeQuery(sql);
             if(rs.next()){
-                JOptionPane.showMessageDialog(null,"Janggan");
+                JOptionPane.showMessageDialog(null,"Username Sudah Ada");
             }else{
                 int role = 2;
                 if(admin == true){

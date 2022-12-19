@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 05, 2022 at 05:13 PM
+-- Generation Time: Dec 19, 2022 at 04:42 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.16
 
@@ -31,44 +31,40 @@ CREATE TABLE `inventory` (
   `idInventory` int(11) NOT NULL,
   `idKategori` int(11) NOT NULL,
   `namaBarang` varchar(50) NOT NULL,
-  `Jumlah` int(11) NOT NULL
+  `Jumlah` int(11) NOT NULL DEFAULT '0',
+  `patokanRestok` int(11) NOT NULL DEFAULT '1',
+  `Status` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `inventory`
+--
+
+INSERT INTO `inventory` (`idInventory`, `idKategori`, `namaBarang`, `Jumlah`, `patokanRestok`, `Status`) VALUES
+(1, 1, 'Oreo', 13, 13, 1),
+(2, 2, 'Lecy Syrup', 400, 200, 1),
+(3, 2, 'Tiramisu', 0, 100, 1);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kategori_inventory`
+-- Table structure for table `inventorycategory`
 --
 
-CREATE TABLE `kategori_inventory` (
+CREATE TABLE `inventorycategory` (
   `idKategori` int(11) NOT NULL,
   `Kategori` varchar(50) NOT NULL,
   `Satuan` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `kategori_menu`
+-- Dumping data for table `inventorycategory`
 --
 
-CREATE TABLE `kategori_menu` (
-  `idKategori` int(11) NOT NULL,
-  `KategoriMenu` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `kategori_menu`
---
-
-INSERT INTO `kategori_menu` (`idKategori`, `KategoriMenu`) VALUES
-(1, 'Signature'),
-(2, 'Mocktail'),
-(3, 'Milk Series'),
-(4, 'Black Cofee'),
-(5, 'Yakult'),
-(6, 'Tea'),
-(7, 'Makanan');
+INSERT INTO `inventorycategory` (`idKategori`, `Kategori`, `Satuan`) VALUES
+(1, 'Gram', 'Gr'),
+(2, 'Mili Litter', 'Ml'),
+(3, 'Pieces', 'pcs');
 
 -- --------------------------------------------------------
 
@@ -80,45 +76,70 @@ CREATE TABLE `menu` (
   `idMenu` int(11) NOT NULL,
   `idKategori` int(11) NOT NULL,
   `Menu` varchar(100) NOT NULL,
-  `Harga` int(11) NOT NULL
+  `Harga` int(11) NOT NULL,
+  `Active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `menu`
 --
 
-INSERT INTO `menu` (`idMenu`, `idKategori`, `Menu`, `Harga`) VALUES
-(1, 1, 'Kopi Sobat (Hazelnut)', 16000),
-(2, 1, 'Kopi Bestie (Caramel)', 16000),
-(3, 1, 'Kopi Sohib (Vanilla)', 16000),
-(4, 1, 'Kopi Konco (Tiramisu)', 16000),
-(5, 1, 'Kopi D\'Java (Gula Aren)', 16000),
-(6, 1, 'Kopi Sedulur (Pandan)', 16000),
-(7, 1, 'Cappucino - Hot', 15000),
-(8, 1, 'Cappucino - Ice', 16000),
-(9, 2, 'Rockberry', 15000),
-(10, 2, 'Deep Purple', 15000),
-(11, 2, 'Apple Drop ', 15000),
-(12, 2, 'Irish Vibe\r\n', 15000),
-(13, 2, 'Lychee Fantasy', 15000),
-(14, 2, 'Lemonade', 15000),
-(15, 2, 'Kiwi Dreams', 15000),
-(16, 3, 'Red Lava', 15000),
-(17, 3, 'Matcha', 15000),
-(18, 3, 'Chocho Retro', 15000),
-(19, 3, 'Little Taro', 15000),
-(20, 3, 'Vanilla Oreo', 16000),
-(21, 3, 'Pinkberry', 16000),
-(22, 4, 'V60', 15000),
-(23, 4, 'Japanesse', 16000),
-(24, 4, 'Americano - Hot', 13000),
-(25, 4, 'Americano - Ice', 15000),
-(26, 4, 'Kopi Tubruk', 13000),
-(27, 5, 'BlueBerry', 15000),
-(28, 5, 'Strawberry', 15000),
-(29, 6, 'Strawberry tea', 13000),
-(30, 6, 'Lemon tea ', 13000),
-(31, 6, 'Lychee Tea', 13000);
+INSERT INTO `menu` (`idMenu`, `idKategori`, `Menu`, `Harga`, `Active`) VALUES
+(1, 1, 'Kopi Sobat (Hazelnut)', 16000, 1),
+(2, 1, 'Kopi Bestie (Caramel)', 16000, 1),
+(3, 1, 'Kopi Sohib (Vanilla)', 16000, 1),
+(4, 1, 'Kopi Konco (Tiramisu)', 16000, 1),
+(5, 1, 'Kopi D\'Java (Gula Aren)', 16000, 1),
+(6, 1, 'Kopi Sedulur (Pandan)', 16000, 1),
+(7, 1, 'Cappucino - Hot', 15000, 1),
+(8, 1, 'Cappucino - Ice', 16000, 1),
+(9, 2, 'Rockberry', 15000, 1),
+(10, 2, 'Deep Purple', 15000, 1),
+(11, 2, 'Apple Drop ', 15000, 1),
+(12, 2, 'Irish Vibe\r\n', 15000, 1),
+(13, 2, 'Lychee Fantasy', 15000, 1),
+(14, 2, 'Lemonade', 15000, 1),
+(15, 2, 'Kiwi Dreams', 15000, 1),
+(16, 3, 'Red Lava', 15000, 1),
+(17, 3, 'Matcha', 15000, 1),
+(18, 3, 'Chocho Retro', 15000, 1),
+(19, 3, 'Little Taro', 15000, 1),
+(20, 3, 'Vanilla Oreo', 16000, 1),
+(21, 3, 'Pinkberry', 16000, 1),
+(22, 4, 'V60', 15000, 1),
+(23, 4, 'Japanesse', 16000, 1),
+(24, 4, 'Americano - Hot', 13000, 1),
+(25, 4, 'Americano - Ice', 15000, 1),
+(26, 4, 'Kopi Tubruk', 13000, 1),
+(27, 5, 'BlueBerry', 15000, 1),
+(28, 5, 'Strawberry', 15000, 1),
+(29, 6, 'Strawberry tea', 13000, 1),
+(30, 6, 'Lemon tea ', 13000, 1),
+(31, 6, 'Lychee Tea', 13000, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menucategory`
+--
+
+CREATE TABLE `menucategory` (
+  `idKategori` int(11) NOT NULL,
+  `KategoriMenu` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `menucategory`
+--
+
+INSERT INTO `menucategory` (`idKategori`, `KategoriMenu`) VALUES
+(1, 'Signature'),
+(2, 'Mocktail'),
+(3, 'Milk Series'),
+(4, 'Black Cofee'),
+(5, 'Yakult'),
+(6, 'Tea'),
+(7, 'Makanan');
 
 -- --------------------------------------------------------
 
@@ -128,10 +149,18 @@ INSERT INTO `menu` (`idMenu`, `idKategori`, `Menu`, `Harga`) VALUES
 
 CREATE TABLE `restok` (
   `idRestok` int(11) NOT NULL,
-  `Tanggal` date NOT NULL,
+  `Tanggal` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idInventory` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `restok`
+--
+
+INSERT INTO `restok` (`idRestok`, `Tanggal`, `idInventory`, `jumlah`) VALUES
+(2, '2022-12-19 21:05:45', 1, 13),
+(3, '2022-12-19 21:05:45', 2, 400);
 
 -- --------------------------------------------------------
 
@@ -165,17 +194,24 @@ INSERT INTO `securityquestion` (`sqId`, `sQuestion`) VALUES
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
+  `Nama` varchar(100) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` char(244) NOT NULL,
-  `role` int(1) NOT NULL
+  `role` int(1) NOT NULL,
+  `userActive` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `role`) VALUES
-(6, 'admin', '58acb7acccce58ffa8b953b12b5a7702bd42dae441c1ad85057fa70b', 1);
+INSERT INTO `user` (`id`, `Nama`, `username`, `password`, `role`, `userActive`) VALUES
+(6, 'Admini', 'admin', '58acb7acccce58ffa8b953b12b5a7702bd42dae441c1ad85057fa70b', 1, 1),
+(8, 'AtthoriqAziz', 'AtthoriqAziz', '5874109ebd0afedb9eb96b3995a40801da7672d0c332bb85987f53c8', 1, 1),
+(9, 'Dimas Kanjeng', 'DimasKanjeng', '99c1850975b1c2c545ad7e4fc84aef55fcf94250675cb493f7ae897b', 2, 1),
+(10, 'Bumi Putera', 'BumiPutera', '929a47b7cee800ce11dba820ca5017cd42dc8fea5df4d3959b161767', 1, 2),
+(12, 'Sarimanko Ayaka', 'SarimankoAyaka', '3f908544c0104a75a8f4caec12be3892d57a15ab47b449d5b0b24f49', 2, 1),
+(13, 'Sarigenaku Aaya', 'SarigenakuAaya', '632e5d141a815d997d6be741e2ef6414869a063f97396fb5aacf1b0f', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -210,15 +246,9 @@ ALTER TABLE `inventory`
   ADD PRIMARY KEY (`idInventory`);
 
 --
--- Indexes for table `kategori_inventory`
+-- Indexes for table `inventorycategory`
 --
-ALTER TABLE `kategori_inventory`
-  ADD PRIMARY KEY (`idKategori`);
-
---
--- Indexes for table `kategori_menu`
---
-ALTER TABLE `kategori_menu`
+ALTER TABLE `inventorycategory`
   ADD PRIMARY KEY (`idKategori`);
 
 --
@@ -226,6 +256,12 @@ ALTER TABLE `kategori_menu`
 --
 ALTER TABLE `menu`
   ADD PRIMARY KEY (`idMenu`);
+
+--
+-- Indexes for table `menucategory`
+--
+ALTER TABLE `menucategory`
+  ADD PRIMARY KEY (`idKategori`);
 
 --
 -- Indexes for table `restok`
@@ -259,19 +295,13 @@ ALTER TABLE `usersq`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `idInventory` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idInventory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `kategori_inventory`
+-- AUTO_INCREMENT for table `inventorycategory`
 --
-ALTER TABLE `kategori_inventory`
-  MODIFY `idKategori` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `kategori_menu`
---
-ALTER TABLE `kategori_menu`
-  MODIFY `idKategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+ALTER TABLE `inventorycategory`
+  MODIFY `idKategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `menu`
@@ -280,10 +310,16 @@ ALTER TABLE `menu`
   MODIFY `idMenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
+-- AUTO_INCREMENT for table `menucategory`
+--
+ALTER TABLE `menucategory`
+  MODIFY `idKategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `restok`
 --
 ALTER TABLE `restok`
-  MODIFY `idRestok` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idRestok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `securityquestion`
@@ -295,7 +331,7 @@ ALTER TABLE `securityquestion`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `usersq`

@@ -30,7 +30,7 @@ public class GUIFunc {
     }
     public void showTabel(Connection CC,Object[] titles,String Query, JTable tName) {
         tmdl = new DefaultTableModel(null, titles);
-        tName.setModel(tmdl);;
+        tName.setModel(tmdl);
         try{
             Statement stat = CC.createStatement();
             ResultSet rs = stat.executeQuery(Query);
