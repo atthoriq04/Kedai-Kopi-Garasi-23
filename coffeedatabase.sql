@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 19, 2022 at 04:42 PM
+-- Generation Time: Dec 20, 2022 at 05:20 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.16
 
@@ -41,9 +41,10 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`idInventory`, `idKategori`, `namaBarang`, `Jumlah`, `patokanRestok`, `Status`) VALUES
-(1, 1, 'Oreo', 13, 13, 1),
-(2, 2, 'Lecy Syrup', 400, 200, 1),
-(3, 2, 'Tiramisu', 0, 100, 1);
+(1, 3, 'Oreo', 52, 13, 1),
+(2, 2, 'Lecy Syrup', 600, 200, 1),
+(3, 2, 'Tiramisu', 200, 100, 1),
+(4, 1, 'Arabica', 300, 100, 1);
 
 -- --------------------------------------------------------
 
@@ -115,7 +116,9 @@ INSERT INTO `menu` (`idMenu`, `idKategori`, `Menu`, `Harga`, `Active`) VALUES
 (28, 5, 'Strawberry', 15000, 1),
 (29, 6, 'Strawberry tea', 13000, 1),
 (30, 6, 'Lemon tea ', 13000, 1),
-(31, 6, 'Lychee Tea', 13000, 1);
+(31, 6, 'Lychee Tea', 13000, 1),
+(32, 7, 'Indomie Rebus Single', 7500, 1),
+(33, 7, 'Indomie Goreng Single', 7500, 1);
 
 -- --------------------------------------------------------
 
@@ -160,7 +163,14 @@ CREATE TABLE `restok` (
 
 INSERT INTO `restok` (`idRestok`, `Tanggal`, `idInventory`, `jumlah`) VALUES
 (2, '2022-12-19 21:05:45', 1, 13),
-(3, '2022-12-19 21:05:45', 2, 400);
+(3, '2022-12-19 21:05:45', 2, 400),
+(4, '2022-12-20 20:17:45', 3, 100),
+(5, '2022-12-20 20:17:45', 1, 26),
+(6, '2022-12-20 21:12:29', 4, 200),
+(7, '2022-12-20 21:13:26', 1, 13),
+(8, '2022-12-20 21:13:26', 2, 200),
+(9, '2022-12-20 21:13:26', 3, 100),
+(10, '2022-12-20 21:13:26', 4, 100);
 
 -- --------------------------------------------------------
 
@@ -295,7 +305,7 @@ ALTER TABLE `usersq`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `idInventory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idInventory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `inventorycategory`
@@ -307,7 +317,7 @@ ALTER TABLE `inventorycategory`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `idMenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `idMenu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `menucategory`
@@ -319,7 +329,7 @@ ALTER TABLE `menucategory`
 -- AUTO_INCREMENT for table `restok`
 --
 ALTER TABLE `restok`
-  MODIFY `idRestok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idRestok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `securityquestion`

@@ -27,6 +27,7 @@ import javax.swing.table.TableModel;
  */
 public class StockFunc {
     public DefaultTableModel tmdl;
+    SQLFunc SQL = new SQLFunc();
     public void ShowStock(Connection CC, JTable stockTable){
         Object[] titles={
             "Id","Nama Barang","Patokan Restok","Jumlah","Satuan"
@@ -81,18 +82,13 @@ public class StockFunc {
    
     
     public void InputStock(Connection CC,JTextField FormNama, JTextField Patokan,JComboBox combo,JTable tabel){
-        try{
-            String Query = "INSERT INTO inventory(`idKategori`, `NamaBarang`, `patokanRestok`) VALUES ('"+ combo.getSelectedIndex() +"','"+ FormNama.getText() +"','"+ Patokan.getText() +"')";
-            Statement stat = CC.createStatement();
-            stat.execute(Query);
-            JOptionPane.showMessageDialog(combo, "Berhasil");
-            FormNama.setText("");
-            Patokan.setText("");
-            combo.setSelectedIndex(0); 
-            ShowStock(CC,tabel);
-        }catch(Exception E){
-            E.printStackTrace();
-        }
+        String Query = "INSERT INTO inventory(`idKategori`, `NamaBarang`, `patokanRestok`) VALUES ('"+ combo.getSelectedIndex() +"','"+ FormNama.getText() +"','"+ Patokan.getText() +"')";
+        SQL.StartQuery(CC, Query);
+        FormNama.setText("");
+        Patokan.setText("");
+        combo.setSelectedIndex(0);
+        ShowStock(CC,tabel);    
+        JOptionPane.showMessageDialog(null, "Bahan Baku Di Input");
     }
     
     public String DataClicked(JTable tabel,JTextField FormNama, JTextField Patokan,JComboBox combo,JButton processButton){
@@ -110,19 +106,14 @@ public class StockFunc {
     }
     
     public void updateStock(String id,Connection CC,JTextField FormNama, JTextField Patokan,JComboBox combo,JTable tabel,JButton processButton){
-    try{
-            String Query = "UPDATE inventory SET idKategori = '"+ combo.getSelectedIndex() +"', NamaBarang = '"+ FormNama.getText() +"',patokanRestok = '"+ Patokan.getText()+"' WHERE idInventory ="+id+" ";
-            Statement stat = CC.createStatement();
-            stat.execute(Query);
-            JOptionPane.showMessageDialog(combo, "Berhasil");
-            FormNama.setText("");
-            Patokan.setText("");
-            combo.setSelectedIndex(0);
-            processButton.setText("Simpan");
-            ShowStock(CC,tabel);
-        }catch(Exception E){
-            E.printStackTrace();
-        }
+        String Query = "UPDATE inventory SET idKategori = '"+ combo.getSelectedIndex() +"', NamaBarang = '"+ FormNama.getText() +"',patokanRestok = '"+ Patokan.getText()+"' WHERE idInventory ="+id+" ";
+        SQL.StartQuery(CC, Query);
+        FormNama.setText("");
+        Patokan.setText("");
+        combo.setSelectedIndex(0);
+        ShowStock(CC,tabel);
+        processButton.setText("Simpan");
+        JOptionPane.showMessageDialog(null, "Bahan Baku Diupdate");
     }
     
     public void setResetStore(JTable restockTable){
@@ -168,29 +159,21 @@ public class StockFunc {
         int row = model.getRowCount();
         ArrayList<Integer> id = new ArrayList<>();
         ArrayList<Integer> jumlah = new ArrayList<>();
-        try{
-            Statement stat = CC.createStatement();
-            for(int i = 0; i<row;i++){
-                id.add(Integer.parseInt(model.getValueAt(i, 0).toString()));
-                jumlah.add(Integer.parseInt(model.getValueAt(i, 2).toString()));
-                stat.execute("INSERT INTO `restok`(`idInventory`, `jumlah`)VALUES('"+model.getValueAt(i, 0).toString()+"','"+model.getValueAt(i, 2).toString()+"')");
-            }
-            JOptionPane.showMessageDialog(table, "Data Restok Ditambahkan");
-            UpdateStockCount(CC,id,jumlah);
-        }catch(Exception E){
-            E.printStackTrace();
+        for(int i = 0; i<row;i++){
+            id.add(Integer.parseInt(model.getValueAt(i, 0).toString()));
+            jumlah.add(Integer.parseInt(model.getValueAt(i, 2).toString()));
+            String Query = "INSERT INTO `restok`(`idInventory`, `jumlah`)VALUES('"+model.getValueAt(i, 0).toString()+"','"+model.getValueAt(i, 2).toString()+"')";
+            SQL.StartQuery(CC, Query);
         }
+        JOptionPane.showMessageDialog(table, "Data Restok Ditambahkan");
+        UpdateStockCount(CC,id,jumlah);
     }
     
     public void UpdateStockCount(Connection CC,ArrayList ids,ArrayList jumlah){
-        try{
-            Statement stat = CC.createStatement();
-            for(int i = 0; i<ids.size();i++){
-                stat.execute("UPDATE inventory SET  jumlah = jumlah + "+ jumlah.get(i) +" WHERE idInventory = "+ids.get(i)+"");
-            }
-            JOptionPane.showMessageDialog(null, "Jumlah Bahan Baku berhasil ditambahkan");
-        }catch(Exception E){
-            E.printStackTrace();
+        for(int i = 0; i<ids.size();i++){
+            String Query = "UPDATE inventory SET  jumlah = jumlah + "+ jumlah.get(i) +" WHERE idInventory = "+ids.get(i)+"";
+            SQL.StartQuery(CC, Query);
         }
+        JOptionPane.showMessageDialog(null, "Jumlah Bahan Baku berhasil ditambahkan");
     }
 }
