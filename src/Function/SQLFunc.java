@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 /**
  *
@@ -26,6 +27,23 @@ public class SQLFunc {
         }
     }
     
-    public void ComboBoxQuery(){
+    public ArrayList selectAll(){
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        
+        
+        return result;
+    }
+    
+    public String selectOneColumn(){
+        String result = null;
+        
+        return result;
+    }
+    
+    public String[] selectRowofColumn(){
+        String[] result = {
+            "A","b","c"
+        };
+        return result;
     }
 }

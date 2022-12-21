@@ -37,7 +37,10 @@ public class MenuFunc {
         Object[] titles={
             "Id","Kategori","Menu","Harga"
         };
-        
+        String[] needed = {
+            "idMenu","KategoriMenu","Menu","Harga"
+        };
+        ArrayList<ArrayList<String>> row = new ArrayList();
         String Query = "SELECT * FROM menu INNER JOIN menucategory ON menu.idKategori = menucategory.idKategori WHERE Active= 1 ORDER BY menu.idKategori ASC";
         tmdl = new DefaultTableModel(null, titles);
         menuTable.setModel(tmdl);
@@ -45,13 +48,22 @@ public class MenuFunc {
             Statement stat = CC.createStatement();
             ResultSet rs = stat.executeQuery(Query);
             while(rs.next()){
-               Object[] Datas = {
-                       rs.getInt("idMenu"),
-                       rs.getString("KategoriMenu"),
-                       rs.getString("Menu"),
-                       "RP. "+rs.getString("Harga"),
-               };
-               tmdl.addRow(Datas);
+                ArrayList<String> table = new ArrayList<>();
+                for(int i = 0; i<needed.length;i++){
+                    table.add(rs.getString(needed[i]));
+                }
+                row.add(table);
+                //Lanjut Optimasi Lagi
+//               Object[] Datas = {
+//                       rs.getInt("idMenu"),
+//                       rs.getString("KategoriMenu"),
+//                       rs.getString("Menu"),
+//                       "RP. "+rs.getString("Harga"),
+//               };
+//               tmdl.addRow(Datas);
+            }
+            for(int i = 0; i<row.size(); i++){
+                System.out.println(row.get(i));
             }
         }catch(Exception E){
             E.printStackTrace();

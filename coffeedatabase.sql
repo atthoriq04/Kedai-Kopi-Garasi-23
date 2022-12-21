@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 20, 2022 at 05:20 PM
+-- Generation Time: Dec 21, 2022 at 04:14 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.16
 
@@ -66,6 +66,26 @@ INSERT INTO `inventorycategory` (`idKategori`, `Kategori`, `Satuan`) VALUES
 (1, 'Gram', 'Gr'),
 (2, 'Mili Litter', 'Ml'),
 (3, 'Pieces', 'pcs');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jenistransaksi`
+--
+
+CREATE TABLE `jenistransaksi` (
+  `idJenisTransaksi` int(11) NOT NULL,
+  `jenisTransaksi` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `jenistransaksi`
+--
+
+INSERT INTO `jenistransaksi` (`idJenisTransaksi`, `jenisTransaksi`) VALUES
+(1, 'Penjualan'),
+(2, 'Restok'),
+(3, 'Kehilangan');
 
 -- --------------------------------------------------------
 
@@ -199,6 +219,22 @@ INSERT INTO `securityquestion` (`sqId`, `sQuestion`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `transaksi`
+--
+
+CREATE TABLE `transaksi` (
+  `idTransaksi` int(10) NOT NULL,
+  `idJenisTransaksi` int(10) NOT NULL,
+  `idInventory` int(10) NOT NULL,
+  `idMenu` int(10) NOT NULL,
+  `jumlah` int(15) NOT NULL,
+  `tanggalTransaksi` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `idUser` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -262,6 +298,12 @@ ALTER TABLE `inventorycategory`
   ADD PRIMARY KEY (`idKategori`);
 
 --
+-- Indexes for table `jenistransaksi`
+--
+ALTER TABLE `jenistransaksi`
+  ADD PRIMARY KEY (`idJenisTransaksi`);
+
+--
 -- Indexes for table `menu`
 --
 ALTER TABLE `menu`
@@ -284,6 +326,12 @@ ALTER TABLE `restok`
 --
 ALTER TABLE `securityquestion`
   ADD PRIMARY KEY (`sqId`);
+
+--
+-- Indexes for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`idTransaksi`);
 
 --
 -- Indexes for table `user`
@@ -314,6 +362,12 @@ ALTER TABLE `inventorycategory`
   MODIFY `idKategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `jenistransaksi`
+--
+ALTER TABLE `jenistransaksi`
+  MODIFY `idJenisTransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
@@ -336,6 +390,12 @@ ALTER TABLE `restok`
 --
 ALTER TABLE `securityquestion`
   MODIFY `sqId` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `idTransaksi` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
