@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -40,7 +41,7 @@ public class MenuFunc {
         String[] needed = {
             "idMenu","KategoriMenu","Menu","Harga"
         };
-        ArrayList<ArrayList<String>> row = new ArrayList();
+        ArrayList<HashMap<String,String>> row = new ArrayList();
         String Query = "SELECT * FROM menu INNER JOIN menucategory ON menu.idKategori = menucategory.idKategori WHERE Active= 1 ORDER BY menu.idKategori ASC";
         tmdl = new DefaultTableModel(null, titles);
         menuTable.setModel(tmdl);
@@ -48,11 +49,12 @@ public class MenuFunc {
             Statement stat = CC.createStatement();
             ResultSet rs = stat.executeQuery(Query);
             while(rs.next()){
+                HashMap<String,String> tables = new HashMap<>();
                 ArrayList<String> table = new ArrayList<>();
                 for(int i = 0; i<needed.length;i++){
-                    table.add(rs.getString(needed[i]));
+                    tables.put(needed[i], rs.getString(needed[i]));
                 }
-                row.add(table);
+                row.add(tables);
                 //Lanjut Optimasi Lagi
 //               Object[] Datas = {
 //                       rs.getInt("idMenu"),
@@ -63,7 +65,10 @@ public class MenuFunc {
 //               tmdl.addRow(Datas);
             }
             for(int i = 0; i<row.size(); i++){
-                System.out.println(row.get(i));
+                for(int j=0;j<needed.length;j++){
+                   System.out.print(row.get(i).get(needed[j])+" ");
+                }
+                System.out.println("");
             }
         }catch(Exception E){
             E.printStackTrace();
