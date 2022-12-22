@@ -6,6 +6,8 @@ package Function;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -28,23 +30,16 @@ public class GUIFunc {
         from.repaint();
         from.revalidate();
     }
-    public void showTabel(Connection CC,Object[] titles,String Query, JTable tName) {
+    public void showTabel(Connection CC,Object[] titles, String[] fieldsNeeded,ArrayList<HashMap<String,String>> Datas ,JTable tName) {
         tmdl = new DefaultTableModel(null, titles);
         tName.setModel(tmdl);
-        try{
-            Statement stat = CC.createStatement();
-            ResultSet rs = stat.executeQuery(Query);
-            while(rs.next()){
-               Object[] Datas = {
-                       rs.getInt("id"),
-                       rs.getString("Nama"),
-                       rs.getString("Username"),
-                       rs.getString("Role"),
-               };
-               tmdl.addRow(Datas);
+        ArrayList<String> column = new ArrayList<>();
+        for( int i=0;i<Datas.size();i++){
+            Object[] Data = new Object[Datas.size()];
+            for(int j = 0; j < fieldsNeeded.length; j++){
+                Data[j] = Datas.get(i).get(fieldsNeeded[j]);
             }
-        }catch(Exception E){
-            E.printStackTrace();
+            tmdl.addRow(Data);
         }
     }
 }

@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -31,6 +32,7 @@ public class UserFunc  {
     public DefaultTableModel tmdl;
     PreparedStatement pst;
     public Statement stt;
+    SQLFunc SQLquery = new SQLFunc();
     GUIFunc gui = new GUIFunc();
     public void login(String Username, String Password, JFrame frame1, JFrame frame2, JLabel validUs, JLabel validPass){
        try {
@@ -150,9 +152,13 @@ public class UserFunc  {
        Object[] title={
             "Id","Nama User","Username","Role"
         };
+       String[] needed = {
+            "id","Nama","Username","Role"
+        };
+        String Query = "SELECT * FROM user WHERE userActive = 1";
+        ArrayList<HashMap<String,String>> Datas = SQLquery.selectAll(CC, needed, Query);
+        gui.showTabel(CC, title, needed, Datas, table);
         
-        String sql = "SELECT * FROM user WHERE userActive = 1";
-        gui.showTabel(CC, title, sql, table);
             
    }
    public void addUser(Connection cc, String nama, Boolean admin,JTable table){

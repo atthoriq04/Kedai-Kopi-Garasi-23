@@ -41,38 +41,9 @@ public class MenuFunc {
         String[] needed = {
             "idMenu","KategoriMenu","Menu","Harga"
         };
-        ArrayList<HashMap<String,String>> row = new ArrayList();
         String Query = "SELECT * FROM menu INNER JOIN menucategory ON menu.idKategori = menucategory.idKategori WHERE Active= 1 ORDER BY menu.idKategori ASC";
-        tmdl = new DefaultTableModel(null, titles);
-        menuTable.setModel(tmdl);
-        try{
-            Statement stat = CC.createStatement();
-            ResultSet rs = stat.executeQuery(Query);
-            while(rs.next()){
-                HashMap<String,String> tables = new HashMap<>();
-                ArrayList<String> table = new ArrayList<>();
-                for(int i = 0; i<needed.length;i++){
-                    tables.put(needed[i], rs.getString(needed[i]));
-                }
-                row.add(tables);
-                //Lanjut Optimasi Lagi
-//               Object[] Datas = {
-//                       rs.getInt("idMenu"),
-//                       rs.getString("KategoriMenu"),
-//                       rs.getString("Menu"),
-//                       "RP. "+rs.getString("Harga"),
-//               };
-//               tmdl.addRow(Datas);
-            }
-            for(int i = 0; i<row.size(); i++){
-                for(int j=0;j<needed.length;j++){
-                   System.out.print(row.get(i).get(needed[j])+" ");
-                }
-                System.out.println("");
-            }
-        }catch(Exception E){
-            E.printStackTrace();
-        }
+        ArrayList<HashMap<String,String>> Datas = SQLquery.selectAll(CC, needed, Query);
+        gui.showTabel(CC, titles, needed, Datas, menuTable);
     }
     
     public void ShowCategoryCombo(Connection CC,JComboBox combo){

@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 /**
  *
@@ -27,15 +28,39 @@ public class SQLFunc {
         }
     }
     
-    public ArrayList selectAll(){
-        ArrayList<ArrayList<String>> result = new ArrayList<>();
-        
+    public ArrayList selectAll(Connection CC,String[] fieldsNeeded,String query){
+        ArrayList<HashMap<String,String>> result = new ArrayList<>();
+        try{
+            Statement stat = CC.createStatement();
+            ResultSet rs = stat.executeQuery(query);
+            while(rs.next()){
+                HashMap<String,String> tables = new HashMap<>();
+                ArrayList<String> table = new ArrayList<>();
+                for (String need : fieldsNeeded) {
+                    tables.put(need, rs.getString(need));
+                }
+                result.add(tables);
+            }
+            return result;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         
         return result;
     }
     
-    public String selectOneColumn(){
+    public String selectData(Connection CC, String query, String dataWanted){
         String result = null;
+        try{
+            Statement stat = CC.createStatement();
+            ResultSet rs = stat.executeQuery(query);
+            if(rs.next()){
+                result = rs.getString(dataWanted);
+                return result;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         
         return result;
     }
