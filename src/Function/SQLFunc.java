@@ -45,7 +45,23 @@ public class SQLFunc {
         }catch(Exception e){
             e.printStackTrace();
         }
-        
+        return null;
+    }
+    
+    public HashMap selectColumn(Connection CC, String Query, String[] dataWanted){
+        HashMap<String,String> result = new HashMap();
+        try{
+            Statement stat = CC.createStatement();
+            ResultSet rs = stat.executeQuery(Query);
+            if(rs.next()){
+                for(String data : dataWanted){
+                    result.put(data, rs.getString(data));
+                }
+            return result;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         return result;
     }
     
@@ -65,10 +81,18 @@ public class SQLFunc {
         return result;
     }
     
-    public String[] selectRowofColumn(){
-        String[] result = {
-            "A","b","c"
-        };
-        return result;
+    public ArrayList selectRowofColumn(Connection CC, String query,String dataWanted){
+        ArrayList<String> result = new ArrayList();
+        try{
+            Statement stat = CC.createStatement();
+            ResultSet rs = stat.executeQuery(query);
+            while(rs.next()){
+               result.add(rs.getString(dataWanted));
+            }
+            return result;
+        }catch(Exception E){
+            E.printStackTrace();
+        }
+        return null;
     }
 }

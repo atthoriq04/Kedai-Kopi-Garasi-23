@@ -33,7 +33,7 @@ public class MenuFunc {
     public Statement stt;
     public DefaultTableModel tmdl;
     GUIFunc gui = new GUIFunc();
-    SQLFunc SQLquery = new SQLFunc();
+    SQLFunc database = new SQLFunc();
     public void showMenu(Connection CC, JTable menuTable){
         Object[] titles={
             "Id","Kategori","Menu","Harga"
@@ -42,26 +42,19 @@ public class MenuFunc {
             "idMenu","KategoriMenu","Menu","Harga"
         };
         String Query = "SELECT * FROM menu INNER JOIN menucategory ON menu.idKategori = menucategory.idKategori WHERE Active= 1 ORDER BY menu.idKategori ASC";
-        ArrayList<HashMap<String,String>> Datas = SQLquery.selectAll(CC, needed, Query);
+        ArrayList<HashMap<String,String>> Datas = database.selectAll(CC, needed, Query);
         gui.showTabel(CC, titles, needed, Datas, menuTable);
     }
     
     public void ShowCategoryCombo(Connection CC,JComboBox combo){
         String Query = "SELECT * FROM menucategory";
-        try{
-            Statement stat = CC.createStatement();
-            ResultSet rs = stat.executeQuery(Query);
-            while(rs.next()){
-               combo.addItem(rs.getString("KategoriMenu"));
-            }
-        }catch(Exception E){
-            E.printStackTrace();
-        }
+        ArrayList<String> Datas =  database.selectRowofColumn(CC, Query, "KategoriMenu");
+        gui.showComboBox(Datas, combo);
     }
     
     public void AddMenu(Connection CC,JTextField NamaMenu, JTextField harga, JComboBox combo,JTable menuTable){
         String Query = "INSERT INTO menu(`idKategori`, `Menu`, `Harga`) VALUES ('"+ combo.getSelectedIndex() +"','"+ NamaMenu.getText() +"','"+ harga.getText() +"')";
-        SQLquery.StartQuery(CC, Query);
+        database.StartQuery(CC, Query);
         NamaMenu.setText("");
         harga.setText("");
         combo.setSelectedIndex(0);
@@ -85,7 +78,7 @@ public class MenuFunc {
     
     public void editMenu(Connection CC,JTextField NamaMenu, JTextField harga, JComboBox combo,JTable menuTable,JButton processButton,String id){
         String Query = "UPDATE menu SET idKategori = '"+ combo.getSelectedIndex() +"', Menu = '"+ NamaMenu.getText() +"',Harga = '"+ harga.getText()+"' WHERE idMenu ="+id+" ";
-        SQLquery.StartQuery(CC, Query);
+        database.StartQuery(CC, Query);
         NamaMenu.setText("");
         harga.setText("");
         combo.setSelectedIndex(0);
@@ -97,21 +90,11 @@ public class MenuFunc {
         Object[] titles={
             "Id","Kategori Menu"
         };
-        
+        String[] Needed = {
+            "idKategori","KategoriMenu"
+        };
         String Query = "SELECT * FROM menucategory";
-        tmdl = new DefaultTableModel(null, titles);
-        kategoriMenuTable.setModel(tmdl);
-        try{
-            Statement stat = CC.createStatement();
-            ResultSet rs = stat.executeQuery(Query);
-            while(rs.next()){
-               Object[] Datas = {
-                       rs.getInt("idKategori"),
-                       rs.getString("KategoriMenu"),               };
-               tmdl.addRow(Datas);
-            }
-        }catch(Exception E){
-            E.printStackTrace();
-        }
+        ArrayList<HashMap<String,String>> Datas = database.selectAll(CC, Needed, Query);
+        gui.showTabel(CC, titles, Needed, Datas, kategoriMenuTable);
     }
 }
