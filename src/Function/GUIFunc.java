@@ -3,12 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Function;
+import customGUI.customButton;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -63,5 +66,9 @@ public class GUIFunc {
             field.setText("");
         }
     
+    }
+    
+    public void buttonchange(customButton Button,Color a, Color b, Color c, Color d, int Radius){
+
     }
 }

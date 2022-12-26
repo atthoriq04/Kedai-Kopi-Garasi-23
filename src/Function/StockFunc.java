@@ -102,8 +102,7 @@ public class StockFunc {
         String[] dataWanted = {"idInventory","NamaBarang","patokanRestok"};
         HashMap<String,String> data = database.selectColumn(CC, Query, dataWanted);
         System.out.println();
-        int jumlah = Integer.parseInt(jumlahRestok.getText());
-        if(patokan.isSelected()){ jumlah = jumlah * Integer.parseInt(data.get("patokanRestok"));}
+        int jumlah = (patokan.isSelected()) ? (Integer.parseInt(jumlahRestok.getText())* Integer.parseInt(data.get("patokanRestok"))) : Integer.parseInt(jumlahRestok.getText()); 
         Object[] rowData = {
             data.get("idInventory"),
             data.get("NamaBarang"),

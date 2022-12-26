@@ -82,6 +82,7 @@ public class MenuFunc {
         NamaMenu.setText("");
         harga.setText("");
         combo.setSelectedIndex(0);
+        //Add Reset J Button
         showMenu(CC,menuTable);
         JOptionPane.showMessageDialog(null, "Data Menu Berhasil Di Edit");
     }
