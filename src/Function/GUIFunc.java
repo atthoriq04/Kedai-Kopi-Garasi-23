@@ -5,6 +5,7 @@
 package Function;
 import customGUI.customButton;
 import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -36,6 +38,11 @@ public class GUIFunc {
         from.repaint();
         from.revalidate();
     }
+    
+    public void changeLabel(JLabel target, String text){
+        target.setText(text);
+    }
+    
     public void showTabel(Connection CC,Object[] titles, String[] fieldsNeeded,ArrayList<HashMap<String,String>> Datas ,JTable tName) {
         tmdl = new DefaultTableModel(null, titles);
         tName.setModel(tmdl);
@@ -66,6 +73,28 @@ public class GUIFunc {
             field.setText("");
         }
     
+    }
+    
+    public void hoverIn(JPanel panel , JLabel label){
+        panel.setBackground(new Color(56,78,109));
+        Font boldFont = new Font(label.getFont().getFontName(), Font.BOLD, label.getFont().getSize());
+        label.setFont(boldFont);
+    }
+    
+    public void hoverOut(JPanel panel,JLabel label,int state, int active){
+        if(state!=active){
+            panel.setBackground(new Color(42,52,62));
+            label.setFont(label.getFont().deriveFont(Font.PLAIN));
+        }
+    }
+    
+    public void reset(JPanel[] panels, JLabel[] labels){
+        for(JPanel panel : panels){
+            panel.setBackground(new Color(42,52,62));
+        }
+        for(JLabel label : labels){
+            label.setFont(label.getFont().deriveFont(Font.PLAIN));
+        }
     }
     
     public void buttonchange(customButton Button,Color a, Color b, Color c, Color d, int Radius){

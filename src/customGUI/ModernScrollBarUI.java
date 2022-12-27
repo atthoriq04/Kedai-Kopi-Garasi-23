@@ -1,4 +1,4 @@
-package tabledark;
+package customGUI;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

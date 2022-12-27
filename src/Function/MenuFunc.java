@@ -62,18 +62,25 @@ public class MenuFunc {
         JOptionPane.showMessageDialog(null, "Data Menu Berhasil Di Input");
     }
     
-    public String DataClicked(JTable tabel,JTextField FormNama, JTextField Patokan,JComboBox combo,JButton processButton){
+    public String DataClicked(JTable tabel,JTextField FormNama, JTextField Patokan,JComboBox combo,JButton processButton, int option){
        int i = tabel.getSelectedRow();
        TableModel model = tabel.getModel();
        String nama = model.getValueAt(i, 2).toString();
        String Harga = model.getValueAt(i, 3).toString().replaceAll("[^0-9]", "");
        String Selected = model.getValueAt(i, 1).toString();
+       
+       if(option == 0){
+           return model.getValueAt(i, 0).toString();
+       }
+           editInput(FormNama,Patokan,combo,processButton,nama,Harga,Selected);
+           return model.getValueAt(i, 0).toString();
+    }
+    
+    public void editInput(JTextField FormNama, JTextField Patokan,JComboBox combo,JButton processButton,String nama,String Harga, String Selected){
        FormNama.setText(nama);
        Patokan.setText(Harga);
        combo.setSelectedItem(Selected);
        processButton.setText("Edit");
-       
-       return model.getValueAt(i, 0).toString();
     }
     
     public void editMenu(Connection CC,JTextField NamaMenu, JTextField harga, JComboBox combo,JTable menuTable,JButton processButton,String id){
@@ -97,5 +104,18 @@ public class MenuFunc {
         String Query = "SELECT * FROM menucategory";
         ArrayList<HashMap<String,String>> Datas = database.selectAll(CC, Needed, Query);
         gui.showTabel(CC, titles, Needed, Datas, kategoriMenuTable);
+    }
+    
+    public void showRecipe(Connection CC, JTable table, JLabel menuLabel, int menuId){
+         Object[] titles={
+            "Id","Bahan Baku","Jumlah","Satuan"
+        };
+        String[] needed = {
+            "id","namaBarang","Jumlah","Status"
+        };
+        String Query = "SELECT * FROM menu INNER JOIN menucategory ON menu.idKategori = menucategory.idKategori WHERE Active= 1 ORDER BY menu.idKategori ASC";
+        gui.showTabel(CC, titles, needed, database.selectAll(CC, needed, Query), table);
+        String query2 = "Select * FROM menu WHERE idMenu = '"+ menuId+"' LIMIT 1";
+        gui.changeLabel(menuLabel, database.selectData(CC, query2, "Menu"));
     }
 }
