@@ -127,6 +127,7 @@ public class StockFunc {
     public void updateStockTotal(Connection CC ,JTable table){
         TableModel model = table.getModel();
         int row = model.getRowCount();
+        DefaultTableModel Dmodel = (DefaultTableModel) table.getModel();
         if(row > 0){
             ArrayList<Integer> id = new ArrayList<>();
             ArrayList<Integer> jumlah = new ArrayList<>();
@@ -135,9 +136,101 @@ public class StockFunc {
                 jumlah.add(Integer.parseInt(model.getValueAt(i, 2).toString()));
                 String Query = "UPDATE inventory SET  jumlah = jumlah + "+ model.getValueAt(i, 2).toString() +" WHERE idInventory = "+model.getValueAt(i, 0).toString()+"";               
                 database.StartQuery(CC, Query);
+                Dmodel.removeRow(i);
             }
             JOptionPane.showMessageDialog(table, "Jumlah Stok berhasil ditambahkan");
             transaction.Restok(CC, id, jumlah);
+        }else{
+            JOptionPane.showMessageDialog(null, "Tidak Ada data untuk ditambahkan, Silahkan Masukkan Data");
+        }
+    }
+    
+    public void showCategoryStock(Connection CC, JTable kategoriStokTable){
+        Object[] titles={
+            "Id","Kategori","Satuan"
+        };
+        String[] Needed = {
+            "idKategori","Kategori","Satuan"
+        };
+        String Query = "SELECT * FROM `inventorycategory`";
+        ArrayList<HashMap<String,String>> Datas = database.selectAll(CC, Needed, Query);
+        gui.showTabel(CC, titles, Needed, Datas, kategoriStokTable);
+    }
+    
+    public void addCategory(Connection CC, JTextField kategori, JTextField satuan,JTable kategoriStokTable){
+        database.StartQuery(CC, "INSERT INTO `inventorycategory`(`Kategori`, `Satuan`) VALUES ('"+kategori.getText()+"','"+satuan.getText()+"')");
+        kategori.setText("");satuan.setText("");
+        JOptionPane.showMessageDialog(null, "Kategori Baru berhasil ditambahkan");
+        showCategoryStock(CC,kategoriStokTable);
+    }
+    
+    public String categoryClicked(JTable kategoriStokTable,JTextField kategori, JTextField satuan,JButton Action){
+        int i = kategoriStokTable.getSelectedRow();
+       TableModel model = kategoriStokTable.getModel();
+       String nama = model.getValueAt(i, 1).toString();
+       String Satuan = model.getValueAt(i, 2).toString();
+       kategori.setText(nama);
+       satuan.setText(Satuan);
+       Action.setText("Edit");
+       
+       return model.getValueAt(i, 0).toString();
+        
+    }
+    
+    public void EditCategory(Connection CC, JTextField kategori, JTextField satuan,JTable kategoriStokTable,JButton Action, String id){
+        database.StartQuery(CC,"UPDATE inventorycategory SET kategori = '"+ kategori.getText() +"', Satuan = '"+ satuan.getText()+"' WHERE idKategori = '"+id+"'");
+        kategori.setText("");satuan.setText("");
+        Action.setText("Simpan");
+        JOptionPane.showMessageDialog(null, "Kategori Berhasil Di Edit");
+        showCategoryStock(CC,kategoriStokTable);
+    }
+    
+    public void setOutTitle(JTable restockTable){
+        Object[] titles={
+            "Id","Nama Barang","Jumlah","Satuan","Keterangan"
+        };        
+        gui.setTableTitle(titles, restockTable);
+    }
+    
+    public void inputOutStore(Connection CC,JTable restockTable,JComboBox combo,JTextField jumlahRestok,JTextField keterangan,JRadioButton patokan ){
+        String Query = "SELECT * FROM inventory INNER JOIN inventorycategory ON inventorycategory.idKategori = inventory.idKategori WHERE NamaBarang = '"+ combo.getSelectedItem() +"'";
+        String[] dataWanted = {"idInventory","NamaBarang","patokanRestok","Satuan"};
+        HashMap<String,String> data = database.selectColumn(CC, Query, dataWanted);
+        System.out.println(); 
+        int jumlah = (patokan.isSelected()) ? (Integer.parseInt(jumlahRestok.getText())* Integer.parseInt(data.get("patokanRestok"))) : Integer.parseInt(jumlahRestok.getText()); 
+        
+        Object[] rowData = {
+            data.get("idInventory"),
+            data.get("NamaBarang"),
+            jumlah,
+            data.get("Satuan"),
+            keterangan.getText()
+            
+        };
+        gui.showTablerow(rowData);
+        combo.setSelectedIndex(0);
+        jumlahRestok.setText("1");
+        keterangan.setText("");
+    }
+    
+    public void decreaseStock(Connection CC ,JTable table){
+        TableModel model = table.getModel();
+        int row = model.getRowCount();
+        DefaultTableModel Dmodel = (DefaultTableModel) table.getModel();
+        if(row > 0){
+            ArrayList<Integer> id = new ArrayList<>();
+            ArrayList<Integer> jumlah = new ArrayList<>();
+            ArrayList<String> Alasan = new ArrayList<>();
+            for(int i = 0; i<row;i++){
+                id.add(Integer.parseInt(model.getValueAt(i, 0).toString()));
+                jumlah.add(Integer.parseInt(model.getValueAt(i, 2).toString()));
+                Alasan.add((model.getValueAt(i, 4).toString()));
+                String Query = "UPDATE inventory SET  jumlah = jumlah - "+ model.getValueAt(i, 2).toString() +" WHERE idInventory = "+model.getValueAt(i, 0).toString()+"";               
+                database.StartQuery(CC, Query);
+                Dmodel.removeRow(i);
+            }
+            JOptionPane.showMessageDialog(table, "Jumlah Stok berhasil ditambahkan");
+            transaction.PengeluaranBukanPenjualan(CC, id, jumlah, Alasan);
         }else{
             JOptionPane.showMessageDialog(null, "Tidak Ada data untuk ditambahkan, Silahkan Masukkan Data");
         }

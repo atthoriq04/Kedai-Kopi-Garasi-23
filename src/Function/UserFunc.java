@@ -32,7 +32,7 @@ public class UserFunc  {
     public DefaultTableModel tmdl;
     PreparedStatement pst;
     public Statement stt;
-    SQLFunc SQLquery = new SQLFunc();
+    SQLFunc database = new SQLFunc();
     GUIFunc gui = new GUIFunc();
     public void login(String Username, String Password, JFrame frame1, JFrame frame2, JLabel validUs, JLabel validPass){
        try {
@@ -155,57 +155,107 @@ public class UserFunc  {
        String[] needed = {
             "id","Nama","Username","Role"
         };
-        String Query = "SELECT * FROM user WHERE userActive = 1";
-        ArrayList<HashMap<String,String>> Datas = SQLquery.selectAll(CC, needed, Query);
+        String Query = "SELECT * FROM user INNER JOIN role ON user.idRole = role.idRole WHERE userActive = 1";
+        ArrayList<HashMap<String,String>> Datas = database.selectAll(CC, needed, Query);
         gui.showTabel(CC, title, needed, Datas, table);
         
             
    }
-   public void addUser(Connection cc, String nama, Boolean admin,JTable table){
-       try{
-            String trimmed = nama.replaceAll("\\s+","");
-            Statement stat = CC.createStatement();
-            String sql = "SELECT * FROM user WHERE Username = '"+trimmed+"'";
-            ResultSet rs = stat.executeQuery(sql);
-            if(rs.next()){
-                JOptionPane.showMessageDialog(null,"Username Sudah Ada");
-            }else{
-                int role = 2;
-                if(admin == true){
-                    role = 1;
-                }
-                stat.execute("INSERT INTO user(`Nama`, `username`, `password`, `role`, `userActive`) VALUES ('"+ nama +"','"+ trimmed +"',SHA2('"+ trimmed +"',224),'"+ role +"','1')");
-                JOptionPane.showMessageDialog(null,"Data User Berhasil Ditambahkan");                
-            }
-            showUser(cc,table);
-       }catch(Exception e){
-           e.printStackTrace();
+   
+   public void addUser(Connection CC, JTextField nama,JCheckBox AdminChecker, JTable userTable){
+       String trimmed = nama.getText().replaceAll("\\s+","");
+       if(database.selectData(CC, "SELECT * FROM user WHERE id = 1", "Nama") != null){
+           JOptionPane.showMessageDialog(null, "User Sudah Ada");
        }
+       int role = (AdminChecker.isSelected()) ? 1 : 2;
+       database.StartQuery(CC, "INSERT INTO user(`Nama`, `username`, `password`, `idRole`, `userActive`) VALUES ('"+ nama.getText() +"','"+ trimmed +"',SHA2('"+ trimmed +"',224),'"+ role +"','1')");
+       JOptionPane.showMessageDialog(null,"Data User Berhasil Ditambahkan");
+       nama.setText("");
+       AdminChecker.setSelected(false);
+       showUser(CC,userTable);
    }
    
-   public String dataClicked(JTable table,JTextField form,JCheckBox radio,JButton button){
+   public String dataClicked(JTable table,JTextField form,JCheckBox radio,JButton Action, JButton Delete){
         int i = table.getSelectedRow();
        TableModel model = table.getModel();
        String nama = model.getValueAt(i, 1).toString();
        String role = model.getValueAt(i, 3).toString();
+       boolean isAdmin = (role.equalsIgnoreCase("admin"));
        form.setText(nama);
-       button.setText("Edit");
+       Action.setText("Edit");
+       radio.setSelected(isAdmin);
+       Delete.setVisible(true);
        return model.getValueAt(i, 0).toString();
        
    }
    
-   public void EditUsers(){}
-   
-   public void DeleteUser(String id, Connection CC, JTable table){
-       try{
-            Statement stat = CC.createStatement();
-            stat.execute("UPDATE user SET userActive = 2 WHERE id = "+id);
-             JOptionPane.showMessageDialog(null,"Data User Berhasil Di Hapus");   
-             showUser(CC,table);
-       }catch(Exception e){
-           e.printStackTrace();
-       }
+   public void EditUsers(JTable table,JTextField form,JCheckBox AdminChecker,JButton Action, JButton Delete, String id){
+      int role = (AdminChecker.isSelected()) ? 1 : 2;
+      String query = "UPDATE user SET Nama = '"+form.getText()+"', idRole = '"+role+"' WHERE id = "+id;
+      database.StartQuery(CC, query);
+      JOptionPane.showMessageDialog(null,"Data User Berhasil Diedit");   
+      showUser(CC,table);
+      form.setText("");
+      Delete.setVisible(false);
+      Action.setText("Simpan");
+      AdminChecker.setSelected(false);
    }
+   
+   public void DeleteUser(String id, Connection CC, JTable table,JTextField form,JButton Action, JButton Delete ){
+       database.StartQuery(CC, "UPDATE user SET userActive = 2 WHERE id = "+id);
+       JOptionPane.showMessageDialog(null,"Data User Berhasil Di Hapus"); 
+       showUser(CC,table);
+       Delete.setVisible(false);
+       Action.setText("Simpan");
+       form.setText("");
+   }
+   
+   public void showSQ(Connection CC, JTable SQTable){
+        Object[] title={
+            "Id","Pertanyaan Keamanan"
+        };
+       String[] needed = {
+            "sqId","sQuestion"
+        };
+        String Query = "SELECT * FROM `securityquestion` WHERE sqId > 1";
+        gui.showTabel(CC, title, needed, database.selectAll(CC, needed, Query), SQTable);
+   }
+   
+   public void addSQ(Connection CC,JTable SQTable, JTextField pertanyaan ){
+       database.StartQuery(CC, "INSERT INTO `securityquestion`(`sQuestion`) VALUES ('"+ pertanyaan.getText() +"')");
+       JOptionPane.showMessageDialog(null,"Pertanyaan Keamanan Ditambahkan"); 
+       pertanyaan.setText("");
+       showSQ(CC,SQTable);
+   }
+   
+   public String sqClicked(Connection CC,JTable SQTable, JTextField pertanyaan,JButton Action){
+       int i = SQTable.getSelectedRow();
+       TableModel model = SQTable.getModel();
+       String question = model.getValueAt(i, 1).toString();
+       pertanyaan.setText(question);
+       Action.setText("Edit");
+       return model.getValueAt(i, 0).toString();
+   }
+   
+   public void editSQ(Connection CC,JTable SQTable, JTextField pertanyaan,JButton Action,String sqId){
+       String query = "UPDATE securityQuestion SET sQuestion = '"+ pertanyaan.getText() +"' WHERE sqId = '"+ sqId +"'";
+        if(database.selectData(CC, "SELECT * FROM usersq WHERE sqId = '"+ sqId +"'", "UserId") != null){
+            int opsi = JOptionPane.showConfirmDialog(null, "Pertanyaan Ini Sedang Digunakan User, Tetap ubah pertanyaan?", "Penghapusan Data", JOptionPane.YES_NO_OPTION);
+            if (opsi == JOptionPane.YES_OPTION){
+                database.StartQuery(CC, query);
+            }else{
+                pertanyaan.setText("");
+                Action.setText("Simpan");
+                return;
+            }
+        }
+        database.StartQuery(CC, query);
+        JOptionPane.showMessageDialog(null, "Pertanyan keamanan berhasil Di Edit!");
+        pertanyaan.setText("");
+        Action.setText("Simpan");
+        showSQ(CC,SQTable);
+   }
+   
 }
     
     

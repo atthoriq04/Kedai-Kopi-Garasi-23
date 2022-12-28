@@ -52,4 +52,33 @@ public class SupplierFunc {
         showSupplier(CC,supplierTable);
         
     }
+    
+    public String dataClicked(JTable suplierTable,JTextField namaSuplier, JTextField noTelepon,JTextField Alamat,JButton processButton){
+        int i = suplierTable.getSelectedRow();
+       TableModel model = suplierTable.getModel();
+       String nama = model.getValueAt(i, 1).toString();
+       String telepon = model.getValueAt(i, 2).toString();
+       String alamat = model.getValueAt(i, 3).toString();
+       editInput(namaSuplier,noTelepon,Alamat,processButton,nama,telepon,alamat);
+       return model.getValueAt(i, 0).toString();
+    }
+    
+    public void editInput(JTextField namaSuplier, JTextField noTelepon,JTextField Alamat,JButton processButton,String nama,String telepon, String alamat){
+       namaSuplier.setText(nama);
+       noTelepon.setText(telepon);
+       Alamat.setText(alamat);
+       processButton.setText("Edit");
+    }
+    
+    public void editSupplier(Connection CC, JTextField namaSupplier , JTextField noTelepon, JTextField Alamat, JTable supplierTable,String id,JButton processButton){
+        String query = "UPDATE `supplier` SET `namaSuplier`='"+ namaSupplier.getText() +"',`noTelepon`='"+ noTelepon.getText() +"',`alamatSuplier`='"+ Alamat.getText() +"' WHERE `idSuplier`= "+id+" ";
+        database.StartQuery(CC, query);
+        namaSupplier.setText("");
+        noTelepon.setText("");
+        Alamat.setText("");
+        processButton.setText("Simpan");
+        showSupplier(CC,supplierTable);
+        JOptionPane.showMessageDialog(null, "Data Menu Berhasil Di Edit");
+    }
+    
 }

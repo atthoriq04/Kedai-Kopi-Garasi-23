@@ -89,7 +89,7 @@ public class MenuFunc {
         NamaMenu.setText("");
         harga.setText("");
         combo.setSelectedIndex(0);
-        //Add Reset J Button
+        processButton.setText("Simpan");
         showMenu(CC,menuTable);
         JOptionPane.showMessageDialog(null, "Data Menu Berhasil Di Edit");
     }
@@ -105,17 +105,73 @@ public class MenuFunc {
         ArrayList<HashMap<String,String>> Datas = database.selectAll(CC, Needed, Query);
         gui.showTabel(CC, titles, Needed, Datas, kategoriMenuTable);
     }
+     public void addCategory(Connection CC, JTextField kategori,JTable kategoriStokTable){
+        database.StartQuery(CC, "INSERT INTO `menucategory`(`KategoriMenu`) VALUES ('"+kategori.getText()+"')");
+        kategori.setText("");
+        JOptionPane.showMessageDialog(null, "Kategori Baru berhasil ditambahkan");
+        showKategoriMenu(CC,kategoriStokTable);
+    }
     
-    public void showRecipe(Connection CC, JTable table, JLabel menuLabel, int menuId){
+    public String categoryClicked(JTable kategoriStokTable,JTextField kategori,JButton Action){
+        int i = kategoriStokTable.getSelectedRow();
+       TableModel model = kategoriStokTable.getModel();
+       String nama = model.getValueAt(i, 1).toString();
+       kategori.setText(nama);
+       Action.setText("Edit");
+       
+       return model.getValueAt(i, 0).toString();
+        
+    }
+    
+    public void EditCategory(Connection CC, JTextField kategori,JTable kategoriStokTable,JButton Action, String id){
+        database.StartQuery(CC,"UPDATE menucategory SET kategoriMenu = '"+ kategori.getText() +"' WHERE idKategori = '"+id+"'");
+        kategori.setText("");
+        Action.setText("Simpan");
+        JOptionPane.showMessageDialog(null, "Kategori Berhasil Di Edit");
+        showKategoriMenu(CC,kategoriStokTable);
+    }
+    public String searchId(Connection CC,String Menu){
+        return database.selectData(CC, "SELECT * FROM menu Where Menu = '"+Menu+"'", "idMenu");
+        
+    }
+    public void showRecipe(Connection CC, JTable table, JLabel menuLabel, String menuId){
          Object[] titles={
-            "Id","Bahan Baku","Jumlah","Satuan"
+            "Id","kode Barang","Bahan Baku","Jumlah Dibutuhkan","jumlah Terseida","Satuan"
         };
         String[] needed = {
-            "id","namaBarang","Jumlah","Status"
+            "id","","idInventory","dibutuhkan","jumlah","Satuan"
         };
-        String Query = "SELECT * FROM menu INNER JOIN menucategory ON menu.idKategori = menucategory.idKategori WHERE Active= 1 ORDER BY menu.idKategori ASC";
+        String Query = "SELECT * FROM resep INNER JOIN menu ON resep.idMenu = menu.idMenu INNER JOIN inventory ON resep.idInventory = inventory.idInventory INNER JOIN inventorycategory ON inventory.idKategori = inventorycategory.idKategori   WHERE resep.idMenu = '"+ menuId +"'";
         gui.showTabel(CC, titles, needed, database.selectAll(CC, needed, Query), table);
         String query2 = "Select * FROM menu WHERE idMenu = '"+ menuId+"' LIMIT 1";
         gui.changeLabel(menuLabel, database.selectData(CC, query2, "Menu"));
     }
+    
+    public void addRecipe(Connection CC, JTable table, JTextField jumlahDigunakan ,JComboBox stockCombo,JLabel menuLabel, String menuId){
+        String idInven = database.selectData(CC, "SELECT * FROM inventory WHERE NamaBarang = '"+ stockCombo.getSelectedItem() +"'", "idInventory") ;
+        if(idInven != null){
+            String query = "INSERT INTO `resep`( `idMenu`, `idInventory`, `dibutuhkan`) VALUES ('"+ menuId +"','"+ idInven +"','"+ jumlahDigunakan.getText() +"')";
+            database.StartQuery(CC, query);
+            JOptionPane.showMessageDialog(null, "Resep Ditambahkan");
+        }
+        jumlahDigunakan.setText("");
+        showRecipe(CC, table,menuLabel,menuId);
+    }
+    
+    public void deleteRecipe(Connection CC,JTable recipeTable,JLabel menuLabel, String menuId){
+        int opsi = JOptionPane.showConfirmDialog(null, "Benarkah anda ingin menghapus data ini ?", "Penghapusan Data", JOptionPane.YES_NO_OPTION);
+        if (opsi == JOptionPane.YES_OPTION){
+           int i = recipeTable.getSelectedRow();
+           TableModel model = recipeTable.getModel();
+           database.StartQuery(CC, "DELETE FROM resep WHERE id = '"+ model.getValueAt(i, 0).toString() +"'");
+           showRecipe(CC, recipeTable,menuLabel,menuId);
+        }
+    }
+    
+    public void showMenuCombo(Connection CC,JComboBox menu,String kategori){
+        String Query = "SELECT * FROM menu INNER JOIN menucategory ON menu.idKategori = menucategory.idKategori INNER JOIN resep ON resep.idMenu = menu.idMenu WHERE menucategory.KategoriMenu = '"+kategori+"'";
+        ArrayList<String> Datas =  database.selectRowofColumn(CC, Query, "Menu");
+        gui.showComboBox(Datas, menu);
+    }
+    
 }
