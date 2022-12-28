@@ -97,7 +97,11 @@ public class GUIFunc {
         }
     }
     
-    public void buttonchange(customButton Button,Color a, Color b, Color c, Color d, int Radius){
-
+    public void buttonchange(customButton Button,Color color, Color over, Color click, int Radius){
+        Button.setColor(color);
+        Button.setColorOver(over);
+        Button.setColorClick(click);
+        Button.setBorderColor(over);
+        Button.setRadius(Radius);
     }
 }

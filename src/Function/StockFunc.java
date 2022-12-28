@@ -29,6 +29,7 @@ import javax.swing.table.TableModel;
 public class StockFunc {
     public DefaultTableModel tmdl;
     SQLFunc database = new SQLFunc();
+    TransactionFunc transaction = new TransactionFunc();
     GUIFunc gui = new GUIFunc();
     public void ShowStock(Connection CC, JTable stockTable){
         Object[] titles={
@@ -90,7 +91,7 @@ public class StockFunc {
         JOptionPane.showMessageDialog(null, "Bahan Baku Diupdate");
     }
     
-    public void setResetStore(JTable restockTable){
+    public void setResetTitle(JTable restockTable){
         Object[] titles={
             "Id","Nama Barang","Jumlah",
         };        
@@ -113,26 +114,34 @@ public class StockFunc {
         jumlahRestok.setText("1");
     }
     
-    public void restock(Connection CC ,JTable table){
-        TableModel model = table.getModel();
-        int row = model.getRowCount();
-        ArrayList<Integer> id = new ArrayList<>();
-        ArrayList<Integer> jumlah = new ArrayList<>();
-        for(int i = 0; i<row;i++){
-            id.add(Integer.parseInt(model.getValueAt(i, 0).toString()));
-            jumlah.add(Integer.parseInt(model.getValueAt(i, 2).toString()));
-            String Query = "INSERT INTO `restok`(`idInventory`, `jumlah`)VALUES('"+model.getValueAt(i, 0).toString()+"','"+model.getValueAt(i, 2).toString()+"')";
-            database.StartQuery(CC, Query);
+    public void deleteFromStore(JTable restockTable){
+        int opsi = JOptionPane.showConfirmDialog(null, "Benarkah anda ingin menghapus data ini ?", "Penghapusan Data", JOptionPane.YES_NO_OPTION);
+        if (opsi == JOptionPane.YES_OPTION){
+           int i = restockTable.getSelectedRow();
+           DefaultTableModel model = (DefaultTableModel) restockTable.getModel();
+           model.removeRow(i);
+           
         }
-        JOptionPane.showMessageDialog(table, "Data Restok Ditambahkan");
-        UpdateStockCount(CC,id,jumlah);
     }
     
-    public void UpdateStockCount(Connection CC,ArrayList ids,ArrayList jumlah){
-        for(int i = 0; i<ids.size();i++){
-            String Query = "UPDATE inventory SET  jumlah = jumlah + "+ jumlah.get(i) +" WHERE idInventory = "+ids.get(i)+"";
-            database.StartQuery(CC, Query);
+    public void updateStockTotal(Connection CC ,JTable table){
+        TableModel model = table.getModel();
+        int row = model.getRowCount();
+        if(row > 0){
+            ArrayList<Integer> id = new ArrayList<>();
+            ArrayList<Integer> jumlah = new ArrayList<>();
+            for(int i = 0; i<row;i++){
+                id.add(Integer.parseInt(model.getValueAt(i, 0).toString()));
+                jumlah.add(Integer.parseInt(model.getValueAt(i, 2).toString()));
+                String Query = "UPDATE inventory SET  jumlah = jumlah + "+ model.getValueAt(i, 2).toString() +" WHERE idInventory = "+model.getValueAt(i, 0).toString()+"";               
+                database.StartQuery(CC, Query);
+            }
+            JOptionPane.showMessageDialog(table, "Jumlah Stok berhasil ditambahkan");
+            transaction.Restok(CC, id, jumlah);
+        }else{
+            JOptionPane.showMessageDialog(null, "Tidak Ada data untuk ditambahkan, Silahkan Masukkan Data");
         }
-        JOptionPane.showMessageDialog(null, "Jumlah Bahan Baku berhasil ditambahkan");
     }
+    
+    
 }

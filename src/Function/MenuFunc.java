@@ -52,7 +52,7 @@ public class MenuFunc {
         gui.showComboBox(Datas, combo);
     }
     
-    public void AddMenu(Connection CC,JTextField NamaMenu, JTextField harga, JComboBox combo,JTable menuTable){
+    public void addMenu(Connection CC,JTextField NamaMenu, JTextField harga, JComboBox combo,JTable menuTable){
         String Query = "INSERT INTO menu(`idKategori`, `Menu`, `Harga`) VALUES ('"+ combo.getSelectedIndex() +"','"+ NamaMenu.getText() +"','"+ harga.getText() +"')";
         database.StartQuery(CC, Query);
         NamaMenu.setText("");
