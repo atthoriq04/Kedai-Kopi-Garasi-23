@@ -11,7 +11,7 @@ import Function.UserFunc;
 import Function.StockFunc;
 import Function.MenuFunc;
 import Function.SupplierFunc;
-import java.awt.Color;
+import Function.UserSession;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +25,7 @@ import javax.swing.JPanel;
  * @author Atthoriq
  */
 
-public class Main extends javax.swing.JFrame {
+public final class Main extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
@@ -46,10 +46,28 @@ public class Main extends javax.swing.JFrame {
     String menuid, supplierId,stockId,sqId,settingsId;
     public Main() {
         initComponents();
-        GUI.showPanel(Backgrounds,Dashboard);
-        main.generateDashboard(CC, restockHistory);
+        userLogin();
+        if(main.init(CC, loginId, LoginName, restockHistory, welcomeSQ1, welcomeSQ2, namaUser, passwordError)){
+            active = main.selected(sidebar(), dashboardButton, sidelabel() ,dashboardLabel, 6);
+            GUI.switchPanel(Backgrounds, Dashboard);
+        }else{
+            GUI.reset(sidebar(), sidelabel());
+            GUI.switchPanel(Backgrounds, selectSQ);
+        }
         
     }
+    int loginId = UserSession.GetUserId();
+    String loginRole = UserSession.getDefaultKelas();
+    String LoginName = UserSession.getUserLogin();
+    private void userLogin(){
+        loginName.setText(UserSession.getUserLogin());
+        loginName.setHorizontalAlignment(JLabel.CENTER);
+        String user=loginName.getText();
+        
+        if(user.equals(3) || user.equals(3)){      
+        }
+    }
+    
     public JPanel[] sidebar(){
         JPanel[]sidebars = {dashboardButton,transaksiButton,restokButton,dataMenuButton,dataStokButton,dataSupplierButton,dataRestokButton,dataPenjualanButton,userProfilButton,userDataButton,PengaturanButton,laporanButton,logOutButton};
         return sidebars;
@@ -80,6 +98,7 @@ public class Main extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         toBlibli = new javax.swing.JLabel();
+        loginName = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
         jLabel74 = new javax.swing.JLabel();
@@ -118,14 +137,14 @@ public class Main extends javax.swing.JFrame {
         penjelasan1 = new javax.swing.JLabel();
         penjelasan2 = new javax.swing.JLabel();
         penjelasan3 = new javax.swing.JLabel();
-        penjelasan4 = new javax.swing.JLabel();
+        passwordError = new javax.swing.JLabel();
         penjelasan5 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
         customButton2 = new customGUI.customButton();
         penjelasan6 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        welcomeSQ1 = new javax.swing.JComboBox<>();
+        welcomeSQ2 = new javax.swing.JComboBox<>();
         penjelasan8 = new javax.swing.JLabel();
         penjelasan9 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
@@ -267,7 +286,7 @@ public class Main extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
-        password = new javax.swing.JTextField();
+        namaLogin = new javax.swing.JTextField();
         role = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -278,12 +297,12 @@ public class Main extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        username6 = new javax.swing.JTextField();
+        sq2 = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
-        username7 = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        sq1 = new javax.swing.JTextField();
+        sqcombo1 = new javax.swing.JComboBox<>();
+        sqcombo2 = new javax.swing.JComboBox<>();
+        profileSimpan = new customGUI.customButton();
         Data_Restok = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
@@ -361,6 +380,10 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        loginName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        loginName.setForeground(new java.awt.Color(204, 204, 204));
+        loginName.setText("Main");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -369,13 +392,16 @@ public class Main extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(toBlibli, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(loginName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(toBlibli)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loginName)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jLabel45.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -735,7 +761,7 @@ public class Main extends javax.swing.JFrame {
                 .addComponent(laporanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(logOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 650));
@@ -768,25 +794,21 @@ public class Main extends javax.swing.JFrame {
         penjelasan3.setForeground(new java.awt.Color(228, 228, 228));
         penjelasan3.setText("Ulangi Password");
 
-        penjelasan4.setForeground(new java.awt.Color(255, 51, 102));
-        penjelasan4.setText("errorr");
+        passwordError.setForeground(new java.awt.Color(255, 51, 102));
+        passwordError.setText("errorr");
 
         penjelasan5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         penjelasan5.setForeground(new java.awt.Color(228, 228, 228));
         penjelasan5.setText("Perkuat Keamanan Akun Anda");
-
-        jTextField7.setText("jTextField2");
-
-        jTextField9.setText("jTextField2");
 
         customButton2.setText("Simpan");
 
         penjelasan6.setForeground(new java.awt.Color(228, 228, 228));
         penjelasan6.setText("Masukkan Nomor Keamanan Anda");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pilih Pertanyaan 1", " " }));
+        welcomeSQ1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pilih Pertanyaan 1", " " }));
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Pertanyaan 2" }));
+        welcomeSQ2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Pertanyaan 2" }));
 
         penjelasan8.setForeground(new java.awt.Color(228, 228, 228));
         penjelasan8.setText("Pilih Pertanyaan Keamanan Anda");
@@ -813,29 +835,26 @@ public class Main extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(namaUser, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(penjelasan1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(penjelasan4, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(penjelasan5, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(customPanel1Layout.createSequentialGroup()
-                                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(welcomeSQ2, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(41, 41, 41)
                                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(penjelasan6, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, customPanel1Layout.createSequentialGroup()
+                                    .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(welcomeSQ1, 0, 368, Short.MAX_VALUE)
+                                            .addComponent(jPasswordField2)
+                                            .addComponent(penjelasan8, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(penjelasan2, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(41, 41, 41)
                                     .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addGroup(customPanel1Layout.createSequentialGroup()
-                                            .addComponent(penjelasan2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(226, 226, 226))
-                                        .addGroup(customPanel1Layout.createSequentialGroup()
-                                            .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(penjelasan8, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jPasswordField2))
-                                            .addGap(41, 41, 41)))
-                                    .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(penjelasan3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jTextField7, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
-                                        .addComponent(penjelasan9, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jPasswordField1))))
+                                        .addComponent(jPasswordField1)
+                                        .addComponent(penjelasan3, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(penjelasan9, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(passwordError, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPasswordField3, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 131, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -860,7 +879,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(penjelasan4)
+                .addComponent(passwordError)
                 .addGap(38, 38, 38)
                 .addComponent(penjelasan5)
                 .addGap(26, 26, 26)
@@ -874,11 +893,11 @@ public class Main extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(welcomeSQ1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(welcomeSQ2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(customButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -2414,10 +2433,11 @@ public class Main extends javax.swing.JFrame {
 
         User_Profile.setBackground(new java.awt.Color(48, 48, 48));
 
-        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBackground(new java.awt.Color(48, 48, 48));
         jPanel9.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(228, 228, 228));
         jLabel19.setText("Profil User");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -2481,11 +2501,11 @@ public class Main extends javax.swing.JFrame {
 
         jButton7.setText("edit");
 
-        jButton8.setText("Simpan");
+        sqcombo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        sqcombo2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        profileSimpan.setText("Simpan");
 
         javax.swing.GroupLayout User_ProfileLayout = new javax.swing.GroupLayout(User_Profile);
         User_Profile.setLayout(User_ProfileLayout);
@@ -2509,7 +2529,7 @@ public class Main extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addComponent(jLabel23)
                         .addGap(155, 155, 155)
-                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(namaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(User_ProfileLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 1030, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2526,28 +2546,29 @@ public class Main extends javax.swing.JFrame {
                             .addComponent(jLabel26)))
                     .addGroup(User_ProfileLayout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel27)
-                            .addComponent(jLabel28)
-                            .addComponent(jLabel29))
-                        .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(User_ProfileLayout.createSequentialGroup()
-                                .addGap(106, 106, 106)
-                                .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton6)
-                                    .addComponent(jButton7))
-                                .addGap(435, 435, 435))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, User_ProfileLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(username7, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(username6, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(profileSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(User_ProfileLayout.createSequentialGroup()
+                                .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel27)
+                                    .addComponent(jLabel28)
+                                    .addComponent(jLabel29))
+                                .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(User_ProfileLayout.createSequentialGroup()
+                                        .addGap(106, 106, 106)
+                                        .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton6)
+                                            .addComponent(jButton7))
+                                        .addGap(435, 435, 435))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, User_ProfileLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(sqcombo1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(sqcombo2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                                .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(sq1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sq2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         User_ProfileLayout.setVerticalGroup(
@@ -2565,7 +2586,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(11, 11, 11)
                 .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel23)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(namaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(User_ProfileLayout.createSequentialGroup()
@@ -2588,17 +2609,17 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jButton7))
                 .addGap(41, 41, 41)
                 .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(username7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sq1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sqcombo1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel28)))
                 .addGap(18, 18, 18)
                 .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(username6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sq2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sqcombo2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel29))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addComponent(profileSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -3458,6 +3479,7 @@ public class Main extends javax.swing.JFrame {
     private void userProfilButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userProfilButtonMouseClicked
         active = main.selected(sidebar(), userProfilButton, sidelabel() ,profilLabel, 9);
         GUI.switchPanel(Backgrounds, User_Profile);
+        main.generateProfile(CC, loginId, username, namaLogin, role,sqcombo1,sqcombo2,sq1,sq2, profileSimpan);
     }//GEN-LAST:event_userProfilButtonMouseClicked
 
     private void userDataButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userDataButtonMouseClicked
@@ -3897,12 +3919,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -4007,6 +4024,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel laporanLabel;
     private customGUI.customPanel logOutButton;
     private javax.swing.JLabel logOutLabel;
+    private javax.swing.JLabel loginName;
     private javax.swing.JComboBox<String> menuCombo;
     private javax.swing.JLabel menuLabel;
     private javax.swing.JButton minus;
@@ -4014,6 +4032,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel namaKategori;
     private javax.swing.JLabel namaKategori2;
     private javax.swing.JLabel namaKategori3;
+    private javax.swing.JTextField namaLogin;
     private javax.swing.JLabel namaMenu;
     private javax.swing.JLabel namaPengaturan;
     private javax.swing.JTextField namaSuplier;
@@ -4028,7 +4047,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel pPertanyaanButton;
     private javax.swing.JLabel pPertanyaanLabel;
     private javax.swing.JPanel panelPengaturan;
-    private javax.swing.JTextField password;
+    private javax.swing.JLabel passwordError;
     private javax.swing.JRadioButton patRestok;
     private javax.swing.JRadioButton patokan;
     private javax.swing.JTextField patokanRestok;
@@ -4039,7 +4058,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel penjelasan1;
     private javax.swing.JLabel penjelasan2;
     private javax.swing.JLabel penjelasan3;
-    private javax.swing.JLabel penjelasan4;
     private javax.swing.JLabel penjelasan5;
     private javax.swing.JLabel penjelasan6;
     private javax.swing.JLabel penjelasan8;
@@ -4052,6 +4070,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> pilihKategori;
     private javax.swing.JButton plus;
     private javax.swing.JLabel profilLabel;
+    private customGUI.customButton profileSimpan;
     private javax.swing.JTextField question;
     private customGUI.customButton resepAction;
     private javax.swing.JPanel resepMenu;
@@ -4070,9 +4089,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel selectSQ;
     private javax.swing.JComboBox<String> showStock;
     private customGUI.customButton simpanDataKeluaran;
+    private javax.swing.JTextField sq1;
+    private javax.swing.JTextField sq2;
     private customGUI.customButton sqAction;
     private javax.swing.JScrollPane sqScroll;
     private customGUI.TableDark sqTable;
+    private javax.swing.JComboBox<String> sqcombo1;
+    private javax.swing.JComboBox<String> sqcombo2;
     private javax.swing.JLabel stokLabel;
     private javax.swing.JLabel suplierLabel;
     private javax.swing.JPanel supplierEditable;
@@ -4089,7 +4112,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane userScroll;
     private customGUI.TableDark userTable;
     private javax.swing.JTextField username;
-    private javax.swing.JTextField username6;
-    private javax.swing.JTextField username7;
+    private javax.swing.JComboBox<String> welcomeSQ1;
+    private javax.swing.JComboBox<String> welcomeSQ2;
     // End of variables declaration//GEN-END:variables
 }

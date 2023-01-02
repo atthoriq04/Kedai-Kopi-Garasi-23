@@ -36,6 +36,20 @@ public class MainFunc {
        gui.hoverIn(panel, label);
        return active;
     }
+    public Boolean init(Connection CC, int loginId, String loginName,JTable table,JComboBox sq1,JComboBox sq2,JLabel nama,JLabel error){
+        if(database.validate(CC, "SELECT * FROM usersq WHERE usersq.UserId = "+loginId)){
+             generateDashboard(CC,table);
+             return true;
+        }
+        generateWelcome(CC,loginId,loginName,sq1,sq2,nama,error);
+        return false;
+    }
+    public void generateWelcome(Connection CC, int loginId, String loginName,JComboBox sq1,JComboBox sq2,JLabel nama,JLabel error){
+        nama.setText(loginName);
+        error.setVisible(false);
+        gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq1);
+        gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq2);
+    }
     public void generateDashboard(Connection CC, JTable table){
         generateRestockHistory(CC,table);
     }
@@ -114,6 +128,15 @@ public class MainFunc {
         menuCombo.addItem("Pilih Menu");
         gui.buttonchange(simpan, new Color(42,52,62), new Color(87,124,255), new Color(87,124,255), 10);
         bahanPanel.setVisible(false);
+    }
+    public void generateProfile(Connection CC,int loginId,JTextField username,JTextField nama,JLabel role,JComboBox sq1,JComboBox sq2,JTextField ans1,JTextField ans2,customButton simpan){
+        gui.buttonchange(simpan, new Color(42,52,62), new Color(87,124,255), new Color(87,124,255), 10);
+        user.showProfile(CC, loginId, username, nama, role);
+        sq1.removeAllItems();
+        sq2.removeAllItems();
+        gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq1);
+        gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq2);
+        user.showLoginSQData(CC, loginId, sq1, sq2, ans1, ans2);
     }
     
     public void checking(Connection CC, JTable table,JTextField jumlahTerjual,String id,int UserId){

@@ -95,4 +95,17 @@ public class SQLFunc {
         }
         return null;
     }
+    
+    public Boolean validate(Connection CC,String query){
+        try{
+            Statement stat = CC.createStatement();
+            ResultSet rs = stat.executeQuery(query);
+            if(rs.next()){
+               return true;
+            }
+        }catch(Exception E){
+            E.printStackTrace();
+        }
+        return false;
+    }
 }

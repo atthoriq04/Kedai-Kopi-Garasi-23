@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Function;
-
+import Main.Main;
 import Connection.koneksi;
 import javax.swing.JFrame;
 import java.sql.Connection;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,7 +35,9 @@ public class UserFunc  {
     public Statement stt;
     SQLFunc database = new SQLFunc();
     GUIFunc gui = new GUIFunc();
-    public void login(String Username, String Password, JFrame frame1, JFrame frame2, JLabel validUs, JLabel validPass){
+    
+    
+    public void login(String Username, String Password,  JFrame frame2, JLabel validUs, JLabel validPass){
        try {
             validUs.setVisible(false);
             validPass.setVisible(false);
@@ -46,8 +49,11 @@ public class UserFunc  {
                 String checkpw = "SELECT * FROM user WHERE Username = '"+user+"' AND password = SHA2('"+Password+"',224)";
                 ResultSet rz = stat.executeQuery(checkpw);
                 if(rz.next()){
-                    int role = rz.getInt("role");
-                    frame1.setVisible(true);
+                    UserSession.setUserLogin(rz.getString("username"));
+                    UserSession.setUserId(rz.getInt("id"));
+                    UserSession.setDefaultKelas(rz.getString("idRole"));
+                    Main a = new Main();
+                    a.setVisible(true);
                     frame2.dispose();
                 }else{
                     validPass.setVisible(true);
@@ -255,7 +261,21 @@ public class UserFunc  {
         Action.setText("Simpan");
         showSQ(CC,SQTable);
    }
-   
+   public void showProfile(Connection CC, int loginId,JTextField username,JTextField nama,JLabel role ){
+       String[] dataWanted = {"Nama","username","role.role"};
+       HashMap<String,String> data = database.selectColumn(CC, "SELECT * FROM `user` INNER JOIN role ON role.idrole = user.idRole WHERE id = "+ loginId +" ", dataWanted);
+       username.setText(data.get("username"));
+       nama.setText(data.get("Nama"));
+       role.setText(data.get("role.role"));
+   }
+   public void showLoginSQData(Connection CC, int loginId,JComboBox sq1,JComboBox sq2,JTextField ans1,JTextField ans2){
+       String[] dataWanted = {"sQuestion","Answer"};
+       ArrayList<HashMap<String,String>> datas = database.selectAll(CC, dataWanted, "SELECT * FROM usersq INNER JOIN user ON usersq.UserId = user.id INNER JOIN securityquestion ON usersq.sqId = securityquestion.sqId WHERE user.id = '"+ loginId +"' ORDER BY usersq.Id ASC");
+       sq1.setSelectedItem(datas.get(1).get("sQuestion"));
+       sq2.setSelectedItem(datas.get(2).get("sQuestion"));
+       ans1.setText(datas.get(1).get("Answer"));
+       ans2.setText(datas.get(2).get("Answer"));
+   }
 }
     
     

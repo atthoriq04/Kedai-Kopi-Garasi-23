@@ -6,6 +6,7 @@ package Main;
 import Function.GUIFunc;
 import Function.UserFunc;
 import javax.swing.JLabel;
+import Function.UserSession;
  /*
  *
  * @author Atthoriq
@@ -17,6 +18,7 @@ public class Logins extends javax.swing.JFrame {
      */
     GUIFunc GUI = new GUIFunc();
     UserFunc usf = new UserFunc();
+    UserSession session = new UserSession();
     int id;
     public Logins() {
         initComponents();
@@ -363,8 +365,8 @@ public class Logins extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Main a = new Main();
-        usf.login(us.getText(), pw.getText(), a, this, usernameValid, passwordValid);
+
+        usf.login(us.getText(), pw.getText(), this, usernameValid, passwordValid);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void sqUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sqUsernameActionPerformed
