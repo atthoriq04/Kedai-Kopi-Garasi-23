@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -36,19 +37,20 @@ public class MainFunc {
        gui.hoverIn(panel, label);
        return active;
     }
-    public Boolean init(Connection CC, int loginId, String loginName,JTable table,JComboBox sq1,JComboBox sq2,JLabel nama,JLabel error){
+    public Boolean init(Connection CC, int loginId, String loginName,JTable table,JComboBox sq1,JComboBox sq2,JLabel nama,JLabel error,customButton button){
         if(database.validate(CC, "SELECT * FROM usersq WHERE usersq.UserId = "+loginId)){
              generateDashboard(CC,table);
              return true;
         }
-        generateWelcome(CC,loginId,loginName,sq1,sq2,nama,error);
+        generateWelcome(CC,loginId,loginName,sq1,sq2,nama,error,button);
         return false;
     }
-    public void generateWelcome(Connection CC, int loginId, String loginName,JComboBox sq1,JComboBox sq2,JLabel nama,JLabel error){
+    public void generateWelcome(Connection CC, int loginId, String loginName,JComboBox sq1,JComboBox sq2,JLabel nama,JLabel error,customButton button){
         nama.setText(loginName);
         error.setVisible(false);
         gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq1);
         gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq2);
+        gui.buttonchange(button, new Color(48,48,48), new Color(87,124,255), new Color(87,124,255), 10);
     }
     public void generateDashboard(Connection CC, JTable table){
         generateRestockHistory(CC,table);
@@ -137,6 +139,90 @@ public class MainFunc {
         gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq1);
         gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq2);
         user.showLoginSQData(CC, loginId, sq1, sq2, ans1, ans2);
+    }
+    
+    public void upProfilePage(Connection CC, int loginId,JComboBox sq1,JComboBox sq2,JTextField ans1, JTextField ans2,JTextField username,JTextField name,JLabel role){
+        if(checkSQ(sq1,sq2)){
+            user.updateUserProfile(CC, loginId, username.getText(), name.getText());
+            user.setUserSQ(CC, sq1, sq2, ans1, ans2, null, loginId, false);
+            JOptionPane.showMessageDialog(null, "Data Berhasil Diubah");
+            user.showProfile(CC, loginId, username, name, role);
+            user.showLoginSQData(CC, loginId, sq1, sq2, ans1, ans2);
+        }else{
+            JOptionPane.showMessageDialog(null, "Harap Memilih pertanyaan yang berbeda");
+        }
+    }
+    
+    public void checkPassowrd(Connection CC,int loginId){
+        JPasswordField pass = new JPasswordField(10);
+        String[] options = new String[]{"Batal", "OK"};
+        int option = JOptionPane.showOptionDialog(null, pass, "Masukan Password Anda", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+        if(option == 1) // pressing OK button
+        {
+            if(database.validate(CC, "SELECT * FROM user WHERE id = '"+loginId+"' AND password = SHA2('"+pass.getText()+"',224)")){
+                JPasswordField pass1 = new JPasswordField(10);
+                int pw1 = JOptionPane.showOptionDialog(null, pass1, "Masukan Password Baru Anda", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+                if(pw1 == 1){
+                    JPasswordField pass2 = new JPasswordField(10);
+                    int pw2 = JOptionPane.showOptionDialog(null, pass2, "Masukan Kembali Password Baru Anda", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+                    if(pw2 == 1){
+                        if(pass1.getText().equals(pass2.getText())){
+                            user.updateUserPassword(CC, loginId, pass2.getText());
+                            System.out.print(pass2.getText());
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Password Tidak Sama!");
+                        }
+                    }
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Password Anda Salah");
+            }
+        }
+    }
+    
+    public void checkSCode(Connection CC,int loginId){
+        JPasswordField pass = new JPasswordField(10);
+        String[] options = new String[]{"Batal", "OK"};
+        int option = JOptionPane.showOptionDialog(null, pass, "Masukan 5 Kode Keamanan Anda", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+        if(option == 1) // pressing OK buttonSELECT * FROM user WHERE id = '"+loginId+"' AND password = SHA2('"+pass.getText()+"',224)
+        {
+            if(database.validate(CC, "SELECT * FROM usersq WHERE userId = '"+loginId+"' AND sqid = 1 AND Answer = SHA2('"+pass.getText()+"',224)")){
+                JPasswordField pass1 = new JPasswordField(10);
+                int pw1 = JOptionPane.showOptionDialog(null, pass1, "Masukan Kode Keamanan Baru", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+                if(pw1 == 1){
+                    JPasswordField pass2 = new JPasswordField(10);
+                    int pw2 = JOptionPane.showOptionDialog(null, pass2, "Masukan Kembali Kode Keamanan baru", JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+                    if(pw2 == 1){
+                        if(pass1.getText().equals(pass2.getText())){
+                            user.updateSCode(CC, loginId, pass2.getText());
+                            JOptionPane.showMessageDialog(null, "Kode Keamanan dirubah");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Kode Keamanan Tidak Sama");
+                        }
+                    }
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Kode Keamanan Anda Salah");
+            }
+        }
+    }
+    
+    public Boolean checkInit(Connection CC, int loginId,JComboBox sq1,JComboBox sq2,JPasswordField pw1 , JPasswordField pw2,JPasswordField kode , JTextField ans1, JTextField ans2,JLabel error){
+        if(pw1.getText().equals(pw2.getText())){
+            if(checkSQ(sq1,sq2)){
+                user.updateUserPassword(CC, loginId, pw1.getText());
+                user.setUserSQ(CC, sq1, sq2, ans1, ans2, kode.getText(), loginId, true);
+                return true;
+            }
+            JOptionPane.showMessageDialog(null, "Harap Memilih pertanyaan yang berbeda");
+            return false;
+        }
+        error.setText("Kedua Password tidak Sama!");
+        return false;
+    }
+    
+    public Boolean checkSQ(JComboBox sq1,JComboBox sq2){
+        return sq1.getSelectedIndex() != sq2.getSelectedIndex();
     }
     
     public void checking(Connection CC, JTable table,JTextField jumlahTerjual,String id,int UserId){

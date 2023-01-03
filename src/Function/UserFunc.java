@@ -276,6 +276,41 @@ public class UserFunc  {
        ans1.setText(datas.get(1).get("Answer"));
        ans2.setText(datas.get(2).get("Answer"));
    }
+   
+   public void updateUserPassword(Connection CC, int id, String pw){
+       database.StartQuery(CC, "UPDATE user SET password = SHA2('"+ pw +"',224) WHERE id ='"+ id + "' ");
+       JOptionPane.showMessageDialog(null, "Password Berhasil Diubah");
+   }
+   
+   public void updateSCode(Connection CC, int id, String sCode){
+       database.StartQuery(CC, "UPDATE userSQ SET Answer = SHA2('"+ sCode +"',224) WHERE UserId ='"+ id + "' AND sqId = 1 ");
+   }
+   
+   public void updateUserProfile(Connection CC,int id, String username,String name){
+       database.StartQuery(CC, "UPDATE user SET username = '"+ username +"',Nama= '"+ name +"' WHERE id ='"+ id + "' ");
+   }
+   
+   public void setUserSQ(Connection CC,JComboBox sq1,JComboBox sq2,JTextField ans1,JTextField ans2,String kode,int id,Boolean isNew){
+       if(isNew){
+          int[] questions = { 1 ,sq1.getSelectedIndex()+1,sq2.getSelectedIndex()+1};
+          String[] answer = {kode,ans1.getText(),ans2.getText()};
+          for(int i = 0 ; i<questions.length;i++){
+              if(i == 0){
+                database.StartQuery(CC, "INSERT INTO `usersq`( `UserId`, `sqId`, `Answer`) VALUES ('"+id+"','"+questions[i]+"',SHA2('"+answer[i]+"',224))");
+              }else{
+                database.StartQuery(CC, "INSERT INTO `usersq`( `UserId`, `sqId`, `Answer`) VALUES ('"+id+"','"+questions[i]+"','"+answer[i]+"')");
+              }
+          }
+       }else{
+          String[] needed ={ "id", "sqId" }; 
+          int[] questions = {sq1.getSelectedIndex()+2,sq2.getSelectedIndex()+2};
+          String[] answer = {ans1.getText(),ans2.getText()};
+          ArrayList<HashMap<String,String>> data = database.selectAll(CC, needed, "SELECT * FROM usersq WHere`UserId` ='"+id+"'");
+          for(int i = 0 ; i<questions.length;i++){
+            database.StartQuery(CC, "UPDATE `usersq` SET `sqId`= '"+questions[i]+"',`Answer`= '"+answer[i]+"' WHERE `id` ='"+data.get(i+1).get("id")+"'");
+          }
+       }
+   }
 }
     
     
