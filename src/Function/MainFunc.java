@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,9 +38,8 @@ public class MainFunc {
        gui.hoverIn(panel, label);
        return active;
     }
-    public Boolean init(Connection CC, int loginId, String loginName,JTable table,JComboBox sq1,JComboBox sq2,JLabel nama,JLabel error,customButton button){
+    public Boolean init(Connection CC, int loginId, String loginName,JComboBox sq1,JComboBox sq2,JLabel nama,JLabel error,customButton button){
         if(database.validate(CC, "SELECT * FROM usersq WHERE usersq.UserId = "+loginId)){
-             generateDashboard(CC,table);
              return true;
         }
         generateWelcome(CC,loginId,loginName,sq1,sq2,nama,error,button);
@@ -52,15 +52,23 @@ public class MainFunc {
         gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq2);
         gui.buttonchange(button, new Color(48,48,48), new Color(87,124,255), new Color(87,124,255), 10);
     }
-    public void generateDashboard(Connection CC, JTable table){
+    public void generateDashboard(Connection CC, JTable table,JTable reco,JLabel nominalPesanan,JLabel favMenu,JLabel nominalUang,JLabel tanggal){
         generateRestockHistory(CC,table);
+        stock.showRestockRecommend(CC, reco);
+        nominalPesanan.setText(database.selectData(CC, "SELECT COUNT(idPenjualan) FROM penjualan WHERE tanggal >= CURDATE()", "COUNT(idPenjualan)"));
+        favMenu.setText(transaction.frequentMenu(CC));
+        nominalUang.setText(Integer.toString(transaction.calculateProfit(CC)));
+        tanggal.setText(java.time.LocalDate.now().toString());
     }
-    public void generateRestock(Connection CC,customButton button,customButton input ,JComboBox combo){
+    public void generateRestock(Connection CC,customButton button,customButton input ,JComboBox combo,JComboBox supCombo){
         gui.buttonchange(button, new Color(48,48,48), new Color(87,124,255), new Color(87,124,255), 10);
         gui.buttonchange(input, new Color(48,48,48), new Color(87,124,255), new Color(87,124,255), 10);
         combo.removeAllItems();
         combo.addItem("Pilih Barang yang akan di restok");
+        supCombo.removeAllItems();
+        supCombo.addItem("Pilih Supplier");
         stock.showStockCombo(CC, combo);
+        gui.showComboBox(database.selectRowofColumn(CC, "Select * FROM supplier", "namaSuplier"), supCombo);
     }
     public void generateMenu(Connection CC, JTable menuTable,JComboBox menuCategoryCombo, customButton save){
         menu.showMenu(CC, menuTable);
@@ -93,21 +101,13 @@ public class MainFunc {
         user.showSQ(CC, SQTable);
         gui.buttonchange(action, new Color(42,52,62), new Color(87,124,255), new Color(87,124,255), 10);
     }
-    public void generateCatSettings(Connection CC,JComboBox settings,JPanel panelPengaturan,JPanel kategoriCommand,JPanel formStock, JPanel formMenu,JLabel judul,JTable catSettingsTable,customButton cMenuAction,customButton cStockAction){
-        panelPengaturan.setVisible(false);
+    public void generateCatSettings(Connection CC,JPanel panelPengaturan,JPanel kategoriCommand, JPanel formMenu,JLabel judul,JTable catSettingsTable,customButton cMenuAction){
         gui.buttonchange(cMenuAction, new Color(42,52,62), new Color(87,124,255), new Color(87,124,255), 10);
-        gui.buttonchange(cStockAction, new Color(42,52,62), new Color(87,124,255), new Color(87,124,255), 10);
-        if(settings.getSelectedIndex() > 1){
-            panelPengaturan.setVisible(true);
-            gui.showPanel(kategoriCommand, formStock);
-            judul.setText("Bahan Baku");
-            stock.showCategoryStock(CC, catSettingsTable);
-        }else if(settings.getSelectedIndex() == 1){
-            panelPengaturan.setVisible(true);
-            gui.showPanel(kategoriCommand, formMenu);
-            judul.setText("Menu");
-            menu.showKategoriMenu(CC, catSettingsTable);
-        }
+        panelPengaturan.setVisible(true);
+        gui.showPanel(kategoriCommand, formMenu);
+        judul.setText("Menu");
+        menu.showKategoriMenu(CC, catSettingsTable);
+     
     }
     public void generateRecipe(Connection CC,JTable resepTabel,JLabel namamenu,JComboBox showStock,customButton Action,String menuID){
         menu.showRecipe(CC, resepTabel, namamenu, menuID);
@@ -131,6 +131,15 @@ public class MainFunc {
         gui.buttonchange(simpan, new Color(42,52,62), new Color(87,124,255), new Color(87,124,255), 10);
         bahanPanel.setVisible(false);
     }
+    public void generateTransHistory(Connection CC,JCheckBox sellToogle,JLabel transacLabel,JTable transHistoryTable){
+        if(sellToogle.isSelected() == true){
+            transacLabel.setText("Data Penjualan");
+            transaction.showPenjualanData(CC, transHistoryTable);
+            return;
+        }
+        transacLabel.setText("Data Pengeluaran Bahan Baku");
+        transaction.showPengeluaranData(CC, transHistoryTable);
+    }
     public void generateProfile(Connection CC,int loginId,JTextField username,JTextField nama,JLabel role,JComboBox sq1,JComboBox sq2,JTextField ans1,JTextField ans2,customButton simpan){
         gui.buttonchange(simpan, new Color(42,52,62), new Color(87,124,255), new Color(87,124,255), 10);
         user.showProfile(CC, loginId, username, nama, role);
@@ -152,6 +161,8 @@ public class MainFunc {
             JOptionPane.showMessageDialog(null, "Harap Memilih pertanyaan yang berbeda");
         }
     }
+    
+    
     
     public void checkPassowrd(Connection CC,int loginId){
         JPasswordField pass = new JPasswordField(10);
@@ -228,25 +239,27 @@ public class MainFunc {
     public void checking(Connection CC, JTable table,JTextField jumlahTerjual,String id,int UserId){
         TableModel model = table.getModel();
         int row = model.getRowCount();
-        ArrayList<Integer> idInventory = new ArrayList<>();
-        ArrayList<Integer> jumlah = new ArrayList<>();
-        ArrayList<String> ket = new ArrayList();
+        ArrayList<HashMap<String,String>> datas = new ArrayList();
         String idMenu = id;
         String harga = database.selectData(CC, "SELECT * FROM menu WHERE idMenu = '"+ id +"'", "harga");
         int pendapatan = Integer.parseInt(jumlahTerjual.getText()) * Integer.parseInt(harga);
-        
         for(int x = 0 ; x<row;x++){
-            idInventory.add(Integer.parseInt(model.getValueAt(x, 1).toString()));
-            jumlah.add(Integer.parseInt(model.getValueAt(x, 3).toString()) * Integer.parseInt(jumlahTerjual.getText()));
-            ket.add("Produksi");
+            HashMap<String,String> rowData = new HashMap();
+            rowData.put("id", model.getValueAt(x, 1).toString());
+            rowData.put("jumlah",Integer.toString(Integer.parseInt(model.getValueAt(x, 3).toString()) * Integer.parseInt(jumlahTerjual.getText())));
+            rowData.put("alasan","Produksi");
             if(Integer.parseInt(model.getValueAt(x, 4).toString())- (Integer.parseInt(model.getValueAt(x, 3).toString()) * Integer.parseInt(jumlahTerjual.getText()))< 1){
                 JOptionPane.showMessageDialog(null, "Bahan baku tidak mencukupi");
-                break;
+                return;
             }
+            datas.add(rowData);
         }
-        transaction.PengeluaranBukanPenjualan(CC, idInventory, jumlah, ket);
-        
+        stock.decreaseStock(CC, datas);
+        transaction.Pengeluaran(CC, datas, UserId);
+        transaction.Penjualan(CC, idMenu, pendapatan, jumlahTerjual.getText(), UserId);
     }    
+    
+    
     public void generateRestockHistory(Connection CC,JTable table){
         Object[] titles = {
             "no","Tanggal Restok", "Nama Barang","Jumlah","Satuan"

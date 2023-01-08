@@ -93,24 +93,27 @@ public class StockFunc {
     
     public void setResetTitle(JTable restockTable){
         Object[] titles={
-            "Id","Nama Barang","Jumlah",
+            "kode Barang","Nama Barang","Jumlah","kode Supplier","Supplier"
         };        
         gui.setTableTitle(titles, restockTable);
     }
     
-    public void inputResetStore(Connection CC,JTable restockTable,JComboBox combo,JTextField jumlahRestok,JRadioButton patokan ){
+    public void inputRestockStore(Connection CC,JTable restockTable,JComboBox combo,JComboBox supplier,JTextField jumlahRestok,JRadioButton patokan ){
         String Query = "SELECT * FROM inventory WHERE NamaBarang = '"+ combo.getSelectedItem() +"'";
         String[] dataWanted = {"idInventory","NamaBarang","patokanRestok"};
-        HashMap<String,String> data = database.selectColumn(CC, Query, dataWanted);
-        System.out.println();
-        int jumlah = (patokan.isSelected()) ? (Integer.parseInt(jumlahRestok.getText())* Integer.parseInt(data.get("patokanRestok"))) : Integer.parseInt(jumlahRestok.getText()); 
+        HashMap<String,String> dataStock = database.selectColumn(CC, Query, dataWanted);
+        HashMap<String,String> dataSupplier = database.selectColumn(CC, "SELECT * FROM supplier WHERE namaSuplier = '"+ supplier.getSelectedItem() +"'", new String [] {"idSuplier","namaSuplier"});
+        int jumlah = (patokan.isSelected()) ? (Integer.parseInt(jumlahRestok.getText())* Integer.parseInt(dataStock.get("patokanRestok"))) : Integer.parseInt(jumlahRestok.getText()); 
         Object[] rowData = {
-            data.get("idInventory"),
-            data.get("NamaBarang"),
+            dataStock.get("idInventory"),
+            dataStock.get("NamaBarang"),
             jumlah,
+            dataSupplier.get("idSuplier"),
+            dataSupplier.get("namaSuplier"),
         };
         gui.showTablerow(rowData);
         combo.setSelectedIndex(0);
+        supplier.setSelectedIndex(0);
         jumlahRestok.setText("1");
     }
     
@@ -124,65 +127,29 @@ public class StockFunc {
         }
     }
     
-    public void updateStockTotal(Connection CC ,JTable table){
+    public void updateStockTotal(Connection CC ,JTable table,int loginId){
         TableModel model = table.getModel();
         int row = model.getRowCount();
         DefaultTableModel Dmodel = (DefaultTableModel) table.getModel();
         if(row > 0){
+            ArrayList<HashMap<String,String>> datas = new ArrayList();
             ArrayList<Integer> id = new ArrayList<>();
             ArrayList<Integer> jumlah = new ArrayList<>();
             for(int i = 0; i<row;i++){
-                id.add(Integer.parseInt(model.getValueAt(i, 0).toString()));
-                jumlah.add(Integer.parseInt(model.getValueAt(i, 2).toString()));
+                HashMap<String,String> dataRow = new HashMap();
+                dataRow.put("id", model.getValueAt(i, 0).toString());
+                dataRow.put("idSupplier", model.getValueAt(i, 3).toString());
+                dataRow.put("jumlah", model.getValueAt(i, 2).toString());
                 String Query = "UPDATE inventory SET  jumlah = jumlah + "+ model.getValueAt(i, 2).toString() +" WHERE idInventory = "+model.getValueAt(i, 0).toString()+"";               
                 database.StartQuery(CC, Query);
-                Dmodel.removeRow(i);
+                datas.add(dataRow);
             }
+            Dmodel.setRowCount(0);
             JOptionPane.showMessageDialog(table, "Jumlah Stok berhasil ditambahkan");
-            transaction.Restok(CC, id, jumlah);
+            transaction.Restok(CC, datas,loginId);
         }else{
             JOptionPane.showMessageDialog(null, "Tidak Ada data untuk ditambahkan, Silahkan Masukkan Data");
         }
-    }
-    
-    public void showCategoryStock(Connection CC, JTable kategoriStokTable){
-        Object[] titles={
-            "Id","Kategori","Satuan"
-        };
-        String[] Needed = {
-            "idKategori","Kategori","Satuan"
-        };
-        String Query = "SELECT * FROM `inventorycategory`";
-        ArrayList<HashMap<String,String>> Datas = database.selectAll(CC, Needed, Query);
-        gui.showTabel(CC, titles, Needed, Datas, kategoriStokTable);
-    }
-    
-    public void addCategory(Connection CC, JTextField kategori, JTextField satuan,JTable kategoriStokTable){
-        database.StartQuery(CC, "INSERT INTO `inventorycategory`(`Kategori`, `Satuan`) VALUES ('"+kategori.getText()+"','"+satuan.getText()+"')");
-        kategori.setText("");satuan.setText("");
-        JOptionPane.showMessageDialog(null, "Kategori Baru berhasil ditambahkan");
-        showCategoryStock(CC,kategoriStokTable);
-    }
-    
-    public String categoryClicked(JTable kategoriStokTable,JTextField kategori, JTextField satuan,JButton Action){
-        int i = kategoriStokTable.getSelectedRow();
-       TableModel model = kategoriStokTable.getModel();
-       String nama = model.getValueAt(i, 1).toString();
-       String Satuan = model.getValueAt(i, 2).toString();
-       kategori.setText(nama);
-       satuan.setText(Satuan);
-       Action.setText("Edit");
-       
-       return model.getValueAt(i, 0).toString();
-        
-    }
-    
-    public void EditCategory(Connection CC, JTextField kategori, JTextField satuan,JTable kategoriStokTable,JButton Action, String id){
-        database.StartQuery(CC,"UPDATE inventorycategory SET kategori = '"+ kategori.getText() +"', Satuan = '"+ satuan.getText()+"' WHERE idKategori = '"+id+"'");
-        kategori.setText("");satuan.setText("");
-        Action.setText("Simpan");
-        JOptionPane.showMessageDialog(null, "Kategori Berhasil Di Edit");
-        showCategoryStock(CC,kategoriStokTable);
     }
     
     public void setOutTitle(JTable restockTable){
@@ -213,27 +180,38 @@ public class StockFunc {
         keterangan.setText("");
     }
     
-    public void decreaseStock(Connection CC ,JTable table){
+    public void process(Connection CC ,JTable table,int loginId){
         TableModel model = table.getModel();
         int row = model.getRowCount();
         DefaultTableModel Dmodel = (DefaultTableModel) table.getModel();
         if(row > 0){
-            ArrayList<Integer> id = new ArrayList<>();
-            ArrayList<Integer> jumlah = new ArrayList<>();
-            ArrayList<String> Alasan = new ArrayList<>();
+            ArrayList<HashMap<String,String>> datas = new ArrayList();
             for(int i = 0; i<row;i++){
-                id.add(Integer.parseInt(model.getValueAt(i, 0).toString()));
-                jumlah.add(Integer.parseInt(model.getValueAt(i, 2).toString()));
-                Alasan.add((model.getValueAt(i, 4).toString()));
-                String Query = "UPDATE inventory SET  jumlah = jumlah - "+ model.getValueAt(i, 2).toString() +" WHERE idInventory = "+model.getValueAt(i, 0).toString()+"";               
-                database.StartQuery(CC, Query);
-                Dmodel.removeRow(i);
+                HashMap<String,String> dataRow = new HashMap();
+                dataRow.put("id", model.getValueAt(i, 0).toString());
+                dataRow.put("jumlah", model.getValueAt(i, 2).toString());
+                dataRow.put("alasan", model.getValueAt(i, 4).toString());
+                datas.add(dataRow);
             }
             JOptionPane.showMessageDialog(table, "Jumlah Stok berhasil ditambahkan");
-            transaction.PengeluaranBukanPenjualan(CC, id, jumlah, Alasan);
+            decreaseStock(CC,datas);
+            transaction.Pengeluaran(CC, datas ,loginId);
+            Dmodel.setRowCount(0);
         }else{
             JOptionPane.showMessageDialog(null, "Tidak Ada data untuk ditambahkan, Silahkan Masukkan Data");
         }
+    }
+    
+    public void decreaseStock(Connection CC,ArrayList<HashMap<String,String>> datas){
+        for(HashMap<String,String> data : datas){
+             String Query = "UPDATE inventory SET  jumlah = jumlah - "+ data.get("jumlah") +" WHERE idInventory = "+data.get("id")+"";               
+             database.StartQuery(CC, Query);
+        }
+    }
+    
+    public void showRestockRecommend(Connection CC,JTable recomend){
+        String[] needed = {"idInventory","namaBarang","patokanRestok","jumlah"};
+        gui.showTabel(CC, new Object[]{"Id","Bahan Baku","Patokan Restok","Jumlah Tersedia"}, needed, database.selectAll(CC, needed, "SELECT * FROM inventory WHERE jumlah < patokanRestok"), recomend);
     }
     
     

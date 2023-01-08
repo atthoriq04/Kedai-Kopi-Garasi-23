@@ -77,23 +77,17 @@ public class GUIFunc {
     
     public void hoverIn(JPanel panel , JLabel label){
         panel.setBackground(new Color(56,78,109));
-        Font boldFont = new Font(label.getFont().getFontName(), Font.BOLD, label.getFont().getSize());
-        label.setFont(boldFont);
     }
     
     public void hoverOut(JPanel panel,JLabel label,int state, int active){
         if(state!=active){
             panel.setBackground(new Color(42,52,62));
-            label.setFont(label.getFont().deriveFont(Font.PLAIN));
         }
     }
     
     public void reset(JPanel[] panels, JLabel[] labels){
         for(JPanel panel : panels){
             panel.setBackground(new Color(42,52,62));
-        }
-        for(JLabel label : labels){
-            label.setFont(label.getFont().deriveFont(Font.PLAIN));
         }
     }
     

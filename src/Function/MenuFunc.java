@@ -139,7 +139,7 @@ public class MenuFunc {
             "Id","kode Barang","Bahan Baku","Jumlah Dibutuhkan","jumlah Terseida","Satuan"
         };
         String[] needed = {
-            "id","","idInventory","dibutuhkan","jumlah","Satuan"
+            "id","idInventory","namaBarang","dibutuhkan","jumlah","Satuan"
         };
         String Query = "SELECT * FROM resep INNER JOIN menu ON resep.idMenu = menu.idMenu INNER JOIN inventory ON resep.idInventory = inventory.idInventory INNER JOIN inventorycategory ON inventory.idKategori = inventorycategory.idKategori   WHERE resep.idMenu = '"+ menuId +"'";
         gui.showTabel(CC, titles, needed, database.selectAll(CC, needed, Query), table);
@@ -169,7 +169,7 @@ public class MenuFunc {
     }
     
     public void showMenuCombo(Connection CC,JComboBox menu,String kategori){
-        String Query = "SELECT * FROM menu INNER JOIN menucategory ON menu.idKategori = menucategory.idKategori INNER JOIN resep ON resep.idMenu = menu.idMenu WHERE menucategory.KategoriMenu = '"+kategori+"'";
+        String Query = "SELECT DISTINCT menu FROM Menu INNER JOIN menucategory ON menu.idKategori = menucategory.idKategori INNER JOIN resep ON resep.idMenu = menu.idMenu WHERE menucategory.KategoriMenu = '"+kategori+"'";
         ArrayList<String> Datas =  database.selectRowofColumn(CC, Query, "Menu");
         gui.showComboBox(Datas, menu);
     }

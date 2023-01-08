@@ -35,7 +35,6 @@ public class SQLFunc {
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 HashMap<String,String> tables = new HashMap<>();
-                ArrayList<String> table = new ArrayList<>();
                 for (String need : fieldsNeeded) {
                     tables.put(need, rs.getString(need));
                 }
