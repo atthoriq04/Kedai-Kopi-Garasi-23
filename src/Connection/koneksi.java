@@ -7,6 +7,7 @@ package Connection;
 
 import static java.lang.Class.forName;
 import java.sql.*;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 /**
  *

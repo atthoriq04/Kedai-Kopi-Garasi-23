@@ -141,7 +141,7 @@ public class MenuFunc {
         String[] needed = {
             "id","idInventory","namaBarang","dibutuhkan","jumlah","Satuan"
         };
-        String Query = "SELECT * FROM resep INNER JOIN menu ON resep.idMenu = menu.idMenu INNER JOIN inventory ON resep.idInventory = inventory.idInventory INNER JOIN inventorycategory ON inventory.idKategori = inventorycategory.idKategori   WHERE resep.idMenu = '"+ menuId +"'";
+        String Query = "SELECT * FROM resep INNER JOIN menu ON resep.idMenu = menu.idMenu INNER JOIN inventory ON resep.idInventory = inventory.idInventory WHERE resep.idMenu = '"+ menuId +"'";
         gui.showTabel(CC, titles, needed, database.selectAll(CC, needed, Query), table);
         String query2 = "Select * FROM menu WHERE idMenu = '"+ menuId+"' LIMIT 1";
         gui.changeLabel(menuLabel, database.selectData(CC, query2, "Menu"));

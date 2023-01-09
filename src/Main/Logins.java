@@ -3,10 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Main;
+import Connection.koneksi;
 import Function.GUIFunc;
 import Function.UserFunc;
 import javax.swing.JLabel;
 import Function.UserSession;
+import java.awt.Color;
+import java.awt.Font;
+import java.sql.Connection;
  /*
  *
  * @author Atthoriq
@@ -16,13 +20,17 @@ public class Logins extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    Connection CC = new koneksi().connectLogin();
     GUIFunc GUI = new GUIFunc();
     UserFunc usf = new UserFunc();
     UserSession session = new UserSession();
     int id;
     public Logins() {
+        setResizable(false);
         initComponents();
-        
+        LoginButton.setRadius(25);
+        LoginButton.setText("Login");
+        LoginButton.setFont(new Font("Tahoma", Font.PLAIN, 20));
         passwordValid.setVisible(false);
         usernameValid.setVisible(false);
         GUI.showPanel(jPanel2, LoginPanel);
@@ -39,7 +47,8 @@ public class Logins extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         SecurityQuestion = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -55,15 +64,16 @@ public class Logins extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         sqUsername = new javax.swing.JTextField();
         showSq = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
         ResetPassword = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         username1 = new javax.swing.JLabel();
-        us1 = new javax.swing.JTextField();
         password1 = new javax.swing.JLabel();
         newPw = new javax.swing.JPasswordField();
         reset = new javax.swing.JButton();
         password2 = new javax.swing.JLabel();
         newPw1 = new javax.swing.JPasswordField();
+        us1 = new javax.swing.JLabel();
         LoginPanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         us = new javax.swing.JTextField();
@@ -72,40 +82,59 @@ public class Logins extends javax.swing.JFrame {
         passwordValid = new javax.swing.JLabel();
         username = new javax.swing.JLabel();
         password = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        LoginButton = new customGUI.customButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(42, 52, 62));
         jPanel1.setLayout(null);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Kedai Kopi Garasi 23");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(98, 220, 220, 29);
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/logo.jpg"))); // NOI18N
+        jButton2.setText("jButton2");
+        jPanel1.add(jButton2);
+        jButton2.setBounds(140, 120, 140, 150);
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(228, 228, 228));
+        jLabel8.setText("Kedai Kopi Garasi 23");
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(100, 280, 220, 29);
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 450));
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 255));
         jPanel2.setLayout(new java.awt.CardLayout());
 
-        SecurityQuestion.setBackground(new java.awt.Color(255, 255, 255));
+        SecurityQuestion.setBackground(new java.awt.Color(42, 52, 62));
         SecurityQuestion.setLayout(null);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel3.setText("Lupa Password");
+        jLabel3.setForeground(new java.awt.Color(228, 228, 228));
+        jLabel3.setText("<");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+        jLabel3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jLabel3KeyPressed(evt);
+            }
+        });
         SecurityQuestion.add(jLabel3);
-        jLabel3.setBounds(110, 50, 133, 25);
+        jLabel3.setBounds(10, 10, 20, 25);
 
-        sqPanel.setBackground(new java.awt.Color(255, 255, 255));
+        sqPanel.setBackground(new java.awt.Color(42, 52, 62));
         sqPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 0, 0, 0, new java.awt.Color(238, 233, 233)));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(228, 228, 228));
         jLabel5.setText("Jawab Pertanyaan keamanan Anda");
 
         question1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        question1.setForeground(new java.awt.Color(228, 228, 228));
         question1.setText("Pertanyaan1");
 
         answer1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -123,6 +152,7 @@ public class Logins extends javax.swing.JFrame {
         });
 
         question2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        question2.setForeground(new java.awt.Color(228, 228, 228));
         question2.setText("Pertanyaan2");
 
         answer3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -134,6 +164,7 @@ public class Logins extends javax.swing.JFrame {
         });
 
         question3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        question3.setForeground(new java.awt.Color(228, 228, 228));
         question3.setText("Pertanyaan3");
 
         jButton3.setText("Reset Password");
@@ -197,6 +228,7 @@ public class Logins extends javax.swing.JFrame {
         sqPanel.setBounds(0, 170, 350, 280);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(228, 228, 228));
         jLabel4.setText("Masukan Username Anda");
         SecurityQuestion.add(jLabel4);
         jLabel4.setBounds(10, 105, 153, 17);
@@ -219,30 +251,34 @@ public class Logins extends javax.swing.JFrame {
         SecurityQuestion.add(showSq);
         showSq.setBounds(277, 128, 63, 23);
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(228, 228, 228));
+        jLabel9.setText("Lupa Password");
+        SecurityQuestion.add(jLabel9);
+        jLabel9.setBounds(110, 50, 133, 25);
+
         jPanel2.add(SecurityQuestion, "card3");
 
-        ResetPassword.setBackground(new java.awt.Color(255, 255, 255));
+        ResetPassword.setBackground(new java.awt.Color(42, 52, 62));
         ResetPassword.setLayout(null);
 
+        jLabel6.setBackground(new java.awt.Color(228, 228, 228));
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(228, 228, 228));
         jLabel6.setText("Atur Ulang Password");
         ResetPassword.add(jLabel6);
         jLabel6.setBounds(100, 60, 170, 29);
 
+        username1.setBackground(new java.awt.Color(228, 228, 228));
         username1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        username1.setForeground(new java.awt.Color(228, 228, 228));
         username1.setText("Username");
         ResetPassword.add(username1);
         username1.setBounds(30, 130, 71, 20);
 
-        us1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                us1ActionPerformed(evt);
-            }
-        });
-        ResetPassword.add(us1);
-        us1.setBounds(28, 156, 299, 28);
-
+        password1.setBackground(new java.awt.Color(228, 228, 228));
         password1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        password1.setForeground(new java.awt.Color(228, 228, 228));
         password1.setText("Masukan Password Baru");
         ResetPassword.add(password1);
         password1.setBounds(30, 210, 180, 20);
@@ -265,7 +301,9 @@ public class Logins extends javax.swing.JFrame {
         ResetPassword.add(reset);
         reset.setBounds(30, 380, 299, 32);
 
+        password2.setBackground(new java.awt.Color(228, 228, 228));
         password2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        password2.setForeground(new java.awt.Color(228, 228, 228));
         password2.setText("Ulangi Password");
         ResetPassword.add(password2);
         password2.setBounds(30, 280, 130, 20);
@@ -278,13 +316,20 @@ public class Logins extends javax.swing.JFrame {
         ResetPassword.add(newPw1);
         newPw1.setBounds(30, 300, 299, 28);
 
+        us1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        us1.setForeground(new java.awt.Color(228, 228, 228));
+        us1.setText("Kedai Kopi Garasi 23");
+        ResetPassword.add(us1);
+        us1.setBounds(30, 160, 220, 29);
+
         jPanel2.add(ResetPassword, "card4");
 
-        LoginPanel.setBackground(new java.awt.Color(255, 255, 255));
+        LoginPanel.setBackground(new java.awt.Color(42, 52, 62));
         LoginPanel.setPreferredSize(new java.awt.Dimension(350, 440));
         LoginPanel.setLayout(null);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(228, 228, 228));
         jLabel2.setText("Login");
         LoginPanel.add(jLabel2);
         jLabel2.setBounds(141, 53, 56, 29);
@@ -317,33 +362,47 @@ public class Logins extends javax.swing.JFrame {
         passwordValid.setBounds(28, 282, 299, 14);
 
         username.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        username.setForeground(new java.awt.Color(228, 228, 228));
         username.setText("Username");
         LoginPanel.add(username);
         username.setBounds(28, 130, 71, 20);
 
         password.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        password.setForeground(new java.awt.Color(228, 228, 228));
         password.setText("Password");
         LoginPanel.add(password);
         password.setBounds(28, 222, 67, 20);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        LoginPanel.add(jButton1);
-        jButton1.setBounds(28, 345, 299, 32);
-
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(45, 152, 255));
         jLabel7.setText("Lupa Password?");
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel7MouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel7MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel7MouseExited(evt);
+            }
         });
         LoginPanel.add(jLabel7);
-        jLabel7.setBounds(30, 380, 300, 14);
+        jLabel7.setBounds(30, 380, 300, 15);
+
+        LoginButton.setForeground(new java.awt.Color(228, 228, 228));
+        LoginButton.setText("Login");
+        LoginButton.setBorderColor(new java.awt.Color(87, 124, 255));
+        LoginButton.setColor(new java.awt.Color(87, 124, 255));
+        LoginButton.setColorClick(new java.awt.Color(24, 124, 255));
+        LoginButton.setColorOver(new java.awt.Color(24, 124, 255));
+        LoginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoginButtonActionPerformed(evt);
+            }
+        });
+        LoginPanel.add(LoginButton);
+        LoginButton.setBounds(30, 330, 300, 40);
 
         jPanel2.add(LoginPanel, "card3");
 
@@ -365,11 +424,6 @@ public class Logins extends javax.swing.JFrame {
        GUI.switchPanel(jPanel2,SecurityQuestion);
     }//GEN-LAST:event_jLabel7MouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        usf.login(us.getText(), pw.getText(), this, usernameValid, passwordValid);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void sqUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sqUsernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_sqUsernameActionPerformed
@@ -387,29 +441,45 @@ public class Logins extends javax.swing.JFrame {
     }//GEN-LAST:event_answer3ActionPerformed
 
     private void showSqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showSqActionPerformed
-        usf.securityQuestion(sqUsername.getText(), sqPanel, question1, question2, question3);
+       id = usf.securityQuestion(CC,sqUsername.getText(), sqPanel, question1, question2, question3);
     }//GEN-LAST:event_showSqActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
-        usf.CheckAnswer(answer1.getText(), answer2.getText(), answer3.getText(), sqUsername.getText(),us1,jPanel2,ResetPassword);
+        usf.CheckAnswer(CC,answer1.getText(), answer2.getText(), answer3.getText(), id,us1,jPanel2,ResetPassword);
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void us1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_us1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_us1ActionPerformed
 
     private void newPwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPwActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_newPwActionPerformed
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
-        usf.ResetPassword(newPw.getText(),newPw1.getText(), us1.getText(),jPanel2,LoginPanel);
+        usf.ResetPassword(CC,newPw.getText(),newPw1.getText(), id,jPanel2,LoginPanel);
     }//GEN-LAST:event_resetActionPerformed
 
     private void newPw1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPw1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_newPw1ActionPerformed
+
+    private void jLabel3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel3KeyPressed
+        
+    }//GEN-LAST:event_jLabel3KeyPressed
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        GUI.switchPanel(jPanel2,LoginPanel);
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+        usf.login(CC,us.getText(), pw.getText(), this, usernameValid, passwordValid);
+    }//GEN-LAST:event_LoginButtonActionPerformed
+
+    private void jLabel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseEntered
+        jLabel7.setForeground(new Color(228,228,228));
+    }//GEN-LAST:event_jLabel7MouseEntered
+
+    private void jLabel7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseExited
+        jLabel7.setForeground(new Color(45,152,255));
+    }//GEN-LAST:event_jLabel7MouseExited
 
     /**
      * @param args the command line arguments
@@ -448,21 +518,23 @@ public class Logins extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private customGUI.customButton LoginButton;
     private javax.swing.JPanel LoginPanel;
     private javax.swing.JPanel ResetPassword;
     private javax.swing.JPanel SecurityQuestion;
     private javax.swing.JTextField answer1;
     private javax.swing.JTextField answer2;
     private javax.swing.JTextField answer3;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField newPw;
@@ -480,7 +552,7 @@ public class Logins extends javax.swing.JFrame {
     private javax.swing.JPanel sqPanel;
     private javax.swing.JTextField sqUsername;
     private javax.swing.JTextField us;
-    private javax.swing.JTextField us1;
+    private javax.swing.JLabel us1;
     private javax.swing.JLabel username;
     private javax.swing.JLabel username1;
     private javax.swing.JLabel usernameValid;

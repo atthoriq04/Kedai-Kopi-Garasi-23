@@ -30,12 +30,12 @@ public class TransactionFunc {
     
     public void showRestokData(Connection CC, JTable table){
         Object[] title = {
-            "kodeRestok","Tanggal Restok","NamaBarang","jumlah","Satuan"
+            "kodeRestok","Tanggal Restok","NamaBarang","jumlah","Satuan","Nama Petugas"
         } ;
         String[] dataNeeded ={
-            "idRestok","Tanggal","namaBarang","restok.jumlah","satuan"
+            "idRestok","Tanggal","namaBarang","restok.jumlah","satuan","Nama"
         };
-        gui.showTabel(CC, title, dataNeeded, database.selectAll(CC, dataNeeded, "SELECT * FROM Restok INNER JOIN inventory ON restok.idInventory = inventory.idInventory INNER JOIN inventorycategory ON inventorycategory.idKategori = inventory.idKategori"), table);
+        gui.showTabel(CC, title, dataNeeded, database.selectAll(CC, dataNeeded, "SELECT * FROM Restok INNER JOIN inventory ON restok.idInventory = inventory.idInventory INNER JOIN user ON user.id = Restok.userId"), table);
     }
     
     public void Pengeluaran(Connection CC,ArrayList<HashMap<String,String>> datas,int userId){
@@ -59,7 +59,7 @@ public class TransactionFunc {
         String[] needed = {
             "idTransaksi","tanggalTransaksi","inventory.namaBarang","transaksi.jumlah","satuan","Keterangan","Nama"
         };
-        gui.showTabel(CC, titles, needed, database.selectAll(CC, needed, "SELECT * FROM transaksi INNER JOIN inventory ON inventory.idInventory = transaksi.idInventory INNER JOIN inventorycategory ON inventorycategory.idKategori = inventory.idKategori INNER JOIN user ON user.id = transaksi.idUser"), tName);
+        gui.showTabel(CC, titles, needed, database.selectAll(CC, needed, "SELECT * FROM transaksi INNER JOIN inventory ON inventory.idInventory = transaksi.idInventory INNER JOIN user ON user.id = transaksi.idUser"), tName);
     }
     
     public void showPenjualanData(Connection CC, JTable tName){
@@ -74,11 +74,23 @@ public class TransactionFunc {
     
     public String frequentMenu(Connection CC){
         HashMap<String,String> data = database.selectColumn(CC, "SELECT menu ,COUNT(menu) AS value_occurrence FROM penjualan INNER JOIN menu ON menu.idMenu = penjualan.idMenu  WHERE tanggal >= CURDATE() GROUP BY menu  LIMIT 1", new String[] {"menu","value_occurrence"});
+        if(data.get("menu")== null){
+            return "Belum ada transaksi hari ini";
+        }
         return data.get("menu")+" - "+data.get("value_occurrence")+" Transaksi";
     }
     
     public int calculateProfit(Connection CC){
         ArrayList<String> datas = database.selectRowofColumn(CC, "SELECT * FROM `penjualan` WHERE tanggal >= CURDATE()", "pendapatan");
+        int sum = 0;
+        for(String data : datas){
+            sum += Integer.parseInt(data);
+        }
+        return sum;
+    }
+    
+    public int MonthlyProfit(Connection CC, String Query){
+       ArrayList<String> datas = database.selectRowofColumn(CC, Query, "pendapatan");
         int sum = 0;
         for(String data : datas){
             sum += Integer.parseInt(data);

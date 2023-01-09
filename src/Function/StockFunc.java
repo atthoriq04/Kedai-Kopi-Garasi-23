@@ -38,15 +38,9 @@ public class StockFunc {
         String[] needed = {
         "idInventory","namaBarang","patokanRestok","Jumlah","Satuan"
         };
-        String Query = "SELECT * FROM inventory INNER JOIN inventorycategory ON inventory.idKategori = inventorycategory.idKategori WHERE Status= 1";
+        String Query = "SELECT * FROM inventory WHERE Status= 1";
         ArrayList<HashMap<String,String>> datas = database.selectAll(CC, needed, Query);
         gui.showTabel(CC, titles, needed, datas, stockTable);
-    }
-    
-    public void showInventoryCategoryCombo(Connection CC,JComboBox combo){
-        String Query = "SELECT * FROM inventorycategory ";
-        ArrayList<String> Data = database.selectRowofColumn(CC, Query, "Satuan");
-        gui.showComboBox(Data, combo);
     }
     
     public void showStockCombo(Connection CC, JComboBox combo ){
@@ -56,17 +50,16 @@ public class StockFunc {
     }
    
     
-    public void InputStock(Connection CC,JTextField FormNama, JTextField Patokan,JComboBox combo,JTable tabel){
-        String Query = "INSERT INTO inventory(`idKategori`, `NamaBarang`, `patokanRestok`) VALUES ('"+ combo.getSelectedIndex() +"','"+ FormNama.getText() +"','"+ Patokan.getText() +"')";
+    public void InputStock(Connection CC,JTextField FormNama, JTextField Patokan,JTextField satuan,JTable tabel){
+        String Query = "INSERT INTO inventory(`satuan`, `NamaBarang`, `patokanRestok`) VALUES ('"+ satuan.getText() +"','"+ FormNama.getText() +"','"+ Patokan.getText() +"')";
         database.StartQuery(CC, Query);
-        JTextField[] fields = {FormNama,Patokan};
+        JTextField[] fields = {FormNama,Patokan,satuan};
         gui.resetFields(fields);
-        combo.setSelectedIndex(0);
         ShowStock(CC,tabel);    
         JOptionPane.showMessageDialog(null, "Bahan Baku Di Input");
     }
     
-    public String DataClicked(JTable tabel,JTextField FormNama, JTextField Patokan,JComboBox combo,JButton processButton){
+    public String DataClicked(JTable tabel,JTextField FormNama, JTextField Patokan,JTextField satuan,JButton processButton){
        int i = tabel.getSelectedRow();
        TableModel model = tabel.getModel();
        String nama = model.getValueAt(i, 1).toString();
@@ -74,18 +67,17 @@ public class StockFunc {
        String Selected = model.getValueAt(i, 4).toString();
        FormNama.setText(nama);
        Patokan.setText(patokan);
-       combo.setSelectedItem(Selected);
+       satuan.setText(Selected);
        processButton.setText("Edit");
        
        return model.getValueAt(i, 0).toString();
     }
     
-    public void updateStock(String id,Connection CC,JTextField FormNama, JTextField Patokan,JComboBox combo,JTable tabel,JButton processButton){
-        String Query = "UPDATE inventory SET idKategori = '"+ combo.getSelectedIndex() +"', NamaBarang = '"+ FormNama.getText() +"',patokanRestok = '"+ Patokan.getText()+"' WHERE idInventory ="+id+" ";
+    public void updateStock(String id,Connection CC,JTextField FormNama, JTextField Patokan,JTextField satuan,JTable tabel,JButton processButton){
+        String Query = "UPDATE inventory SET satuan = '"+ satuan.getText() +"', NamaBarang = '"+ FormNama.getText() +"',patokanRestok = '"+ Patokan.getText()+"' WHERE idInventory ="+id+" ";
         database.StartQuery(CC, Query);
-        JTextField[] fields = {FormNama,Patokan};
+        JTextField[] fields = {FormNama,Patokan,satuan};
         gui.resetFields(fields);
-        combo.setSelectedIndex(0);
         ShowStock(CC,tabel);
         processButton.setText("Simpan");
         JOptionPane.showMessageDialog(null, "Bahan Baku Diupdate");
@@ -160,16 +152,16 @@ public class StockFunc {
     }
     
     public void inputOutStore(Connection CC,JTable restockTable,JComboBox combo,JTextField jumlahRestok,JTextField keterangan,JRadioButton patokan ){
-        String Query = "SELECT * FROM inventory INNER JOIN inventorycategory ON inventorycategory.idKategori = inventory.idKategori WHERE NamaBarang = '"+ combo.getSelectedItem() +"'";
-        String[] dataWanted = {"idInventory","NamaBarang","patokanRestok","Satuan"};
+        String Query = "SELECT * FROM inventory WHERE NamaBarang = '"+ combo.getSelectedItem() +"'";
+        String[] dataWanted = {"idInventory","NamaBarang","patokanRestok","Satuan","jumlah"};
         HashMap<String,String> data = database.selectColumn(CC, Query, dataWanted);
         System.out.println(); 
         int jumlah = (patokan.isSelected()) ? (Integer.parseInt(jumlahRestok.getText())* Integer.parseInt(data.get("patokanRestok"))) : Integer.parseInt(jumlahRestok.getText()); 
-        
+        int jumlahFinal = (Integer.parseInt(data.get("jumlah")) - jumlah < 0) ? (Integer.parseInt(data.get("jumlah"))) : jumlah;
         Object[] rowData = {
             data.get("idInventory"),
             data.get("NamaBarang"),
-            jumlah,
+            jumlahFinal,
             data.get("Satuan"),
             keterangan.getText()
             

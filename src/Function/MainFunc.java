@@ -5,10 +5,12 @@
 package Function;
 
 import customGUI.customButton;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javafx.scene.chart.Axis;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -19,6 +21,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.Plot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -33,6 +46,7 @@ public class MainFunc {
     UserFunc user = new UserFunc();
     TransactionFunc  transaction = new TransactionFunc();
     SupplierFunc supplier = new SupplierFunc();
+    chartFunc chart = new chartFunc();
     public int selected(JPanel[] panels, JPanel panel , JLabel[] labels, JLabel label,int active){
        gui.reset(panels, labels);
        gui.hoverIn(panel, label);
@@ -52,13 +66,15 @@ public class MainFunc {
         gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq2);
         gui.buttonchange(button, new Color(48,48,48), new Color(87,124,255), new Color(87,124,255), 10);
     }
-    public void generateDashboard(Connection CC, JTable table,JTable reco,JLabel nominalPesanan,JLabel favMenu,JLabel nominalUang,JLabel tanggal){
+    public void generateDashboard(Connection CC, JTable table,JTable reco,JLabel nominalPesanan,JLabel favMenu,JLabel nominalUang,JLabel tanggal,JPanel barChart,JPanel pieChart){
         generateRestockHistory(CC,table);
         stock.showRestockRecommend(CC, reco);
         nominalPesanan.setText(database.selectData(CC, "SELECT COUNT(idPenjualan) FROM penjualan WHERE tanggal >= CURDATE()", "COUNT(idPenjualan)"));
         favMenu.setText(transaction.frequentMenu(CC));
         nominalUang.setText(Integer.toString(transaction.calculateProfit(CC)));
         tanggal.setText(java.time.LocalDate.now().toString());
+        chart.generateChart(CC,barChart);
+        chart.generatePie(CC, pieChart);
     }
     public void generateRestock(Connection CC,customButton button,customButton input ,JComboBox combo,JComboBox supCombo){
         gui.buttonchange(button, new Color(48,48,48), new Color(87,124,255), new Color(87,124,255), 10);
@@ -77,11 +93,8 @@ public class MainFunc {
         menu.ShowCategoryCombo(CC, menuCategoryCombo);
         gui.buttonchange(save, new Color(42,52,62), new Color(87,124,255), new Color(87,124,255), 10);
     }
-    public void generateStock(Connection CC,JTable stockTable,JComboBox stockCategory,customButton save){
+    public void generateStock(Connection CC,JTable stockTable,customButton save){
         stock.ShowStock(CC, stockTable);
-        stock.showInventoryCategoryCombo(CC, stockCategory);
-        stockCategory.removeAllItems();
-        stockCategory.addItem("Pilih Satuan");
         gui.buttonchange(save, new Color(42,52,62), new Color(87,124,255), new Color(87,124,255), 10);
     }
     public void generateSuppilerData(Connection CC, JTable supplierTable,customButton actionButton){
@@ -148,6 +161,13 @@ public class MainFunc {
         gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq1);
         gui.showComboBox(database.selectRowofColumn(CC, "SELECT * FROM securityquestion WHERE sqId > 1", "sQuestion"), sq2);
         user.showLoginSQData(CC, loginId, sq1, sq2, ans1, ans2);
+    }
+    
+    public void generateReport(){
+        Object[] sports = { "Laporan Bahan Baku","Laporan Restok", "Laporan Pengunaan bahan Baku", "Laporan Penjualan", "Laporan Supplier", "Laporan Karyawan"};
+        JComboBox comboBox = new JComboBox(sports); comboBox.setSelectedIndex(0);
+        JOptionPane.showMessageDialog(null, comboBox, "Pilih Laporan",
+        JOptionPane.QUESTION_MESSAGE);
     }
     
     public void upProfilePage(Connection CC, int loginId,JComboBox sq1,JComboBox sq2,JTextField ans1, JTextField ans2,JTextField username,JTextField name,JLabel role){
@@ -248,7 +268,7 @@ public class MainFunc {
             rowData.put("id", model.getValueAt(x, 1).toString());
             rowData.put("jumlah",Integer.toString(Integer.parseInt(model.getValueAt(x, 3).toString()) * Integer.parseInt(jumlahTerjual.getText())));
             rowData.put("alasan","Produksi");
-            if(Integer.parseInt(model.getValueAt(x, 4).toString())- (Integer.parseInt(model.getValueAt(x, 3).toString()) * Integer.parseInt(jumlahTerjual.getText()))< 1){
+            if(Integer.parseInt(model.getValueAt(x, 4).toString())- (Integer.parseInt(model.getValueAt(x, 3).toString()) * Integer.parseInt(jumlahTerjual.getText()))< 0){
                 JOptionPane.showMessageDialog(null, "Bahan baku tidak mencukupi");
                 return;
             }
@@ -267,7 +287,8 @@ public class MainFunc {
          String[] needed = {
         "idRestok","Tanggal","namaBarang","Jumlah","Satuan"
         };
-        String Query = "SELECT * FROM Restok INNER JOIN inventory ON restok.idInventory = inventory.idInventory INNER JOIN inventorycategory ON inventorycategory.idKategori = inventory.idInventory ORDER BY Tanggal DESC LIMIT 10";
+        String Query = "SELECT * FROM Restok INNER JOIN inventory ON restok.idInventory = inventory.idInventory INNER JOIN user ON user.id = Restok.userId ORDER BY Tanggal DESC LIMIT 10";
         gui.showTabel(CC, titles, needed, database.selectAll(CC, needed, Query), table);
     }
+    
 }

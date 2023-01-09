@@ -12,6 +12,7 @@ import Function.StockFunc;
 import Function.MenuFunc;
 import Function.SupplierFunc;
 import Function.UserSession;
+import customGUI.TableDark;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +20,7 @@ import java.sql.Statement;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -46,9 +48,14 @@ public final class Main extends javax.swing.JFrame {
     String menuid, supplierId,stockId,sqId,settingsId;
     public Main() {
         initComponents();
+        pack();
+        setSize(1185, 675);
+        setResizable(false);
+        setLocationRelativeTo(null);
         userLogin();
+        GUI.fixTable(tables(), scrolls());
         if(main.init(CC, loginId, LoginName, welcomeSQ1, welcomeSQ2, namaUser, passwordError,simpanwelcome)){
-            main.generateDashboard(CC, dRestockHistory, reco, nominalPesanan, MenuFav1, nominalUang,tanggal);
+            main.generateDashboard(CC, dRestockHistory, reco, nominalPesanan, MenuFav1, nominalUang,tanggal,barChart,pieChart);
             active = main.selected(sidebar(), dashboardButton, sidelabel() ,dashboardLabel, 1);
             GUI.switchPanel(Backgrounds, Dashboard);
         }else{
@@ -68,21 +75,28 @@ public final class Main extends javax.swing.JFrame {
         if(user.equals(3) || user.equals(3)){      
         }
     }
-    
-    public JPanel[] sidebar(){
+    private TableDark[] tables(){
+        TableDark[] table = {dRestockHistory,reco,dataSuplierTable,resepTable,bukanPenjualanTable,penjualanTable,dataPenjualanTable,catSettingsTable,sqTable,riwayatRestokTable,restokTabel,dataStockTable,userTable,dataMenuTable};
+        return table;
+    }
+    private JScrollPane[] scrolls(){
+        JScrollPane[] scroll = {jScrollPane4,jScrollPane3,dataSuplierScroll,resepScroll,bukanPenjualanScroll,penjualanScroll,dataPenjualanScroll,catSettingsScroll,sqScroll,riwayatRestokScroll,restokScroll,dataStockScroll,userScroll,dataMenuScroll};
+        return scroll;
+    }
+    private JPanel[] sidebar(){
         JPanel[]sidebars = {dashboardButton,transaksiButton,restokButton,dataMenuButton,dataStokButton,dataSupplierButton,dataRestokButton,dataPenjualanButton,userProfilButton,userDataButton,PengaturanButton,laporanButton,logOutButton};
         return sidebars;
     }
-    public JLabel[] sidelabel(){
+    private JLabel[] sidelabel(){
         JLabel[]sideLabel = {dashboardLabel,transaksiLabel,restokLabel,menuLabel,stokLabel,suplierLabel,dataRestokLabel,penjualanLabel,profilLabel,userDataLabel,pengaturanLabel,laporanLabel,logOutLabel};
         return sideLabel;
     }
     
-    public JPanel[] navBar(){
+    private JPanel[] navBar(){
         JPanel[] navbars = {pPertanyaanButton,pKategoriButton,pAksesButton};
         return navbars;
     }
-    public JLabel[] navLabel(){
+    private JLabel[] navLabel(){
         JLabel[] navLabels = {pPertanyaanLabel,pKategoriLabel,pAksesLabel};
         return navLabels;
     }
@@ -96,6 +110,7 @@ public final class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jToggleButton1 = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         toBlibli = new javax.swing.JLabel();
@@ -264,10 +279,8 @@ public final class Main extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         nominalPesanan = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        customPanel6 = new customGUI.customPanel();
-        jLabel56 = new javax.swing.JLabel();
-        customPanel7 = new customGUI.customPanel();
-        jLabel57 = new javax.swing.JLabel();
+        barChart = new customGUI.customPanel();
+        pieChart = new customGUI.customPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         reco = new customGUI.TableDark();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -338,10 +351,10 @@ public final class Main extends javax.swing.JFrame {
         jLabel40 = new javax.swing.JLabel();
         namaBarang = new javax.swing.JTextField();
         jLabel41 = new javax.swing.JLabel();
-        kategoriCombo = new javax.swing.JComboBox<>();
         patokanRestok = new javax.swing.JTextField();
         jLabel42 = new javax.swing.JLabel();
         dataStockAction = new customGUI.customButton();
+        satuan = new javax.swing.JTextField();
         jPanel18 = new javax.swing.JPanel();
         jLabel43 = new javax.swing.JLabel();
         dataStockScroll = new javax.swing.JScrollPane();
@@ -357,6 +370,8 @@ public final class Main extends javax.swing.JFrame {
         userDelete = new customGUI.customButton();
         userScroll = new javax.swing.JScrollPane();
         userTable = new customGUI.TableDark();
+
+        jToggleButton1.setText("jToggleButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -654,6 +669,9 @@ public final class Main extends javax.swing.JFrame {
         laporanButton.setRoundBottomRight(15);
         laporanButton.setRoundTopRight(15);
         laporanButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                laporanButtonMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 laporanButtonMouseEntered(evt);
             }
@@ -759,6 +777,7 @@ public final class Main extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 650));
 
         Backgrounds.setBackground(new java.awt.Color(255, 153, 0));
+        Backgrounds.setPreferredSize(new java.awt.Dimension(1080, 650));
         Backgrounds.setLayout(new java.awt.CardLayout());
 
         selectSQ.setBackground(new java.awt.Color(46, 46, 46));
@@ -921,6 +940,7 @@ public final class Main extends javax.swing.JFrame {
         Backgrounds.add(selectSQ, "card13");
 
         Data_DataSuplier.setBackground(new java.awt.Color(48, 48, 48));
+        Data_DataSuplier.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         supplierEditable.setBackground(new java.awt.Color(42, 52, 62));
 
@@ -987,7 +1007,7 @@ public final class Main extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(supplierEditableLayout.createSequentialGroup()
                         .addComponent(alamatSuplier, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                         .addComponent(dataSuplierAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -1013,10 +1033,13 @@ public final class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        Data_DataSuplier.add(supplierEditable, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 93, -1, -1));
+
         addNewUser8.setBackground(new java.awt.Color(228, 228, 228));
         addNewUser8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         addNewUser8.setForeground(new java.awt.Color(228, 228, 228));
         addNewUser8.setText("Tambah Menu Baru");
+        Data_DataSuplier.add(addNewUser8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         jPanel19.setBackground(new java.awt.Color(48, 48, 48));
         jPanel19.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
@@ -1043,6 +1066,8 @@ public final class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        Data_DataSuplier.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1050, -1));
+
         dataSuplierTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1066,37 +1091,12 @@ public final class Main extends javax.swing.JFrame {
         });
         dataSuplierScroll.setViewportView(dataSuplierTable);
 
-        javax.swing.GroupLayout Data_DataSuplierLayout = new javax.swing.GroupLayout(Data_DataSuplier);
-        Data_DataSuplier.setLayout(Data_DataSuplierLayout);
-        Data_DataSuplierLayout.setHorizontalGroup(
-            Data_DataSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(Data_DataSuplierLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(Data_DataSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(supplierEditable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(Data_DataSuplierLayout.createSequentialGroup()
-                        .addComponent(addNewUser8)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(dataSuplierScroll))
-                .addContainerGap())
-        );
-        Data_DataSuplierLayout.setVerticalGroup(
-            Data_DataSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(Data_DataSuplierLayout.createSequentialGroup()
-                .addComponent(jPanel19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(addNewUser8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(supplierEditable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dataSuplierScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        Data_DataSuplier.add(dataSuplierScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 172, 1030, 478));
 
         Backgrounds.add(Data_DataSuplier, "card13");
 
         resepMenu.setBackground(new java.awt.Color(48, 48, 48));
+        resepMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel21.setBackground(new java.awt.Color(48, 48, 48));
         jPanel21.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
@@ -1150,6 +1150,8 @@ public final class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        resepMenu.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1050, -1));
+
         editResep.setBackground(new java.awt.Color(42, 52, 62));
 
         showStock.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih bahan yang diperlukan.." }));
@@ -1202,6 +1204,8 @@ public final class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        resepMenu.add(editResep, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 88, -1, -1));
+
         resepTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -1220,29 +1224,7 @@ public final class Main extends javax.swing.JFrame {
         });
         resepScroll.setViewportView(resepTable);
 
-        javax.swing.GroupLayout resepMenuLayout = new javax.swing.GroupLayout(resepMenu);
-        resepMenu.setLayout(resepMenuLayout);
-        resepMenuLayout.setHorizontalGroup(
-            resepMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(resepMenuLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(resepScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 1030, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, resepMenuLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(editResep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        resepMenuLayout.setVerticalGroup(
-            resepMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(resepMenuLayout.createSequentialGroup()
-                .addComponent(jPanel21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(editResep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resepScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
-        );
+        resepMenu.add(resepScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 141, 1030, 509));
 
         Backgrounds.add(resepMenu, "card12");
 
@@ -2038,15 +2020,18 @@ public final class Main extends javax.swing.JFrame {
         Backgrounds.add(Pengaturan, "card8");
 
         Dashboard.setBackground(new java.awt.Color(48, 48, 48));
+        Dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(228, 228, 228));
         jLabel1.setText("Statistik Hari ini :");
+        Dashboard.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
 
         tanggal.setBackground(new java.awt.Color(90, 90, 90));
         tanggal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         tanggal.setForeground(new java.awt.Color(228, 228, 228));
         tanggal.setText("Tanggal");
+        Dashboard.add(tanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(151, 70, 569, -1));
 
         jPanel5.setBackground(new java.awt.Color(48, 48, 48));
         jPanel5.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(228, 228, 228)));
@@ -2062,7 +2047,7 @@ public final class Main extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(926, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2072,15 +2057,19 @@ public final class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        Dashboard.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
         jLabel10.setBackground(new java.awt.Color(90, 90, 90));
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(228, 228, 228));
         jLabel10.setText("Riwayat Restok Bahan Baku");
+        Dashboard.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, -1, -1));
 
         jLabel11.setBackground(new java.awt.Color(90, 90, 90));
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(228, 228, 228));
         jLabel11.setText("Rekomendasi Restok Bahan Baku");
+        Dashboard.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, -1, -1));
 
         customPanel3.setBackground(new java.awt.Color(87, 124, 255));
         customPanel3.setRoundBottomRight(35);
@@ -2126,8 +2115,10 @@ public final class Main extends javax.swing.JFrame {
                 .addGroup(customPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Rp)
                     .addComponent(nominalUang))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
+
+        Dashboard.add(customPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, -1, 80));
 
         customPanel4.setBackground(new java.awt.Color(87, 124, 255));
         customPanel4.setRoundBottomRight(35);
@@ -2163,8 +2154,10 @@ public final class Main extends javax.swing.JFrame {
                 .addComponent(jLabel55)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MenuFav1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
+
+        Dashboard.add(customPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 110, -1, 80));
 
         customPanel5.setBackground(new java.awt.Color(87, 124, 255));
         customPanel5.setRoundBottomRight(35);
@@ -2209,64 +2202,26 @@ public final class Main extends javax.swing.JFrame {
                 .addGroup(customPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(nominalPesanan))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        customPanel6.setBackground(new java.awt.Color(42, 52, 62));
-        customPanel6.setRoundBottomLeft(45);
-        customPanel6.setRoundBottomRight(45);
-        customPanel6.setRoundTopLeft(45);
-        customPanel6.setRoundTopRight(45);
+        Dashboard.add(customPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, 80));
 
-        jLabel56.setBackground(new java.awt.Color(228, 228, 228));
-        jLabel56.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel56.setForeground(new java.awt.Color(228, 228, 228));
-        jLabel56.setText("Chart 2");
+        barChart.setBackground(new java.awt.Color(42, 52, 62));
+        barChart.setRoundBottomLeft(45);
+        barChart.setRoundBottomRight(45);
+        barChart.setRoundTopLeft(45);
+        barChart.setRoundTopRight(45);
+        barChart.setLayout(new java.awt.CardLayout());
+        Dashboard.add(barChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 210, 400, 189));
 
-        javax.swing.GroupLayout customPanel6Layout = new javax.swing.GroupLayout(customPanel6);
-        customPanel6.setLayout(customPanel6Layout);
-        customPanel6Layout.setHorizontalGroup(
-            customPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(customPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel56)
-                .addContainerGap(344, Short.MAX_VALUE))
-        );
-        customPanel6Layout.setVerticalGroup(
-            customPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(customPanel6Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel56)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        customPanel7.setBackground(new java.awt.Color(42, 52, 62));
-        customPanel7.setRoundBottomLeft(45);
-        customPanel7.setRoundBottomRight(45);
-        customPanel7.setRoundTopLeft(45);
-        customPanel7.setRoundTopRight(45);
-
-        jLabel57.setBackground(new java.awt.Color(228, 228, 228));
-        jLabel57.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel57.setForeground(new java.awt.Color(228, 228, 228));
-        jLabel57.setText("Chart 2");
-
-        javax.swing.GroupLayout customPanel7Layout = new javax.swing.GroupLayout(customPanel7);
-        customPanel7.setLayout(customPanel7Layout);
-        customPanel7Layout.setHorizontalGroup(
-            customPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(customPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel57)
-                .addContainerGap(344, Short.MAX_VALUE))
-        );
-        customPanel7Layout.setVerticalGroup(
-            customPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(customPanel7Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel57)
-                .addContainerGap(148, Short.MAX_VALUE))
-        );
+        pieChart.setBackground(new java.awt.Color(42, 52, 62));
+        pieChart.setRoundBottomLeft(45);
+        pieChart.setRoundBottomRight(45);
+        pieChart.setRoundTopLeft(45);
+        pieChart.setRoundTopRight(45);
+        pieChart.setLayout(new java.awt.CardLayout());
+        Dashboard.add(pieChart, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, 400, 190));
 
         reco.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -2281,6 +2236,8 @@ public final class Main extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(reco);
 
+        Dashboard.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, 584, 166));
+
         dRestockHistory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -2294,75 +2251,7 @@ public final class Main extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(dRestockHistory);
 
-        javax.swing.GroupLayout DashboardLayout = new javax.swing.GroupLayout(Dashboard);
-        Dashboard.setLayout(DashboardLayout);
-        DashboardLayout.setHorizontalGroup(
-            DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(DashboardLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(DashboardLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(6, 6, 6)
-                        .addComponent(tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DashboardLayout.createSequentialGroup()
-                        .addComponent(customPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(customPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(customPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DashboardLayout.createSequentialGroup()
-                        .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(DashboardLayout.createSequentialGroup()
-                                .addComponent(jScrollPane4)
-                                .addGap(46, 46, 46))
-                            .addGroup(DashboardLayout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(customPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DashboardLayout.createSequentialGroup()
-                        .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(DashboardLayout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(DashboardLayout.createSequentialGroup()
-                                .addComponent(jScrollPane3)
-                                .addGap(46, 46, 46)))
-                        .addComponent(customPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        DashboardLayout.setVerticalGroup(
-            DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DashboardLayout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(tanggal))
-                .addGap(18, 18, 18)
-                .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(customPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(customPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(customPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(29, 29, 29)
-                .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(DashboardLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(customPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(DashboardLayout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(customPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(DashboardLayout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20))
-        );
+        Dashboard.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 584, 166));
 
         Backgrounds.add(Dashboard, "card3");
 
@@ -2822,17 +2711,16 @@ public final class Main extends javax.swing.JFrame {
             .addComponent(jPanel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RestokLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(RestokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(RestokLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(saveRestockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(RestokLayout.createSequentialGroup()
-                        .addGroup(RestokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(restokScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(RestokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
+                    .addComponent(restokScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RestokLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(saveRestockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
         RestokLayout.setVerticalGroup(
             RestokLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2846,9 +2734,9 @@ public final class Main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(restokScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 193, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 176, Short.MAX_VALUE)
                 .addComponent(saveRestockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(28, 28, 28))
         );
 
         Backgrounds.add(Restok, "card3");
@@ -2928,14 +2816,13 @@ public final class Main extends javax.swing.JFrame {
                     .addComponent(NamaMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                     .addGroup(editable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(KategoriMenuCombo)
-                        .addComponent(Harga, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(dataMenuAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                        .addComponent(Harga, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addComponent(dataMenuAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         Data_DataMenu.add(editable1);
-        editable1.setBounds(10, 96, 1030, 102);
+        editable1.setBounds(10, 100, 1030, 80);
 
         jPanel17.setBackground(new java.awt.Color(48, 48, 48));
         jPanel17.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
@@ -2952,7 +2839,7 @@ public final class Main extends javax.swing.JFrame {
             .addGroup(jPanel17Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel37)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(924, Short.MAX_VALUE))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3006,8 +2893,6 @@ public final class Main extends javax.swing.JFrame {
         jLabel41.setForeground(new java.awt.Color(228, 228, 228));
         jLabel41.setText("Satuan");
 
-        kategoriCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Satuan" }));
-
         patokanRestok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 patokanRestokActionPerformed(evt);
@@ -3026,6 +2911,12 @@ public final class Main extends javax.swing.JFrame {
             }
         });
 
+        satuan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                satuanActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout editable2Layout = new javax.swing.GroupLayout(editable2);
         editable2.setLayout(editable2Layout);
         editable2Layout.setHorizontalGroup(
@@ -3041,9 +2932,9 @@ public final class Main extends javax.swing.JFrame {
                     .addComponent(jLabel42))
                 .addGap(52, 52, 52)
                 .addGroup(editable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(kategoriCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel41))
-                .addContainerGap(349, Short.MAX_VALUE))
+                    .addComponent(jLabel41)
+                    .addComponent(satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editable2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dataStockAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3061,10 +2952,10 @@ public final class Main extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editable2Layout.createSequentialGroup()
                         .addGroup(editable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(editable2Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, editable2Layout.createSequentialGroup()
                                 .addComponent(jLabel41)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(kategoriCombo))
+                                .addComponent(satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(editable2Layout.createSequentialGroup()
                                 .addComponent(jLabel42)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3123,9 +3014,10 @@ public final class Main extends javax.swing.JFrame {
             .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(Data_DataBahanBakuLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(Data_DataBahanBakuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editable2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dataStockScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 1030, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(Data_DataBahanBakuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dataStockScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
+                    .addComponent(editable2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         Data_DataBahanBakuLayout.setVerticalGroup(
             Data_DataBahanBakuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3225,7 +3117,7 @@ public final class Main extends javax.swing.JFrame {
         editableLayout.setVerticalGroup(
             editableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editableLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(NamaUser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3233,8 +3125,7 @@ public final class Main extends javax.swing.JFrame {
                 .addGroup(editableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(adminChecker, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(userDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         userTable.setBackground(new java.awt.Color(48, 48, 48));
@@ -3264,18 +3155,18 @@ public final class Main extends javax.swing.JFrame {
             .addGroup(User_DataUserLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(User_DataUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(editable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(userScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE))
+                    .addComponent(userScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
+                    .addComponent(editable, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         User_DataUserLayout.setVerticalGroup(
             User_DataUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(User_DataUserLayout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(editable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(userScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(userScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         Backgrounds.add(User_DataUser, "card4");
@@ -3369,8 +3260,9 @@ public final class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_toBlibliMouseEntered
 
     private void dashboardButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardButtonMouseClicked
-       active = main.selected(sidebar(), dashboardButton, sidelabel() ,dashboardLabel, 1);
-       GUI.switchPanel(Backgrounds, Dashboard);
+        main.generateDashboard(CC, dRestockHistory, reco, nominalPesanan, MenuFav1, nominalUang,tanggal,barChart,pieChart);
+        active = main.selected(sidebar(), dashboardButton, sidelabel() ,dashboardLabel, 1);
+        GUI.switchPanel(Backgrounds, Dashboard);
     }//GEN-LAST:event_dashboardButtonMouseClicked
 
     private void transaksiButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transaksiButtonMouseClicked
@@ -3396,7 +3288,7 @@ public final class Main extends javax.swing.JFrame {
     private void dataStokButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataStokButtonMouseClicked
         active = main.selected(sidebar(), dataStokButton, sidelabel() ,stokLabel, 5);
         GUI.switchPanel(Backgrounds, Data_DataBahanBaku);
-        main.generateStock(CC, dataStockTable, kategoriCombo, dataStockAction);
+        main.generateStock(CC, dataStockTable, dataStockAction);
     }//GEN-LAST:event_dataStokButtonMouseClicked
 
     private void dataSupplierButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataSupplierButtonMouseClicked
@@ -3634,14 +3526,14 @@ public final class Main extends javax.swing.JFrame {
 
     private void dataStockActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataStockActionActionPerformed
       if(dataStockAction.getText().equalsIgnoreCase("Simpan")){
-           stock.InputStock(CC, namaBarang, patokanRestok, kategoriCombo, dataStockTable);
+           stock.InputStock(CC, namaBarang, patokanRestok, satuan, dataStockTable);
        }else if(dataStockAction.getText().equalsIgnoreCase("Edit")){
-           stock.updateStock(stockId, CC, namaBarang, patokanRestok, kategoriCombo, dataStockTable, dataStockAction);
+           stock.updateStock(stockId, CC, namaBarang, patokanRestok, satuan, dataStockTable, dataStockAction);
        }
     }//GEN-LAST:event_dataStockActionActionPerformed
 
     private void dataStockTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dataStockTableMouseClicked
-        stockId = stock.DataClicked(dataStockTable,namaBarang, patokanRestok, kategoriCombo, dataStockAction);
+        stockId = stock.DataClicked(dataStockTable,namaBarang, patokanRestok, satuan, dataStockAction);
     }//GEN-LAST:event_dataStockTableMouseClicked
 
     private void dataSuplierActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataSuplierActionActionPerformed
@@ -3664,7 +3556,7 @@ public final class Main extends javax.swing.JFrame {
         if( userAction.getText().equalsIgnoreCase("Simpan")){
            user.addUser(CC, NamaUser, adminChecker, userTable);
        }else if( userAction.getText().equalsIgnoreCase("Edit")){
-           user.EditUsers(userTable, NamaUser, adminChecker, userAction, userDelete, id);
+           user.EditUsers(CC,userTable, NamaUser, adminChecker, userAction, userDelete, id);
        }
     }//GEN-LAST:event_userActionActionPerformed
 
@@ -3763,6 +3655,14 @@ public final class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_kategoriMenuActionActionPerformed
 
+    private void satuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_satuanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_satuanActionPerformed
+
+    private void laporanButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laporanButtonMouseClicked
+        main.generateReport();
+    }//GEN-LAST:event_laporanButtonMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -3827,6 +3727,7 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JCheckBox adminChecker;
     private javax.swing.JTextField alamatSuplier;
     private javax.swing.JPanel bahanDibutuhkanPanel;
+    private customGUI.customPanel barChart;
     private javax.swing.JPanel bg_Pengaturan;
     private javax.swing.JComboBox<String> bukanPenjualanCombo;
     private javax.swing.JScrollPane bukanPenjualanScroll;
@@ -3837,8 +3738,6 @@ public final class Main extends javax.swing.JFrame {
     private customGUI.customPanel customPanel3;
     private customGUI.customPanel customPanel4;
     private customGUI.customPanel customPanel5;
-    private customGUI.customPanel customPanel6;
-    private customGUI.customPanel customPanel7;
     private customGUI.TableDark dRestockHistory;
     private customGUI.customPanel dashboardButton;
     private javax.swing.JLabel dashboardLabel;
@@ -3910,8 +3809,6 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel55;
-    private javax.swing.JLabel jLabel56;
-    private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
@@ -3954,13 +3851,13 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JPanel jenisPengeluaran;
     private javax.swing.JTextField jumlahDigunakan;
     private javax.swing.JTextField jumlahDijual;
     private javax.swing.JTextField jumlahKeluar;
     private javax.swing.JTextField jumlahRestok;
     private javax.swing.JComboBox<String> kategori;
-    private javax.swing.JComboBox<String> kategoriCombo;
     private javax.swing.JPanel kategoriCommand;
     private customGUI.customButton kategoriMenuAction;
     private javax.swing.JLabel labelTransaksi;
@@ -4009,6 +3906,7 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JLabel penjualanLabel;
     private javax.swing.JScrollPane penjualanScroll;
     private customGUI.TableDark penjualanTable;
+    private customGUI.customPanel pieChart;
     private javax.swing.JButton plus;
     private javax.swing.JLabel profilLabel;
     private customGUI.customButton profileSimpan;
@@ -4025,6 +3923,7 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JScrollPane riwayatRestokScroll;
     private customGUI.TableDark riwayatRestokTable;
     private javax.swing.JLabel role;
+    private javax.swing.JTextField satuan;
     private customGUI.customButton saveRestockButton;
     private javax.swing.JPanel selectSQ;
     private javax.swing.JCheckBox sellToogle;

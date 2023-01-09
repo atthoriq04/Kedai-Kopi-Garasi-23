@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Function;
+import customGUI.TableDark;
 import customGUI.customButton;
 import java.awt.Color;
 import java.awt.Font;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -88,6 +90,12 @@ public class GUIFunc {
     public void reset(JPanel[] panels, JLabel[] labels){
         for(JPanel panel : panels){
             panel.setBackground(new Color(42,52,62));
+        }
+    }
+    
+    public void fixTable(TableDark[] tables, JScrollPane[] scrolls ){
+        for(int i = 0; i < tables.length; i++){
+            tables[i].fixTable(scrolls[i]);
         }
     }
     

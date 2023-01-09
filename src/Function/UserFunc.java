@@ -29,7 +29,6 @@ import javax.swing.table.TableModel;
  */
 
 public class UserFunc  {
-    Connection CC = new koneksi().connectLogin() ;
     public DefaultTableModel tmdl;
     PreparedStatement pst;
     public Statement stt;
@@ -37,7 +36,7 @@ public class UserFunc  {
     GUIFunc gui = new GUIFunc();
     
     
-    public void login(String Username, String Password,  JFrame frame2, JLabel validUs, JLabel validPass){
+    public void login(Connection CC,String Username, String Password,  JFrame frame2, JLabel validUs, JLabel validPass){
        try {
             validUs.setVisible(false);
             validPass.setVisible(false);
@@ -70,7 +69,7 @@ public class UserFunc  {
        }   
    }
     
-   public void securityQuestion(String Username, JPanel panel, JLabel q1,JLabel q2,JLabel q3){
+   public int securityQuestion(Connection CC,String Username, JPanel panel, JLabel q1,JLabel q2,JLabel q3){
         try {
             panel.setVisible(false);
             Statement stat = CC.createStatement();
@@ -88,22 +87,25 @@ public class UserFunc  {
                 q1.setText(q.get(0));
                 q2.setText(q.get(1));
                 q3.setText(q.get(2));
+                return id;
             }else{
                 JOptionPane.showMessageDialog(null, "Username Anda Tidak Ditemukan!!");
+                return 0;
             }
        }catch (Exception e){
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();
        }   
+       return 0;
    }
    
-   public void CheckAnswer(String a1, String a2, String a3, String username, JTextField us1, JPanel from, JPanel to){
+   public void CheckAnswer(Connection CC,String a1, String a2, String a3, int id, JLabel us1, JPanel from, JPanel to){
        try {
             ArrayList<Integer> sqId = new ArrayList<>();
             ArrayList<Integer> userId = new ArrayList<>();
             ArrayList<String> userName = new ArrayList<>();
             Statement stat = CC.createStatement();
-            String sql = "SELECT * FROM usersq INNER JOIN user ON usersq.UserId = user.id INNER JOIN securityquestion ON usersq.sqId = securityquestion.sqId WHERE user.username = '"+username+"' ";
+            String sql = "SELECT * FROM usersq INNER JOIN user ON usersq.UserId = user.id INNER JOIN securityquestion ON usersq.sqId = securityquestion.sqId WHERE user.id = '"+id+"' ";
             ResultSet rs = stat.executeQuery(sql);
             while(rs.next()){
                 userId.add(rs.getInt("userId"));
@@ -130,7 +132,6 @@ public class UserFunc  {
                 JOptionPane.showMessageDialog(null, "Anda Tidak Memenuhi Syarat Untuk mereset Password");
             }else{
                 us1.setText(userName.get(0));
-                us1.setEditable(false);
                 gui.switchPanel(from, to);
             }
        }catch (Exception e){
@@ -139,11 +140,11 @@ public class UserFunc  {
        }
    }
    
-   public void ResetPassword(String Password, String PasswordRepeat, String Username, JPanel from, JPanel to){
+   public void ResetPassword(Connection CC,String Password, String PasswordRepeat, int id, JPanel from, JPanel to){
        try{
             Statement stat = CC.createStatement();
             if(Password.equals(PasswordRepeat)){
-                stat.execute("UPDATE user SET password = SHA2('"+ Password +"',224) WHERE username ='"+ Username + "' ");
+                stat.execute("UPDATE user SET password = SHA2('"+ Password +"',224) WHERE id ='"+ id + "' ");
                 JOptionPane.showMessageDialog(null,"Password Berhasil Diubah, Silahkan Login Kembali");
                 gui.switchPanel(from, to);
             }else{
@@ -195,7 +196,7 @@ public class UserFunc  {
        
    }
    
-   public void EditUsers(JTable table,JTextField form,JCheckBox AdminChecker,JButton Action, JButton Delete, String id){
+   public void EditUsers(Connection CC,JTable table,JTextField form,JCheckBox AdminChecker,JButton Action, JButton Delete, String id){
       int role = (AdminChecker.isSelected()) ? 1 : 2;
       String query = "UPDATE user SET Nama = '"+form.getText()+"', idRole = '"+role+"' WHERE id = "+id;
       database.StartQuery(CC, query);
