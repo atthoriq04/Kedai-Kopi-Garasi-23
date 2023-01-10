@@ -46,6 +46,9 @@ public final class Main extends javax.swing.JFrame {
     int sActive = 1;
     String id;
     String menuid, supplierId,stockId,sqId,settingsId;
+    int loginId = UserSession.GetUserId();
+    String loginRole;
+    String LoginName = UserSession.getUserLogin();
     public Main() {
         initComponents();
         pack();
@@ -53,6 +56,7 @@ public final class Main extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         userLogin();
+        main.validateAccess(CC, loginId, new JPanel[]{menuEdit,editResep,stockEdit,supEdit,PengaturanButton});
         GUI.fixTable(tables(), scrolls());
         if(main.init(CC, loginId, LoginName, welcomeSQ1, welcomeSQ2, namaUser, passwordError,simpanwelcome)){
             main.generateDashboard(CC, dRestockHistory, reco, nominalPesanan, MenuFav1, nominalUang,tanggal,barChart,pieChart);
@@ -64,10 +68,8 @@ public final class Main extends javax.swing.JFrame {
         }
         
     }
-    int loginId = UserSession.GetUserId();
-    String loginRole = UserSession.getDefaultKelas();
-    String LoginName = UserSession.getUserLogin();
     private void userLogin(){
+        loginRole = UserSession.getDefaultKelas();
         loginName.setText(UserSession.getUserLogin());
         loginName.setHorizontalAlignment(JLabel.CENTER);
         String user=loginName.getText();
@@ -167,7 +169,7 @@ public final class Main extends javax.swing.JFrame {
         jPasswordField2 = new javax.swing.JPasswordField();
         jPasswordField3 = new javax.swing.JPasswordField();
         Data_DataSuplier = new javax.swing.JPanel();
-        supplierEditable = new javax.swing.JPanel();
+        supEdit = new javax.swing.JPanel();
         jLabel64 = new javax.swing.JLabel();
         namaSuplier = new javax.swing.JTextField();
         jLabel65 = new javax.swing.JLabel();
@@ -175,7 +177,6 @@ public final class Main extends javax.swing.JFrame {
         jLabel66 = new javax.swing.JLabel();
         noTelepon = new javax.swing.JTextField();
         dataSuplierAction = new customGUI.customButton();
-        addNewUser8 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
         jLabel67 = new javax.swing.JLabel();
         dataSuplierScroll = new javax.swing.JScrollPane();
@@ -334,7 +335,7 @@ public final class Main extends javax.swing.JFrame {
         restokTabel = new customGUI.TableDark();
         saveRestockButton = new customGUI.customButton();
         Data_DataMenu = new javax.swing.JPanel();
-        editable1 = new javax.swing.JPanel();
+        menuEdit = new javax.swing.JPanel();
         jLabel36 = new javax.swing.JLabel();
         NamaMenu = new javax.swing.JTextField();
         jLabel38 = new javax.swing.JLabel();
@@ -347,7 +348,7 @@ public final class Main extends javax.swing.JFrame {
         dataMenuScroll = new javax.swing.JScrollPane();
         dataMenuTable = new customGUI.TableDark();
         Data_DataBahanBaku = new javax.swing.JPanel();
-        editable2 = new javax.swing.JPanel();
+        stockEdit = new javax.swing.JPanel();
         jLabel40 = new javax.swing.JLabel();
         namaBarang = new javax.swing.JTextField();
         jLabel41 = new javax.swing.JLabel();
@@ -942,7 +943,7 @@ public final class Main extends javax.swing.JFrame {
         Data_DataSuplier.setBackground(new java.awt.Color(48, 48, 48));
         Data_DataSuplier.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        supplierEditable.setBackground(new java.awt.Color(42, 52, 62));
+        supEdit.setBackground(new java.awt.Color(42, 52, 62));
 
         jLabel64.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel64.setForeground(new java.awt.Color(228, 228, 228));
@@ -984,62 +985,56 @@ public final class Main extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout supplierEditableLayout = new javax.swing.GroupLayout(supplierEditable);
-        supplierEditable.setLayout(supplierEditableLayout);
-        supplierEditableLayout.setHorizontalGroup(
-            supplierEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(supplierEditableLayout.createSequentialGroup()
+        javax.swing.GroupLayout supEditLayout = new javax.swing.GroupLayout(supEdit);
+        supEdit.setLayout(supEditLayout);
+        supEditLayout.setHorizontalGroup(
+            supEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(supEditLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(supplierEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(supEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel64)
                     .addComponent(namaSuplier, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
-                .addGroup(supplierEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(supplierEditableLayout.createSequentialGroup()
+                .addGroup(supEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(supEditLayout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addComponent(jLabel65)
                         .addGap(64, 64, 64))
                     .addComponent(noTelepon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(supplierEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(supplierEditableLayout.createSequentialGroup()
+                .addGroup(supEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(supEditLayout.createSequentialGroup()
                         .addComponent(jLabel66)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(supplierEditableLayout.createSequentialGroup()
+                    .addGroup(supEditLayout.createSequentialGroup()
                         .addComponent(alamatSuplier, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                         .addComponent(dataSuplierAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        supplierEditableLayout.setVerticalGroup(
-            supplierEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(supplierEditableLayout.createSequentialGroup()
+        supEditLayout.setVerticalGroup(
+            supEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(supEditLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(supplierEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, supplierEditableLayout.createSequentialGroup()
+                .addGroup(supEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, supEditLayout.createSequentialGroup()
                         .addComponent(jLabel65)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(noTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(supplierEditableLayout.createSequentialGroup()
+                    .addGroup(supEditLayout.createSequentialGroup()
                         .addComponent(jLabel64)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(namaSuplier, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(supplierEditableLayout.createSequentialGroup()
+                    .addGroup(supEditLayout.createSequentialGroup()
                         .addComponent(jLabel66)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(supplierEditableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(supEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(alamatSuplier, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dataSuplierAction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
-        Data_DataSuplier.add(supplierEditable, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 93, -1, -1));
-
-        addNewUser8.setBackground(new java.awt.Color(228, 228, 228));
-        addNewUser8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        addNewUser8.setForeground(new java.awt.Color(228, 228, 228));
-        addNewUser8.setText("Tambah Menu Baru");
-        Data_DataSuplier.add(addNewUser8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
+        Data_DataSuplier.add(supEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 93, -1, -1));
 
         jPanel19.setBackground(new java.awt.Color(48, 48, 48));
         jPanel19.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
@@ -1969,7 +1964,7 @@ public final class Main extends javax.swing.JFrame {
             .addGroup(dataSQuestionLayout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sqScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -2640,7 +2635,7 @@ public final class Main extends javax.swing.JFrame {
                                         .addGap(2, 2, 2)
                                         .addComponent(jButton3))
                                     .addComponent(jLabel16))
-                                .addGap(0, 4, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
@@ -2742,9 +2737,9 @@ public final class Main extends javax.swing.JFrame {
         Backgrounds.add(Restok, "card3");
 
         Data_DataMenu.setBackground(new java.awt.Color(48, 48, 48));
-        Data_DataMenu.setLayout(null);
+        Data_DataMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        editable1.setBackground(new java.awt.Color(42, 52, 62));
+        menuEdit.setBackground(new java.awt.Color(42, 52, 62));
 
         jLabel36.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel36.setForeground(new java.awt.Color(228, 228, 228));
@@ -2781,48 +2776,47 @@ public final class Main extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout editable1Layout = new javax.swing.GroupLayout(editable1);
-        editable1.setLayout(editable1Layout);
-        editable1Layout.setHorizontalGroup(
-            editable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(editable1Layout.createSequentialGroup()
+        javax.swing.GroupLayout menuEditLayout = new javax.swing.GroupLayout(menuEdit);
+        menuEdit.setLayout(menuEditLayout);
+        menuEditLayout.setHorizontalGroup(
+            menuEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuEditLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(editable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(menuEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(NamaMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel36))
                 .addGap(34, 34, 34)
-                .addGroup(editable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(menuEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(KategoriMenuCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel38))
                 .addGap(31, 31, 31)
-                .addGroup(editable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(menuEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel39)
-                    .addGroup(editable1Layout.createSequentialGroup()
+                    .addGroup(menuEditLayout.createSequentialGroup()
                         .addComponent(Harga, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
                         .addComponent(dataMenuAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        editable1Layout.setVerticalGroup(
-            editable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editable1Layout.createSequentialGroup()
+        menuEditLayout.setVerticalGroup(
+            menuEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuEditLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(editable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(menuEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
                     .addComponent(jLabel38)
                     .addComponent(jLabel39))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(editable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(menuEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(NamaMenu, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-                    .addGroup(editable1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(menuEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(KategoriMenuCombo)
                         .addComponent(Harga, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                         .addComponent(dataMenuAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        Data_DataMenu.add(editable1);
-        editable1.setBounds(10, 100, 1030, 80);
+        Data_DataMenu.add(menuEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, 80));
 
         jPanel17.setBackground(new java.awt.Color(48, 48, 48));
         jPanel17.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
@@ -2849,8 +2843,7 @@ public final class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        Data_DataMenu.add(jPanel17);
-        jPanel17.setBounds(0, 0, 1050, 52);
+        Data_DataMenu.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1050, -1));
 
         dataMenuTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -2870,14 +2863,13 @@ public final class Main extends javax.swing.JFrame {
         });
         dataMenuScroll.setViewportView(dataMenuTable);
 
-        Data_DataMenu.add(dataMenuScroll);
-        dataMenuScroll.setBounds(10, 192, 1030, 460);
+        Data_DataMenu.add(dataMenuScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 192, 1030, 460));
 
         Backgrounds.add(Data_DataMenu, "card9");
 
         Data_DataBahanBaku.setBackground(new java.awt.Color(48, 48, 48));
 
-        editable2.setBackground(new java.awt.Color(42, 52, 62));
+        stockEdit.setBackground(new java.awt.Color(42, 52, 62));
 
         jLabel40.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel40.setForeground(new java.awt.Color(228, 228, 228));
@@ -2917,46 +2909,46 @@ public final class Main extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout editable2Layout = new javax.swing.GroupLayout(editable2);
-        editable2.setLayout(editable2Layout);
-        editable2Layout.setHorizontalGroup(
-            editable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(editable2Layout.createSequentialGroup()
+        javax.swing.GroupLayout stockEditLayout = new javax.swing.GroupLayout(stockEdit);
+        stockEdit.setLayout(stockEditLayout);
+        stockEditLayout.setHorizontalGroup(
+            stockEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stockEditLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(editable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(stockEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel40)
                     .addComponent(namaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(51, 51, 51)
-                .addGroup(editable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(stockEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(patokanRestok, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel42))
                 .addGap(52, 52, 52)
-                .addGroup(editable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(stockEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel41)
                     .addComponent(satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editable2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, stockEditLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(dataStockAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        editable2Layout.setVerticalGroup(
-            editable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(editable2Layout.createSequentialGroup()
+        stockEditLayout.setVerticalGroup(
+            stockEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(stockEditLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(editable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editable2Layout.createSequentialGroup()
+                .addGroup(stockEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, stockEditLayout.createSequentialGroup()
                         .addComponent(jLabel40)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(namaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, editable2Layout.createSequentialGroup()
-                        .addGroup(editable2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, editable2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, stockEditLayout.createSequentialGroup()
+                        .addGroup(stockEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, stockEditLayout.createSequentialGroup()
                                 .addComponent(jLabel41)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(editable2Layout.createSequentialGroup()
+                            .addGroup(stockEditLayout.createSequentialGroup()
                                 .addComponent(jLabel42)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(patokanRestok, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -3016,7 +3008,7 @@ public final class Main extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(Data_DataBahanBakuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(dataStockScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
-                    .addComponent(editable2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(stockEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         Data_DataBahanBakuLayout.setVerticalGroup(
@@ -3024,7 +3016,7 @@ public final class Main extends javax.swing.JFrame {
             .addGroup(Data_DataBahanBakuLayout.createSequentialGroup()
                 .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
-                .addComponent(editable2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(stockEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(dataStockScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -3723,7 +3715,6 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JPanel User_Profile;
     private javax.swing.JLabel addNewUser6;
     private javax.swing.JLabel addNewUser7;
-    private javax.swing.JLabel addNewUser8;
     private javax.swing.JCheckBox adminChecker;
     private javax.swing.JTextField alamatSuplier;
     private javax.swing.JPanel bahanDibutuhkanPanel;
@@ -3761,8 +3752,6 @@ public final class Main extends javax.swing.JFrame {
     private customGUI.customPanel dataSupplierButton;
     private javax.swing.JPanel editResep;
     private javax.swing.JPanel editable;
-    private javax.swing.JPanel editable1;
-    private javax.swing.JPanel editable2;
     private javax.swing.JPanel formKategoriMenu;
     private customGUI.customButton inputRestokStore;
     private javax.swing.JButton jButton2;
@@ -3867,6 +3856,7 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JLabel logOutLabel;
     private javax.swing.JLabel loginName;
     private javax.swing.JComboBox<String> menuCombo;
+    private javax.swing.JPanel menuEdit;
     private javax.swing.JLabel menuLabel;
     private javax.swing.JButton minus;
     private javax.swing.JTextField namaBarang;
@@ -3937,10 +3927,11 @@ public final class Main extends javax.swing.JFrame {
     private customGUI.TableDark sqTable;
     private javax.swing.JComboBox<String> sqcombo1;
     private javax.swing.JComboBox<String> sqcombo2;
+    private javax.swing.JPanel stockEdit;
     private javax.swing.JLabel stokLabel;
+    private javax.swing.JPanel supEdit;
     private javax.swing.JLabel suplierLabel;
     private javax.swing.JComboBox<String> supplierCombo;
-    private javax.swing.JPanel supplierEditable;
     private customGUI.customButton tambahkan;
     private javax.swing.JLabel tanggal;
     private javax.swing.JLabel toBlibli;

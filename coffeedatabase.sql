@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jan 09, 2023 at 03:37 PM
--- Server version: 5.7.24
--- PHP Version: 7.4.16
+-- Host: 127.0.0.1
+-- Generation Time: Jan 10, 2023 at 12:05 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `akses`
+--
+
+CREATE TABLE `akses` (
+  `idAkses` int(11) NOT NULL,
+  `NamaAkses` varchar(60) NOT NULL,
+  `Admin` int(11) NOT NULL,
+  `Karyawan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `akses`
+--
+
+INSERT INTO `akses` (`idAkses`, `NamaAkses`, `Admin`, `Karyawan`) VALUES
+(1, 'Data Menu', 1, 0),
+(2, 'Resep', 1, 0),
+(3, 'Data Stok', 1, 0),
+(4, 'Data Supplier', 1, 0),
+(5, 'Pengaturan', 1, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `inventory`
 --
 
@@ -31,9 +55,9 @@ CREATE TABLE `inventory` (
   `idInventory` int(11) NOT NULL,
   `Satuan` varchar(100) NOT NULL,
   `namaBarang` varchar(50) NOT NULL,
-  `Jumlah` int(11) NOT NULL DEFAULT '0',
-  `patokanRestok` int(11) NOT NULL DEFAULT '1',
-  `Status` int(11) NOT NULL DEFAULT '1'
+  `Jumlah` int(11) NOT NULL DEFAULT 0,
+  `patokanRestok` int(11) NOT NULL DEFAULT 1,
+  `Status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -83,7 +107,7 @@ CREATE TABLE `menu` (
   `idKategori` int(11) NOT NULL,
   `Menu` varchar(100) NOT NULL,
   `Harga` int(11) NOT NULL,
-  `Active` tinyint(1) NOT NULL DEFAULT '1'
+  `Active` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -159,7 +183,7 @@ INSERT INTO `menucategory` (`idKategori`, `KategoriMenu`) VALUES
 CREATE TABLE `penjualan` (
   `idPenjualan` int(11) NOT NULL,
   `idMenu` int(11) NOT NULL,
-  `tanggal` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal` datetime NOT NULL DEFAULT current_timestamp(),
   `jumlah` int(11) NOT NULL,
   `pendapatan` varchar(100) NOT NULL,
   `idUser` int(11) NOT NULL
@@ -217,7 +241,7 @@ INSERT INTO `resep` (`id`, `idMenu`, `idInventory`, `dibutuhkan`) VALUES
 
 CREATE TABLE `restok` (
   `idRestok` int(11) NOT NULL,
-  `Tanggal` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Tanggal` datetime NOT NULL DEFAULT current_timestamp(),
   `idSuplier` int(11) NOT NULL,
   `idInventory` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL,
@@ -318,8 +342,8 @@ CREATE TABLE `transaksi` (
   `idTransaksi` int(10) NOT NULL,
   `idInventory` int(10) NOT NULL,
   `jumlah` int(15) NOT NULL,
-  `tanggalTransaksi` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `idUser` int(10) NOT NULL DEFAULT '6',
+  `tanggalTransaksi` datetime NOT NULL DEFAULT current_timestamp(),
+  `idUser` int(10) NOT NULL DEFAULT 6,
   `Keterangan` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -356,7 +380,7 @@ CREATE TABLE `user` (
   `username` varchar(50) NOT NULL,
   `password` char(244) NOT NULL,
   `idRole` int(1) NOT NULL,
-  `userActive` tinyint(1) NOT NULL DEFAULT '1'
+  `userActive` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -405,6 +429,12 @@ INSERT INTO `usersq` (`id`, `UserId`, `sqId`, `Answer`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `akses`
+--
+ALTER TABLE `akses`
+  ADD PRIMARY KEY (`idAkses`);
 
 --
 -- Indexes for table `inventory`
@@ -487,6 +517,12 @@ ALTER TABLE `usersq`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `akses`
+--
+ALTER TABLE `akses`
+  MODIFY `idAkses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `inventory`
