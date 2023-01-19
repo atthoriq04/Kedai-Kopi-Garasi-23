@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2023 at 12:05 PM
+-- Generation Time: Jan 19, 2023 at 09:23 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -43,7 +43,8 @@ INSERT INTO `akses` (`idAkses`, `NamaAkses`, `Admin`, `Karyawan`) VALUES
 (2, 'Resep', 1, 0),
 (3, 'Data Stok', 1, 0),
 (4, 'Data Supplier', 1, 0),
-(5, 'Pengaturan', 1, 0);
+(5, 'Pengaturan', 1, 0),
+(6, 'Data User', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -68,7 +69,7 @@ INSERT INTO `inventory` (`idInventory`, `Satuan`, `namaBarang`, `Jumlah`, `patok
 (1, 'Pcs', 'Oreo', 10, 13, 1),
 (2, 'Ml', 'Lecy Syrup', 200, 200, 1),
 (3, 'Ml', 'Tiramisu', 80, 100, 1),
-(4, 'Gr', 'Arabica', 0, 100, 1),
+(4, 'Gr', 'Arabica', 100, 100, 1),
 (5, 'Ml', 'Sprite', 0, 1500, 1),
 (6, 'Pcs', 'Indomie Goreng', 31, 10, 1),
 (7, 'Pcs', 'Indomie Rebus', 8, 10, 1),
@@ -231,7 +232,8 @@ INSERT INTO `resep` (`id`, `idMenu`, `idInventory`, `dibutuhkan`) VALUES
 (8, 20, 8, 16),
 (9, 20, 9, 10),
 (10, 20, 10, 16),
-(11, 20, 1, 3);
+(11, 20, 1, 3),
+(12, 8, 9, 12);
 
 -- --------------------------------------------------------
 
@@ -262,7 +264,8 @@ INSERT INTO `restok` (`idRestok`, `Tanggal`, `idSuplier`, `idInventory`, `jumlah
 (7, '2023-01-09 22:33:43', 1, 1, 13, 8),
 (8, '2023-01-09 22:33:43', 3, 8, 160, 8),
 (9, '2023-01-09 22:33:43', 2, 9, 200, 8),
-(10, '2023-01-09 22:33:43', 4, 10, 160, 8);
+(10, '2023-01-09 22:33:43', 4, 10, 160, 8),
+(11, '2023-01-19 14:16:41', 3, 4, 100, 6);
 
 -- --------------------------------------------------------
 
@@ -522,7 +525,7 @@ ALTER TABLE `usersq`
 -- AUTO_INCREMENT for table `akses`
 --
 ALTER TABLE `akses`
-  MODIFY `idAkses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idAkses` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `inventory`
@@ -558,13 +561,13 @@ ALTER TABLE `penjualan`
 -- AUTO_INCREMENT for table `resep`
 --
 ALTER TABLE `resep`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `restok`
 --
 ALTER TABLE `restok`
-  MODIFY `idRestok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idRestok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `role`

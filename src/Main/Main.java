@@ -56,7 +56,7 @@ public final class Main extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         userLogin();
-        main.validateAccess(CC, loginId, new JPanel[]{menuEdit,editResep,stockEdit,supEdit,PengaturanButton});
+        main.validateAccess(CC, loginId, new JPanel[]{menuEdit,editResep,stockEdit,supEdit,PengaturanButton,userDataButton});
         GUI.fixTable(tables(), scrolls());
         if(main.init(CC, loginId, LoginName, welcomeSQ1, welcomeSQ2, namaUser, passwordError,simpanwelcome)){
             main.generateDashboard(CC, dRestockHistory, reco, nominalPesanan, MenuFav1, nominalUang,tanggal,barChart,pieChart);
