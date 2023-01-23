@@ -13,6 +13,7 @@ import java.util.HashMap;
 import javafx.scene.chart.Axis;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -47,6 +48,7 @@ public class MainFunc {
     TransactionFunc  transaction = new TransactionFunc();
     SupplierFunc supplier = new SupplierFunc();
     chartFunc chart = new chartFunc();
+    reportFunc report = new reportFunc();
     public int selected(JPanel[] panels, JPanel panel , JLabel[] labels, JLabel label,int active){
        gui.reset(panels, labels);
        gui.hoverIn(panel, label);
@@ -176,12 +178,31 @@ public class MainFunc {
         user.showLoginSQData(CC, loginId, sq1, sq2, ans1, ans2);
     }
     
-    public void generateReport(){
-        Object[] sports = { "Laporan Bahan Baku","Laporan Restok", "Laporan Pengunaan bahan Baku", "Laporan Penjualan", "Laporan Supplier", "Laporan Karyawan"};
+    public void generateReport(Connection CC,JFrame a){
+        Object[] sports = { "Laporan Restok", "Laporan Pengunaan bahan Baku", "Laporan Penjualan", "Laporan Supplier", "Laporan Karyawan"};
         JComboBox comboBox = new JComboBox(sports); comboBox.setSelectedIndex(0);
-        JOptionPane.showMessageDialog(null, comboBox, "Pilih Laporan",
-        JOptionPane.QUESTION_MESSAGE);
-    }
+        String[] options = new String[]{"Batal", "Cetak"};
+        int input = JOptionPane.showConfirmDialog(a,comboBox, "Pilih laporan",JOptionPane.DEFAULT_OPTION);
+        if(input == JOptionPane.OK_OPTION){
+            switch (comboBox.getSelectedIndex()) {
+            case 0:
+              report.restockReport(CC);
+              break;
+            case 1:
+              report.StockUsageReport(CC);
+              break;
+            case 2:
+              report.salesReport(CC);
+              break;
+            case 3:
+              report.supplierReport(CC);
+              break;
+            case 4:
+              report.userReport(CC);
+              break;
+            }
+        }
+    } 
     
     public void upProfilePage(Connection CC, int loginId,JComboBox sq1,JComboBox sq2,JTextField ans1, JTextField ans2,JTextField username,JTextField name,JLabel role){
         if(checkSQ(sq1,sq2)){

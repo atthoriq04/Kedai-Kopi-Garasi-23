@@ -1007,8 +1007,8 @@ public final class Main extends javax.swing.JFrame {
                         .addComponent(jLabel66)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(supEditLayout.createSequentialGroup()
-                        .addComponent(alamatSuplier, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                        .addComponent(alamatSuplier, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                         .addComponent(dataSuplierAction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -3652,7 +3652,7 @@ public final class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_satuanActionPerformed
 
     private void laporanButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_laporanButtonMouseClicked
-        main.generateReport();
+        main.generateReport(CC,this);
     }//GEN-LAST:event_laporanButtonMouseClicked
 
     /**

@@ -44,9 +44,6 @@
 				</textElement>
 				<text><![CDATA[Duren Jaya RT.003/RW.008, Bekasi Timur, Kota Bekasi]]></text>
 			</staticText>
-			<line>
-				<reportElement x="-32" y="63" width="614" height="1" uuid="5bb54880-68d4-46fb-b0b9-8b2e0143c0b1"/>
-			</line>
 		</band>
 	</title>
 	<pageHeader>
@@ -58,13 +55,16 @@
 				</textElement>
 				<text><![CDATA[Laporan Penjualan]]></text>
 			</staticText>
+			<line>
+				<reportElement x="-33" y="-16" width="614" height="1" uuid="027c54c0-1067-4f7f-8768-61502dc0f79e"/>
+			</line>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="45" splitType="Stretch">
 			<staticText>
-				<reportElement x="229" y="25" width="114" height="20" uuid="1395192c-e8e9-4183-b89b-b1c58c9b4963"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<reportElement x="262" y="25" width="114" height="20" uuid="1395192c-e8e9-4183-b89b-b1c58c9b4963"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -74,8 +74,8 @@
 				<text><![CDATA[Menu]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="110" y="25" width="119" height="20" uuid="040da812-0d1d-46e6-b992-a43c4fc7491b"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<reportElement x="32" y="25" width="119" height="20" uuid="040da812-0d1d-46e6-b992-a43c4fc7491b"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -85,8 +85,8 @@
 				<text><![CDATA[tanggal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="343" y="25" width="57" height="20" uuid="2a065f13-9a4a-434e-a57a-d1ae2a622e25"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<reportElement x="376" y="25" width="57" height="20" uuid="2a065f13-9a4a-434e-a57a-d1ae2a622e25"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -97,8 +97,8 @@
 				<text><![CDATA[jumlah]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="25" width="100" height="20" uuid="300cb8ba-ef02-4436-9524-274ee88b6122"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<reportElement x="433" y="25" width="105" height="20" uuid="300cb8ba-ef02-4436-9524-274ee88b6122"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -108,26 +108,37 @@
 				<text><![CDATA[pendapatan]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="25" width="20" height="20" uuid="b7b653b5-5526-4e56-abd8-efbd7db25022"/>
+				<reportElement x="12" y="25" width="20" height="20" uuid="b7b653b5-5526-4e56-abd8-efbd7db25022"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<pen lineWidth="1.25" lineStyle="Solid"/>
-					<topPen lineWidth="1.25" lineStyle="Solid"/>
-					<leftPen lineWidth="1.25" lineStyle="Solid"/>
-					<bottomPen lineWidth="1.25" lineStyle="Solid"/>
-					<rightPen lineWidth="1.25" lineStyle="Solid"/>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
 				<text><![CDATA[No]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="151" y="25" width="111" height="20" uuid="46e77613-fb1f-4b35-bc6a-012a035b92d9"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<text><![CDATA[Nama Petugas]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="229" y="0" width="114" height="20" uuid="967ff4eb-3102-4418-8374-4eca7c66fa3b"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<reportElement x="262" y="0" width="114" height="20" uuid="967ff4eb-3102-4418-8374-4eca7c66fa3b"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -137,8 +148,8 @@
 				<textFieldExpression><![CDATA[$F{Menu}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="0" width="119" height="20" uuid="7e151852-2633-4e76-b2a4-21dd2f65e6c6"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<reportElement x="32" y="0" width="119" height="20" uuid="7e151852-2633-4e76-b2a4-21dd2f65e6c6"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -148,8 +159,8 @@
 				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="343" y="0" width="57" height="20" uuid="ae185ac5-87c7-41ed-9ec8-35d9dbd49d59"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<reportElement x="376" y="0" width="57" height="20" uuid="ae185ac5-87c7-41ed-9ec8-35d9dbd49d59"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -160,8 +171,8 @@
 				<textFieldExpression><![CDATA[$F{jumlah}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="400" y="0" width="100" height="20" uuid="0ec50cc4-01c9-4249-8662-094232bf9201"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<reportElement x="433" y="0" width="105" height="20" uuid="0ec50cc4-01c9-4249-8662-094232bf9201"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -171,8 +182,8 @@
 				<textFieldExpression><![CDATA["Rp. "+$F{pendapatan}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="90" y="0" width="20" height="20" uuid="f027b9df-f8ac-4bae-bfd5-e784d7036017"/>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<reportElement x="12" y="0" width="20" height="20" uuid="f027b9df-f8ac-4bae-bfd5-e784d7036017"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -181,6 +192,17 @@
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="151" y="0" width="111" height="20" uuid="edb83e74-fd7c-4605-8adc-f961bf964c4d"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{Nama}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -225,7 +247,7 @@
 				<text><![CDATA[Bekasi]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="423" y="31" width="123" height="20" uuid="a3de5fa1-6b45-461f-849f-81a07aaaee5b"/>
+				<reportElement x="423" y="46" width="123" height="20" uuid="a3de5fa1-6b45-461f-849f-81a07aaaee5b"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
