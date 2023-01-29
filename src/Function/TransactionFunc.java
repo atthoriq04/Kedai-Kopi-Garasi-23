@@ -30,7 +30,7 @@ public class TransactionFunc {
     
     public void showRestokData(Connection CC, JTable table){
         Object[] title = {
-            "kodeRestok","Tanggal Restok","NamaBarang","jumlah","Satuan","Nama Petugas"
+            "kodeRestok","Tanggal Restok","Nama Bahan Baku","jumlah","Satuan","Nama Petugas"
         } ;
         String[] dataNeeded ={
             "idRestok","Tanggal","namaBarang","restok.jumlah","satuan","Nama"

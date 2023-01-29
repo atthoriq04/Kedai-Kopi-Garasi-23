@@ -508,7 +508,7 @@ public final class Main extends javax.swing.JFrame {
 
         menuLabel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         menuLabel.setForeground(new java.awt.Color(228, 228, 228));
-        menuLabel.setText("Menu");
+        menuLabel.setText("Produk");
         dataMenuButton.add(menuLabel);
         menuLabel.setBounds(10, 0, 80, 20);
 
@@ -552,7 +552,7 @@ public final class Main extends javax.swing.JFrame {
 
         suplierLabel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         suplierLabel.setForeground(new java.awt.Color(228, 228, 228));
-        suplierLabel.setText("Suplier");
+        suplierLabel.setText("Supplier");
         dataSupplierButton.add(suplierLabel);
         suplierLabel.setBounds(10, 0, 80, 20);
 
@@ -574,9 +574,9 @@ public final class Main extends javax.swing.JFrame {
 
         dataRestokLabel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         dataRestokLabel.setForeground(new java.awt.Color(228, 228, 228));
-        dataRestokLabel.setText("Restok");
+        dataRestokLabel.setText("Riwayat Restok");
         dataRestokButton.add(dataRestokLabel);
-        dataRestokLabel.setBounds(10, 0, 80, 20);
+        dataRestokLabel.setBounds(10, 0, 110, 20);
 
         dataPenjualanButton.setBackground(new java.awt.Color(42, 52, 62));
         dataPenjualanButton.setRoundBottomRight(15);

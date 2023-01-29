@@ -33,7 +33,7 @@ public class StockFunc {
     GUIFunc gui = new GUIFunc();
     public void ShowStock(Connection CC, JTable stockTable){
         Object[] titles={
-            "Id","Nama Barang","Patokan Restok","Jumlah","Satuan"
+            "Id","Nama Bahan Baku","Patokan Restok","Jumlah","Satuan"
         };
         String[] needed = {
         "idInventory","namaBarang","patokanRestok","Jumlah","Satuan"
@@ -85,7 +85,7 @@ public class StockFunc {
     
     public void setResetTitle(JTable restockTable){
         Object[] titles={
-            "kode Barang","Nama Barang","Jumlah","kode Supplier","Supplier"
+            "kode Barang","Nama Bahan","Jumlah","kode Supplier","Supplier"
         };        
         gui.setTableTitle(titles, restockTable);
     }
@@ -146,7 +146,7 @@ public class StockFunc {
     
     public void setOutTitle(JTable restockTable){
         Object[] titles={
-            "Id","Nama Barang","Jumlah","Satuan","Keterangan"
+            "Id","Nama Bahan Baku","Jumlah","Satuan","Keterangan"
         };        
         gui.setTableTitle(titles, restockTable);
     }

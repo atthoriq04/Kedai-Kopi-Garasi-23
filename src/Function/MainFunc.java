@@ -95,7 +95,7 @@ public class MainFunc {
         gui.buttonchange(button, new Color(48,48,48), new Color(87,124,255), new Color(87,124,255), 10);
         gui.buttonchange(input, new Color(48,48,48), new Color(87,124,255), new Color(87,124,255), 10);
         combo.removeAllItems();
-        combo.addItem("Pilih Barang yang akan di restok");
+        combo.addItem("Pilih Bahan Baku yang akan di restok");
         supCombo.removeAllItems();
         supCombo.addItem("Pilih Supplier");
         stock.showStockCombo(CC, combo);
@@ -316,7 +316,7 @@ public class MainFunc {
     
     public void generateRestockHistory(Connection CC,JTable table){
         Object[] titles = {
-            "no","Tanggal Restok", "Nama Barang","Jumlah","Satuan"
+            "no","Tanggal Restok", "Nama Bahan Baku","Jumlah","Satuan"
         };
          String[] needed = {
         "idRestok","Tanggal","namaBarang","Jumlah","Satuan"
