@@ -31,6 +31,7 @@ public class reportFunc {
             jv.setVisible(true);
         }
         catch(Exception e){
+            e.printStackTrace();
         }
     }
     public void StockUsageReport(Connection CC){

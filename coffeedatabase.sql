@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2023 at 09:23 AM
+-- Generation Time: Jan 29, 2023 at 06:48 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -66,16 +66,12 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`idInventory`, `Satuan`, `namaBarang`, `Jumlah`, `patokanRestok`, `Status`) VALUES
-(1, 'Pcs', 'Oreo', 10, 13, 1),
-(2, 'Ml', 'Lecy Syrup', 200, 200, 1),
-(3, 'Ml', 'Tiramisu', 80, 100, 1),
-(4, 'Gr', 'Arabica', 100, 100, 1),
-(5, 'Ml', 'Sprite', 0, 1500, 1),
-(6, 'Pcs', 'Indomie Goreng', 31, 10, 1),
-(7, 'Pcs', 'Indomie Rebus', 8, 10, 1),
-(8, 'Ml', 'Full Cream', 144, 160, 1),
-(9, 'Ml', 'Creamer', 190, 200, 1),
-(10, 'Ml', 'Vanilla Sirup', 144, 160, 1);
+(1, 'ml', 'Sirup Trieste', 0, 650, 1),
+(2, 'ml', 'Sirup Gula Aren', 0, 1200, 1),
+(3, 'ml', 'Sirup Pandan', 0, 650, 1),
+(4, 'ml', 'Sirup Taro', 0, 650, 1),
+(5, 'ml', 'Sirup Red Velvet', 0, 650, 1),
+(6, 'pcs', 'Indomie Goreng', 0, 40, 1);
 
 -- --------------------------------------------------------
 
@@ -190,20 +186,6 @@ CREATE TABLE `penjualan` (
   `idUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `penjualan`
---
-
-INSERT INTO `penjualan` (`idPenjualan`, `idMenu`, `tanggal`, `jumlah`, `pendapatan`, `idUser`) VALUES
-(1, 33, '2023-01-08 20:24:23', 3, '22500', 6),
-(2, 22, '2023-01-08 22:37:44', 2, '30000', 6),
-(3, 33, '2023-01-08 22:38:01', 3, '22500', 6),
-(4, 32, '2023-01-09 12:11:08', 1, '7500', 6),
-(5, 33, '2023-01-09 12:12:23', 1, '7500', 8),
-(6, 22, '2023-01-09 18:53:05', 1, '15000', 6),
-(7, 20, '2023-01-09 22:34:04', 1, '16000', 8),
-(8, 32, '2023-01-09 22:34:19', 1, '7500', 8);
-
 -- --------------------------------------------------------
 
 --
@@ -216,24 +198,6 @@ CREATE TABLE `resep` (
   `idInventory` int(11) NOT NULL,
   `dibutuhkan` int(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `resep`
---
-
-INSERT INTO `resep` (`id`, `idMenu`, `idInventory`, `dibutuhkan`) VALUES
-(1, 33, 6, 1),
-(2, 22, 4, 30),
-(3, 13, 2, 16),
-(4, 13, 5, 20),
-(5, 12, 1, 3),
-(6, 12, 3, 10),
-(7, 32, 7, 1),
-(8, 20, 8, 16),
-(9, 20, 9, 10),
-(10, 20, 10, 16),
-(11, 20, 1, 3),
-(12, 8, 9, 12);
 
 -- --------------------------------------------------------
 
@@ -249,23 +213,6 @@ CREATE TABLE `restok` (
   `jumlah` int(11) NOT NULL,
   `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `restok`
---
-
-INSERT INTO `restok` (`idRestok`, `Tanggal`, `idSuplier`, `idInventory`, `jumlah`, `userId`) VALUES
-(1, '2023-01-08 16:56:07', 4, 4, 100, 8),
-(2, '2023-01-08 16:56:07', 4, 2, 200, 8),
-(3, '2023-01-08 16:56:07', 1, 6, 10, 8),
-(4, '2023-01-08 20:57:04', 2, 6, 30, 14),
-(5, '2023-01-09 12:10:48', 2, 7, 10, 6),
-(6, '2023-01-09 18:53:57', 4, 3, 100, 6),
-(7, '2023-01-09 22:33:43', 1, 1, 13, 8),
-(8, '2023-01-09 22:33:43', 3, 8, 160, 8),
-(9, '2023-01-09 22:33:43', 2, 9, 200, 8),
-(10, '2023-01-09 22:33:43', 4, 10, 160, 8),
-(11, '2023-01-19 14:16:41', 3, 4, 100, 6);
 
 -- --------------------------------------------------------
 
@@ -330,10 +277,7 @@ CREATE TABLE `supplier` (
 --
 
 INSERT INTO `supplier` (`idSuplier`, `namaSuplier`, `noTelepon`, `alamatSuplier`) VALUES
-(1, 'Alfamart', '11111', 'Jalan Bintan'),
-(2, 'Indomaret', '12345', 'Jalan Surya Kencana'),
-(3, 'Warung Pintar Pak Rahmat', '089912312345', 'Bekasi Timur'),
-(4, 'Warung Firman', '089601945983', 'JL P Sulawesi Raya F2 no 3');
+(1, 'Pasar Baru', '012000', 'Bekasi Timur');
 
 -- --------------------------------------------------------
 
@@ -349,27 +293,6 @@ CREATE TABLE `transaksi` (
   `idUser` int(10) NOT NULL DEFAULT 6,
   `Keterangan` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `transaksi`
---
-
-INSERT INTO `transaksi` (`idTransaksi`, `idInventory`, `jumlah`, `tanggalTransaksi`, `idUser`, `Keterangan`) VALUES
-(1, 6, 1, '2023-01-08 17:07:02', 6, 'Dimakan Sendiri'),
-(2, 4, 10, '2023-01-08 17:07:02', 6, 'Jatuh'),
-(3, 6, 3, '2023-01-08 20:24:22', 6, 'Produksi'),
-(4, 4, 60, '2023-01-08 22:37:43', 6, 'Produksi'),
-(5, 6, 3, '2023-01-08 22:38:00', 6, 'Produksi'),
-(6, 7, 1, '2023-01-09 12:11:07', 6, 'Produksi'),
-(7, 6, 1, '2023-01-09 12:12:22', 8, 'Produksi'),
-(8, 6, 1, '2023-01-09 15:35:46', 6, 'Hilang'),
-(9, 4, 30, '2023-01-09 18:53:04', 6, 'Produksi'),
-(10, 3, 20, '2023-01-09 18:54:45', 6, 'Rusak'),
-(11, 8, 16, '2023-01-09 22:34:03', 8, 'Produksi'),
-(12, 9, 10, '2023-01-09 22:34:03', 8, 'Produksi'),
-(13, 10, 16, '2023-01-09 22:34:03', 8, 'Produksi'),
-(14, 1, 3, '2023-01-09 22:34:03', 8, 'Produksi'),
-(15, 7, 1, '2023-01-09 22:34:18', 8, 'Produksi');
 
 -- --------------------------------------------------------
 
@@ -392,11 +315,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `Nama`, `username`, `password`, `idRole`, `userActive`) VALUES
 (6, 'Super Admin', 'Admin', '58acb7acccce58ffa8b953b12b5a7702bd42dae441c1ad85057fa70b', 1, 1),
-(8, 'Atthoriq Aziz', 'Atthoriq', '52cb30747e84166ce691d0605890b89b8684b7855530114ff636169e', 1, 1),
-(9, 'Dimas Kanjeng', 'DimasKanjeng', '99c1850975b1c2c545ad7e4fc84aef55fcf94250675cb493f7ae897b', 2, 2),
-(10, 'Bumi Putera', 'BumiPutera', '929a47b7cee800ce11dba820ca5017cd42dc8fea5df4d3959b161767', 1, 2),
-(13, 'Bank Jack', 'jackAss', '58acb7acccce58ffa8b953b12b5a7702bd42dae441c1ad85057fa70b', 2, 1),
-(14, 'Kawagoe Saaya', 'Saayan', '58acb7acccce58ffa8b953b12b5a7702bd42dae441c1ad85057fa70b', 2, 1);
+(8, 'Atthoriq Aziz', 'Atthoriq', '52cb30747e84166ce691d0605890b89b8684b7855530114ff636169e', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -531,7 +450,7 @@ ALTER TABLE `akses`
 -- AUTO_INCREMENT for table `inventory`
 --
 ALTER TABLE `inventory`
-  MODIFY `idInventory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idInventory` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `jenistransaksi`
@@ -555,19 +474,19 @@ ALTER TABLE `menucategory`
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `idPenjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idPenjualan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `resep`
 --
 ALTER TABLE `resep`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `restok`
 --
 ALTER TABLE `restok`
-  MODIFY `idRestok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idRestok` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -585,13 +504,13 @@ ALTER TABLE `securityquestion`
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `idSuplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idSuplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `idTransaksi` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idTransaksi` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
