@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="41f62616-6389-481f-908e-f51a97cf31a0">
 	<property name="ireport.zoom" value="1.4641000000000006"/>
-	<property name="ireport.x" value="20"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT * FROM user INNER JOIN role ON user.idRole = role.idRole]]>
@@ -32,11 +32,11 @@
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
-				<text><![CDATA[Duren Jaya RT.003/RW.008, Bekasi Timur, Kota Bekasi]]></text>
+				<text><![CDATA[JL.Karang Satria gg.Aren No.23 Kampung Cerewed, Kota Bekasi]]></text>
 			</staticText>
 			<image>
 				<reportElement x="18" y="0" width="67" height="63" uuid="48548b07-4138-403c-89c8-b5beafc93851"/>
-				<imageExpression><![CDATA["C:\\Users\\thori\\Documents\\GitHub\\Kedai Kopi Garasi 23\\Kedai-Kopi-Garasi-23\\src\\icon\\logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["src\\icon\\logo.jpg"]]></imageExpression>
 			</image>
 			<line>
 				<reportElement x="-24" y="62" width="614" height="1" uuid="12324f0c-921c-4150-bf9a-a2e835d563d4"/>

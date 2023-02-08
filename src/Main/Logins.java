@@ -86,6 +86,7 @@ public class Logins extends javax.swing.JFrame {
         LoginButton = new customGUI.customButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Kopi Garasi 23");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(42, 52, 62));

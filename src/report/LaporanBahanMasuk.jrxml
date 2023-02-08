@@ -31,7 +31,7 @@
 		<band height="79" splitType="Stretch">
 			<image>
 				<reportElement x="18" y="0" width="67" height="63" uuid="c11945a2-a6a1-4ea2-9991-ebe7cbf49f8c"/>
-				<imageExpression><![CDATA["C:\\Users\\thori\\Documents\\GitHub\\Kedai Kopi Garasi 23\\Kedai-Kopi-Garasi-23\\src\\icon\\logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["src\\icon\\logo.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="192" y="0" width="185" height="30" uuid="3cc48e36-88de-4be7-b175-07681140f594"/>
@@ -45,7 +45,7 @@
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
-				<text><![CDATA[Duren Jaya RT.003/RW.008, Bekasi Timur, Kota Bekasi]]></text>
+				<text><![CDATA[JL.Karang Satria gg.Aren No.23 Kampung Cerewed, Kota Bekasi]]></text>
 			</staticText>
 		</band>
 	</title>

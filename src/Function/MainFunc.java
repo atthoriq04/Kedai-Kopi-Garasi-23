@@ -55,16 +55,11 @@ public class MainFunc {
        return active;
     }
     
-    public void validateAccess(Connection CC, int loginId, JPanel[] panels){
-        String role = database.selectData(CC, "SELECT * FROM user INNER JOIN Role ON user.idRole = Role.idrole WHERE id = '"+loginId+"'", "role");
-        ArrayList<HashMap<String,String>> datas = database.selectAll(CC, new String[]{"namaAkses","Admin","Karyawan"}, "Select * FROM akses");
-        int count = 0;
-        System.out.println(role);
-        for(HashMap<String,String> data : datas){
-            if(Integer.parseInt(data.get(role))<1){
-                panels[count].setVisible(false);
+    public void validateAccess(Connection CC, String role, JPanel[] panels){
+        if(Integer.parseInt(role) < 1){
+            for(JPanel panel : panels){
+                panel.setVisible(false);
             }
-            count +=1;
         }
     }
     public Boolean init(Connection CC, int loginId, String loginName,JComboBox sq1,JComboBox sq2,JLabel nama,JLabel error,customButton button){

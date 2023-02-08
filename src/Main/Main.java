@@ -56,7 +56,8 @@ public final class Main extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         userLogin();
-        main.validateAccess(CC, loginId, new JPanel[]{menuEdit,editResep,stockEdit,supEdit,PengaturanButton,userDataButton});
+        PengaturanButton.setVisible(false);
+        main.validateAccess(CC, loginRole, new JPanel[]{PengaturanButton,userDataButton});
         GUI.fixTable(tables(), scrolls());
         if(main.init(CC, loginId, LoginName, welcomeSQ1, welcomeSQ2, namaUser, passwordError,simpanwelcome)){
             main.generateDashboard(CC, dRestockHistory, reco, nominalPesanan, MenuFav1, nominalUang,tanggal,barChart,pieChart);
@@ -95,11 +96,11 @@ public final class Main extends javax.swing.JFrame {
     }
     
     private JPanel[] navBar(){
-        JPanel[] navbars = {pPertanyaanButton,pKategoriButton,pAksesButton};
+        JPanel[] navbars = {pPertanyaanButton,pKategoriButton};
         return navbars;
     }
     private JLabel[] navLabel(){
-        JLabel[] navLabels = {pPertanyaanLabel,pKategoriLabel,pAksesLabel};
+        JLabel[] navLabels = {pPertanyaanLabel,pKategoriLabel};
         return navLabels;
     }
        
@@ -151,7 +152,6 @@ public final class Main extends javax.swing.JFrame {
         customPanel1 = new customGUI.customPanel();
         jLabel6 = new javax.swing.JLabel();
         namaUser = new javax.swing.JLabel();
-        penjelasan = new javax.swing.JLabel();
         penjelasan1 = new javax.swing.JLabel();
         penjelasan2 = new javax.swing.JLabel();
         penjelasan3 = new javax.swing.JLabel();
@@ -260,8 +260,6 @@ public final class Main extends javax.swing.JFrame {
         sqAction = new customGUI.customButton();
         sqScroll = new javax.swing.JScrollPane();
         sqTable = new customGUI.TableDark();
-        pAksesButton = new javax.swing.JPanel();
-        pAksesLabel = new javax.swing.JLabel();
         Dashboard = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tanggal = new javax.swing.JLabel();
@@ -375,6 +373,7 @@ public final class Main extends javax.swing.JFrame {
         jToggleButton1.setText("jToggleButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Kopi Garasi 23");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(42, 52, 62));
@@ -793,9 +792,6 @@ public final class Main extends javax.swing.JFrame {
         namaUser.setForeground(new java.awt.Color(228, 228, 228));
         namaUser.setText("Selamat Datang");
 
-        penjelasan.setForeground(new java.awt.Color(228, 228, 228));
-        penjelasan.setText("jLabel7");
-
         penjelasan1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         penjelasan1.setForeground(new java.awt.Color(228, 228, 228));
         penjelasan1.setText("Ubah Password Anda");
@@ -841,7 +837,6 @@ public final class Main extends javax.swing.JFrame {
             .addGroup(customPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(penjelasan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, customPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(simpanwelcome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -884,9 +879,7 @@ public final class Main extends javax.swing.JFrame {
                 .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(namaUser))
-                .addGap(18, 18, 18)
-                .addComponent(penjelasan)
-                .addGap(54, 54, 54)
+                .addGap(86, 86, 86)
                 .addComponent(penjelasan1)
                 .addGap(18, 18, 18)
                 .addGroup(customPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1307,6 +1300,7 @@ public final class Main extends javax.swing.JFrame {
         jLabel71.setForeground(new java.awt.Color(228, 228, 228));
         jLabel71.setText("Keterangan Pengeluaran");
 
+        tambahkan.setForeground(new java.awt.Color(228, 228, 228));
         tambahkan.setText("Tambahkan");
         tambahkan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1395,6 +1389,8 @@ public final class Main extends javax.swing.JFrame {
         });
         bukanPenjualanScroll.setViewportView(bukanPenjualanTable);
 
+        simpanDataKeluaran.setBackground(new java.awt.Color(228, 228, 228));
+        simpanDataKeluaran.setForeground(new java.awt.Color(228, 228, 228));
         simpanDataKeluaran.setText("Simpan");
         simpanDataKeluaran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1462,6 +1458,7 @@ public final class Main extends javax.swing.JFrame {
 
         bahanDibutuhkanPanel.setBackground(new java.awt.Color(48, 48, 48));
 
+        penjualanAction.setForeground(new java.awt.Color(228, 228, 228));
         penjualanAction.setText("Catat Penjualan");
         penjualanAction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1660,7 +1657,8 @@ public final class Main extends javax.swing.JFrame {
 
         Backgrounds.add(Data_CatatanPenjualan, "card7");
 
-        Pengaturan.setBackground(new java.awt.Color(255, 255, 255));
+        Pengaturan.setBackground(new java.awt.Color(42, 52, 62));
+        Pengaturan.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         Pengaturan.setLayout(null);
 
         pPertanyaanButton.setBackground(new java.awt.Color(42, 52, 62));
@@ -1972,45 +1970,6 @@ public final class Main extends javax.swing.JFrame {
 
         Pengaturan.add(bg_Pengaturan);
         bg_Pengaturan.setBounds(0, 50, 1050, 600);
-
-        pAksesButton.setBackground(new java.awt.Color(42, 52, 62));
-        pAksesButton.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 1, 0, new java.awt.Color(0, 0, 0)));
-        pAksesButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pAksesButtonMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                pAksesButtonMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                pAksesButtonMouseExited(evt);
-            }
-        });
-
-        pAksesLabel.setBackground(new java.awt.Color(228, 228, 228));
-        pAksesLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        pAksesLabel.setForeground(new java.awt.Color(228, 228, 228));
-        pAksesLabel.setText("Pengaturan Akses");
-
-        javax.swing.GroupLayout pAksesButtonLayout = new javax.swing.GroupLayout(pAksesButton);
-        pAksesButton.setLayout(pAksesButtonLayout);
-        pAksesButtonLayout.setHorizontalGroup(
-            pAksesButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pAksesButtonLayout.createSequentialGroup()
-                .addContainerGap(96, Short.MAX_VALUE)
-                .addComponent(pAksesLabel)
-                .addGap(93, 93, 93))
-        );
-        pAksesButtonLayout.setVerticalGroup(
-            pAksesButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pAksesButtonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pAksesLabel)
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        Pengaturan.add(pAksesButton);
-        pAksesButton.setBounds(720, 0, 330, 50);
 
         Backgrounds.add(Pengaturan, "card8");
 
@@ -3466,21 +3425,6 @@ public final class Main extends javax.swing.JFrame {
        GUI.hoverOut(pKategoriButton, pKategoriLabel,2,sActive);
     }//GEN-LAST:event_pKategoriButtonMouseExited
 
-    private void pAksesButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pAksesButtonMouseClicked
-        GUI.reset(navBar(), navLabel());
-        GUI.hoverIn(pAksesButton, pAksesLabel);
-        GUI.switchPanel(bg_Pengaturan, jPanel3);
-        sActive = 3;
-    }//GEN-LAST:event_pAksesButtonMouseClicked
-
-    private void pAksesButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pAksesButtonMouseEntered
-        GUI.hoverIn(pAksesButton, pAksesLabel);
-    }//GEN-LAST:event_pAksesButtonMouseEntered
-
-    private void pAksesButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pAksesButtonMouseExited
-       GUI.hoverOut(pAksesButton, pAksesLabel,3,sActive);
-    }//GEN-LAST:event_pAksesButtonMouseExited
-
     private void restokTabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restokTabelMouseClicked
        stock.deleteFromStore(restokTabel);
     }//GEN-LAST:event_restokTabelMouseClicked
@@ -3610,6 +3554,7 @@ public final class Main extends javax.swing.JFrame {
 
     private void simpanwelcomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanwelcomeActionPerformed
         if(main.checkInit(CC, loginId, welcomeSQ1, welcomeSQ2, jPasswordField1, jPasswordField2, jPasswordField3, welcomeAns1, welocmeAns2, passwordError)){
+            main.generateDashboard(CC, dRestockHistory, reco, nominalPesanan, MenuFav1, nominalUang,tanggal,barChart,pieChart);
             active = main.selected(sidebar(), dashboardButton, sidelabel() ,dashboardLabel, 1);
             GUI.switchPanel(Backgrounds, Dashboard);
         }
@@ -3869,8 +3814,6 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JTextField noTelepon;
     private javax.swing.JLabel nominalPesanan;
     private javax.swing.JLabel nominalUang;
-    private javax.swing.JPanel pAksesButton;
-    private javax.swing.JLabel pAksesLabel;
     private javax.swing.JPanel pKategoriButton;
     private javax.swing.JLabel pKategoriLabel;
     private javax.swing.JPanel pPertanyaanButton;
@@ -3883,7 +3826,6 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JPanel pengaturanKategori;
     private javax.swing.JLabel pengaturanLabel;
     private javax.swing.JPanel pengeluaranBukanPenjualan;
-    private javax.swing.JLabel penjelasan;
     private javax.swing.JLabel penjelasan1;
     private javax.swing.JLabel penjelasan2;
     private javax.swing.JLabel penjelasan3;
