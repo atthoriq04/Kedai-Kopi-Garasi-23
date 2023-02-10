@@ -298,7 +298,7 @@ public final class Main extends javax.swing.JFrame {
         jLabel26 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel24 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        ubah = new javax.swing.JButton();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
@@ -413,7 +413,7 @@ public final class Main extends javax.swing.JFrame {
 
         jLabel45.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel45.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel45.setText("Main");
+        jLabel45.setText("utama");
 
         jLabel49.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel49.setForeground(new java.awt.Color(204, 204, 204));
@@ -421,7 +421,7 @@ public final class Main extends javax.swing.JFrame {
 
         jLabel74.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel74.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel74.setText("User");
+        jLabel74.setText("pengguna");
 
         dashboardButton.setBackground(new java.awt.Color(42, 52, 62));
         dashboardButton.setRoundBottomRight(15);
@@ -441,7 +441,7 @@ public final class Main extends javax.swing.JFrame {
 
         dashboardLabel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         dashboardLabel.setForeground(new java.awt.Color(228, 228, 228));
-        dashboardLabel.setText("Dashboard");
+        dashboardLabel.setText("Beranda");
         dashboardButton.add(dashboardLabel);
         dashboardLabel.setBounds(10, 0, 100, 20);
 
@@ -617,9 +617,9 @@ public final class Main extends javax.swing.JFrame {
 
         profilLabel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         profilLabel.setForeground(new java.awt.Color(228, 228, 228));
-        profilLabel.setText("Profil");
+        profilLabel.setText("Profil pengguna");
         userProfilButton.add(profilLabel);
-        profilLabel.setBounds(10, 0, 80, 20);
+        profilLabel.setBounds(10, 0, 120, 20);
 
         userDataButton.setBackground(new java.awt.Color(42, 52, 62));
         userDataButton.setRoundBottomRight(15);
@@ -639,7 +639,7 @@ public final class Main extends javax.swing.JFrame {
 
         userDataLabel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         userDataLabel.setForeground(new java.awt.Color(228, 228, 228));
-        userDataLabel.setText("Data-Data User");
+        userDataLabel.setText("Data Pengguna");
         userDataButton.add(userDataLabel);
         userDataLabel.setBounds(10, 0, 110, 20);
 
@@ -705,7 +705,7 @@ public final class Main extends javax.swing.JFrame {
 
         logOutLabel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         logOutLabel.setForeground(new java.awt.Color(228, 228, 228));
-        logOutLabel.setText("Logout");
+        logOutLabel.setText("Keluar");
         logOutButton.add(logOutLabel);
         logOutLabel.setBounds(10, 0, 80, 20);
 
@@ -723,7 +723,7 @@ public final class Main extends javax.swing.JFrame {
                     .addComponent(jLabel45)
                     .addComponent(jLabel74)
                     .addComponent(jLabel49))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
             .addComponent(dataMenuButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(dataStokButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(dataSupplierButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1992,7 +1992,7 @@ public final class Main extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(228, 228, 228));
-        jLabel3.setText("Dashboard");
+        jLabel3.setText("Beranda");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -2216,7 +2216,7 @@ public final class Main extends javax.swing.JFrame {
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(228, 228, 228));
-        jLabel19.setText("Profil User");
+        jLabel19.setText("Profil Pengguna");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -2237,11 +2237,11 @@ public final class Main extends javax.swing.JFrame {
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(228, 228, 228));
-        jLabel21.setText("Role");
+        jLabel21.setText("Jabatan");
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(228, 228, 228));
-        jLabel22.setText("Username");
+        jLabel22.setText("Id Pengguna");
 
         jLabel23.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(228, 228, 228));
@@ -2263,10 +2263,10 @@ public final class Main extends javax.swing.JFrame {
         jLabel24.setForeground(new java.awt.Color(228, 228, 228));
         jLabel24.setText("Password");
 
-        jButton6.setText("edit");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        ubah.setText("ubah");
+        ubah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                ubahActionPerformed(evt);
             }
         });
 
@@ -2282,7 +2282,7 @@ public final class Main extends javax.swing.JFrame {
         jLabel29.setForeground(new java.awt.Color(228, 228, 228));
         jLabel29.setText("Pertanyaan 2");
 
-        jButton7.setText("edit");
+        jButton7.setText("ubah");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -2315,16 +2315,6 @@ public final class Main extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1030, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(User_ProfileLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel22)
-                        .addGap(125, 125, 125)
-                        .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(User_ProfileLayout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel23)
-                        .addGap(155, 155, 155)
-                        .addComponent(namaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(User_ProfileLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 1030, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(User_ProfileLayout.createSequentialGroup()
@@ -2351,7 +2341,7 @@ public final class Main extends javax.swing.JFrame {
                                     .addGroup(User_ProfileLayout.createSequentialGroup()
                                         .addGap(106, 106, 106)
                                         .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jButton6)
+                                            .addComponent(ubah)
                                             .addComponent(jButton7))
                                         .addGap(435, 435, 435))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, User_ProfileLayout.createSequentialGroup()
@@ -2362,8 +2352,17 @@ public final class Main extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                                 .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(sq1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sq2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(sq2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(User_ProfileLayout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel22))
+                        .addGap(106, 106, 106)
+                        .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(namaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 799, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         User_ProfileLayout.setVerticalGroup(
             User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2373,11 +2372,11 @@ public final class Main extends javax.swing.JFrame {
                 .addComponent(jLabel25)
                 .addGap(6, 6, 6)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(7, 7, 7)
+                .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel22)
                     .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                .addGap(15, 15, 15)
                 .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel23)
                     .addComponent(namaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2394,7 +2393,7 @@ public final class Main extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(jButton6))
+                    .addComponent(ubah))
                 .addGap(27, 27, 27)
                 .addGroup(User_ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(User_ProfileLayout.createSequentialGroup()
@@ -2412,7 +2411,7 @@ public final class Main extends javax.swing.JFrame {
                     .addComponent(sq2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(sqcombo2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel29))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(profileSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -2989,7 +2988,7 @@ public final class Main extends javax.swing.JFrame {
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(228, 228, 228));
-        jLabel17.setText("Data Data User");
+        jLabel17.setText("Data Data Pengguna");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -3012,7 +3011,7 @@ public final class Main extends javax.swing.JFrame {
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(228, 228, 228));
-        jLabel20.setText("Nama User");
+        jLabel20.setText("Nama Lengkap");
 
         NamaUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3564,9 +3563,9 @@ public final class Main extends javax.swing.JFrame {
         main.upProfilePage(CC, loginId, sqcombo1, sqcombo2, sq1, sq2, username, namaLogin, role);
     }//GEN-LAST:event_profileSimpanActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void ubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahActionPerformed
         main.checkPassowrd(CC,loginId);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_ubahActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         main.checkSCode(CC, loginId);
@@ -3701,7 +3700,6 @@ public final class Main extends javax.swing.JFrame {
     private customGUI.customButton inputRestokStore;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -3880,6 +3878,7 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JCheckBox toogleBukanPenjualan;
     private customGUI.customPanel transaksiButton;
     private javax.swing.JLabel transaksiLabel;
+    private javax.swing.JButton ubah;
     private customGUI.customButton userAction;
     private customGUI.customPanel userDataButton;
     private javax.swing.JLabel userDataLabel;

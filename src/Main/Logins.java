@@ -226,7 +226,7 @@ public class Logins extends javax.swing.JFrame {
         );
 
         SecurityQuestion.add(sqPanel);
-        sqPanel.setBounds(0, 170, 350, 280);
+        sqPanel.setBounds(0, 170, 352, 280);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(228, 228, 228));
@@ -250,7 +250,7 @@ public class Logins extends javax.swing.JFrame {
             }
         });
         SecurityQuestion.add(showSq);
-        showSq.setBounds(277, 128, 63, 23);
+        showSq.setBounds(277, 128, 65, 25);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(228, 228, 228));
@@ -331,9 +331,9 @@ public class Logins extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(228, 228, 228));
-        jLabel2.setText("Login");
+        jLabel2.setText("MASUK");
         LoginPanel.add(jLabel2);
-        jLabel2.setBounds(141, 53, 56, 29);
+        jLabel2.setBounds(141, 53, 80, 29);
 
         us.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -355,24 +355,24 @@ public class Logins extends javax.swing.JFrame {
         usernameValid.setForeground(new java.awt.Color(204, 0, 0));
         usernameValid.setText("jLabel2");
         LoginPanel.add(usernameValid);
-        usernameValid.setBounds(28, 190, 299, 14);
+        usernameValid.setBounds(28, 190, 299, 16);
 
         passwordValid.setForeground(new java.awt.Color(204, 0, 0));
         passwordValid.setText("jLabel2");
         LoginPanel.add(passwordValid);
-        passwordValid.setBounds(28, 282, 299, 14);
+        passwordValid.setBounds(28, 282, 299, 16);
 
         username.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         username.setForeground(new java.awt.Color(228, 228, 228));
-        username.setText("Username");
+        username.setText("ID Pengguna");
         LoginPanel.add(username);
-        username.setBounds(28, 130, 71, 20);
+        username.setBounds(28, 130, 170, 20);
 
         password.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         password.setForeground(new java.awt.Color(228, 228, 228));
-        password.setText("Password");
+        password.setText("Kata Sandi");
         LoginPanel.add(password);
-        password.setBounds(28, 222, 67, 20);
+        password.setBounds(28, 222, 120, 20);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(45, 152, 255));
@@ -392,7 +392,7 @@ public class Logins extends javax.swing.JFrame {
         jLabel7.setBounds(30, 380, 300, 15);
 
         LoginButton.setForeground(new java.awt.Color(228, 228, 228));
-        LoginButton.setText("Login");
+        LoginButton.setText("Masuk");
         LoginButton.setBorderColor(new java.awt.Color(87, 124, 255));
         LoginButton.setColor(new java.awt.Color(87, 124, 255));
         LoginButton.setColorClick(new java.awt.Color(24, 124, 255));
