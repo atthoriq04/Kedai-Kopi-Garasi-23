@@ -157,7 +157,7 @@ public class UserFunc  {
    public void showUser(Connection CC,JTable table){
        
        Object[] title={
-            "Id","Nama User","Username","Role"
+            "Id","Nama User","id Pengguna","Role"
         };
        String[] needed = {
             "id","Nama","Username","Role"
